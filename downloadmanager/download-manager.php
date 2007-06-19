@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.0 Plugin: WP-DownloadManager 1.00						|
+|	WordPress 2.1 Plugin: WP-DownloadManager 1.00						|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -24,7 +24,7 @@ if(!current_user_can('manage_downloads')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('downloads/downloads-manager.php');
+$base_name = plugin_basename('downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $mode = trim($_GET['mode']);
 $file_id = intval($_GET['id']);
@@ -39,7 +39,7 @@ if(!empty($_POST['do'])) {
 		// Add File
 		case __('Add File', 'wp-downloadmanager'):
 			$file = addslashes(trim($_POST['file']));
-			if(is_file($file_path.'/'.$file)) {
+			if(is_file($file_path.$file)) {
 				$file_name= addslashes(trim($_POST['file_name']));
 				if(empty($file_name)) {
 					$file_name = $file;
@@ -47,7 +47,7 @@ if(!empty($_POST['do'])) {
 				$file_des = addslashes(trim($_POST['file_des']));
 				$file_category = intval($_POST['file_cat']); 
 				$file_hits = intval($_POST['file_hits']);
-				$file_size = filesize($file_path.'/'.$file);
+				$file_size = filesize($file_path.$file);
 				$file_date = current_time('timestamp');
 				$addfile = $wpdb->query("INSERT INTO $wpdb->downloads VALUES (0, '$file', '$file_name', '$file_des', '$file_size', $file_category, '$file_date', $file_hits)");
 				if(!$addfile) {
@@ -63,14 +63,14 @@ if(!empty($_POST['do'])) {
 		case __('Edit File', 'wp-downloadmanager'):
 			$file_id  = intval($_POST['file_id']);
 			$file = addslashes(trim($_POST['file']));
-			if(is_file($file_path.'/'.$file)) {
+			if(is_file($file_path.$file)) {
 				$file_name= addslashes(trim($_POST['file_name']));
 				if(empty($file_name)) {
 					$file_name = $file;
 				}
 				$file_des = addslashes(trim($_POST['file_des']));
 				$file_category = intval($_POST['file_cat']); 
-				$file_size = filesize($file_path.'/'.$file);
+				$file_size = filesize($file_path.$file);
 				$file_hits = intval($_POST['file_hits']);
 				$edit_filetimestamp = intval($_POST['edit_filetimestamp']);
 				$reset_filehits = intval($_POST['reset_filehits']);
@@ -107,7 +107,7 @@ if(!empty($_POST['do'])) {
 			$file_name = trim($_POST['file_name']);
 			$unlinkfile = intval($_POST['unlinkfile']);
 			if($unlinkfile == 1) {
-				if(!unlink($file_path.'/'.$file)) {
+				if(!unlink($file_path.$file)) {
 					$text = '<font color="red">'.sprintf(__('Error In Deleting File \'%s (%s)\' From Server', 'wp-downloadmanager'), $file_name, $file).'</font>';
 				} else {
 					$text = '<font color="green">'.sprintf(__('File \'%s (%s)\' Deleted From Server Successfully', 'wp-downloadmanager'), $file_name, $file).'</font>';
@@ -211,20 +211,7 @@ switch($mode) {
 						<th align="left" valign="top"><?php _e('File') ?></th>
 						<td>
 							<select name="file" size="1">
-								<?php
-									if ($handle = opendir($file_path)) {
-										while (false !== ($file2 = readdir($handle))) { 
-											if ($file2 != '.' && $file2 != '..') { 
-												if($file2 == $file->file) {
-													echo '<option value="'.$file2.'" selected="selected">'.$file2.'</option>'."\n";
-												} else {
-													echo '<option value="'.$file2.'">'.$file2.'</option>'."\n";
-												}
-											}
-										}
-										closedir($handle); 
-									}
-								?>
+								<?php list_files($file_path, $file_path, stripslashes($file->file)); ?>
 							</select><br />
 							<small>Please upload the file to '<?php echo $file_path; ?>' directory first.</small>
 						</td>
@@ -263,7 +250,7 @@ switch($mode) {
 					</tr>
 					<tr>
 						<th align="left" valign="top"><?php _e('File Date') ?></th>
-						<td>Existing Timestamp: <?php echo gmdate('jS F Y @ H:i:s', $file->file_date); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" name="edit_filetimestamp" value="1" checked="checked" />&nbsp;Edit Timestamp</td>
+						<td>Existing Timestamp: <?php echo gmdate('jS F Y @ H:i:s', $file->file_date); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" name="edit_filetimestamp" value="1" />&nbsp;Edit Timestamp</td>
 					</tr>					
 					<tr>
 						<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Edit File'); ?>"  class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
@@ -353,16 +340,7 @@ switch($mode) {
 							<th align="left" valign="top"><?php _e('File', 'wp-downloadmanager') ?></th>
 							<td>
 								<select name="file" size="1">
-									<?php
-										if ($handle = opendir($file_path)) {
-											while (false !== ($file = readdir($handle))) { 
-												if ($file != '.' && $file != '..') { 
-													echo '<option value="'.$file.'">'.$file.'</option>'."\n";
-												}
-											}
-											closedir($handle); 
-										}
-									?>
+									<?php list_files($file_path, $file_path); ?>
 								</select><br />
 								<small>Please upload the file to '<?php echo $file_path; ?>' directory first.</small>
 							</td>
@@ -404,9 +382,10 @@ switch($mode) {
 			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 			<tr>
 				<th width="3%" scope="col"><?php _e('ID', 'wp-downloadmanager'); ?></th>
-				<th width="67%" scope="col"><?php _e('File', 'wp-downloadmanager'); ?></th>
+				<th width="50%" scope="col"><?php _e('File', 'wp-downloadmanager'); ?></th>
+				<th width="10%" scope="col"><?php _e('Location', 'wp-downloadmanager'); ?></th>
 				<th width="10%" scope="col"><?php _e('Category', 'wp-downloadmanager'); ?></th>
-				<th width="10%" scope="col"><?php _e('Date Added', 'wp-downloadmanager'); ?></th>
+				<th width="17%" scope="col"><?php _e('Date Added', 'wp-downloadmanager'); ?></th>
 				<th width="10%" scope="col" colspan="2"><?php _e('Action', 'wp-downloadmanager'); ?></th>
 			</tr>
 			<?php
@@ -425,6 +404,9 @@ switch($mode) {
 						$file_date = gmdate("d.m.Y", $file->file_date);
 						$file_time = gmdate("H:i", $file->file_date);
 						$file_hits = intval($file->file_hits);
+						$file_name_actual = explode('/', $file_name);
+						$file_name_actual = $file_name_actual[sizeof($file_name_actual)-1];
+						$file_location = str_replace($file_name_actual, '', $file_name);
 						$total_filesize += $file_size;
 						$total_filehits += $file_hits;
 						$total_bandwidth += $file_size*$file_hits;
@@ -435,7 +417,8 @@ switch($mode) {
 						}
 						echo "<tr $style>\n";
 						echo "<td valign=\"top\">$file_id</td>\n";
-						echo "<td><strong>$file_nicename</strong><br /><strong>&raquo;</strong> <i>$file_name - ".format_size($file_size)." - ".number_format($file_hits)." hits</i><br /><strong>&raquo;</strong> $file_des</td>\n";
+						echo "<td><strong>$file_nicename</strong><br /><strong>&raquo;</strong> <i>$file_name_actual - ".format_size($file_size)." - ".number_format($file_hits)." hits</i><br /><strong>&raquo;</strong> $file_des</td>\n";
+						echo '<td>'.$file_location.'</td>'."\n";
 						echo '<td>'.$file_categories[$file_cat].'</td>'."\n";
 						echo "<td>$file_time<br />$file_date</td>\n";
 						echo "<td><a href=\"$base_page&amp;mode=edit&amp;id=$file_id\" class=\"edit\">".__('Edit')."</a></td>\n";
@@ -456,7 +439,7 @@ switch($mode) {
 			<table border="0" cellspacing="3" cellpadding="3">
 				<tr>
 					<th align="left"><?php _e('Total Files:', 'wp-downloadmanager'); ?></th>
-					<td align="left"><?php echo $i; ?></td>
+					<td align="left"><?php echo $i-1; ?></td>
 				</tr>
 				<tr>
 					<th align="left"><?php _e('Total Size:', 'wp-downloadmanager'); ?></th>

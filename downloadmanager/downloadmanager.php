@@ -2,9 +2,9 @@
 /*
 Plugin Name: WP-DownloadManager
 Plugin URI: http://www.lesterchan.net/portfolio/programming.php
-Description: Enable You To Have A Download System Within WordPress.
+Description: Adds a simple download manager to your WordPress blog.
 Version: 1.00
-Author: GaMerZ
+Author: Lester 'GaMerZ' Chan
 Author URI: http://www.lesterchan.net
 */
 
@@ -70,7 +70,7 @@ if(!function_exists('format_size')) {
 ### Function: Place Download Page In Content
 add_filter('the_content', 'place_downloadpage', '7');
 function place_downloadpage($content){
-     $content = preg_replace( "/\[page_downloads\]/ise", "downloads_page()", $content); 
+     $content = str_replace("[page_downloads]", "downloads_page()", $content); 
     return $content;
 }
 
@@ -78,6 +78,36 @@ function place_downloadpage($content){
 ### Function: Downloads Page
 function downloads_page() {
 	global $wpdb;
+	$output = '';
+	$file_sort = get_settings('download_sort');
+	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads ORDER BY file_category ASC, {$file_sort['by']} {$file_sort['order']} LIMIT {$file_sort['perpage']}");
+	if($files) {
+		
+	}
+}
+
+
+### Function: List Out All Files In Downloads Directory
+function list_files($dir, $orginal_dir, $selected = '') {
+	if (is_dir($dir)) {
+	   if ($dh = opendir($dir)) {
+		   while (($file = readdir($dh)) !== false) {
+				if($file != '.' && $file != '..')	{
+					if(is_dir($dir.'/'.$file)) {
+						list_files($dir.'/'.$file, $orginal_dir, $selected);
+					} else {
+						$folder_file =str_replace($orginal_dir, '', $dir.'/'.$file);
+						if($folder_file == $selected) {
+							echo '<option value="'.$folder_file.'" selected="selected">'.$folder_file.'</option>';
+						} else {
+							echo '<option value="'.$folder_file.'">'.$folder_file.'</option>';
+						}
+					}
+				}
+		   }
+		   closedir($dh);
+	   }
+	}
 }
 
 
@@ -101,6 +131,11 @@ function create_download_table() {
 	// WP-Downloads Options
 	add_option('download_path', ABSPATH.'wp-content/files', 'Download Path');
 	add_option('download_categories', array('General'), 'Download Categories');
+	add_option('download_sort', array('by' => 'file_name', 'order' => 'asc', 'perpage' => 20), 'Download Sorting Options');
+	add_option('download_template_category_header', '', 'Download Category Header Template');
+	add_option('download_template_category_footer', '', 'Download Category FooterTemplate');
+	add_option('download_template_listing', '', 'Download Listing Template');
+	add_option('download_template_embedded', '', 'Download Embedded Template');
 	// Create Files Folder
 	if(!is_dir(ABSPATH.'/wp-content/files')) {
 		mkdir(ABSPATH.'/wp-content/files');
