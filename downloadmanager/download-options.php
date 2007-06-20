@@ -11,7 +11,7 @@
 |																							|
 |	File Information:																	|
 |	- Manage Your Downloads														|
-|	- wp-content/plugins/downloads/downloads-options.php				|
+|	- wp-content/plugins/downloadmanager/download-options.php		|
 |																							|
 +----------------------------------------------------------------+
 */
@@ -77,7 +77,7 @@ if($_POST['Submit']) {
 
 
 ### Get File Categories
-$download_categories = get_settings('download_categories');
+$download_categories = get_option('download_categories');
 $download_categories_display = '';
 if(!empty($download_categories)) {
 	foreach($download_categories as $download_category) {
@@ -87,7 +87,7 @@ if(!empty($download_categories)) {
 
 
 ### Get File Sorting
-$download_sort = get_settings('download_sort');
+$download_sort = get_option('download_sort');
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <script type="text/javascript">
@@ -120,7 +120,7 @@ $download_sort = get_settings('download_sort');
 			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 				 <tr valign="top">
 					<th align="left" width="30%"><?php _e('Download Path:', 'wp-downloadmanager'); ?></th>
-					<td align="left"><input type="text" name="download_path" value="<?php echo stripslashes(get_settings('download_path')); ?>" size="50" /><br /><?php _e('The absolute path to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
+					<td align="left"><input type="text" name="download_path" value="<?php echo stripslashes(get_option('download_path')); ?>" size="50" /><br /><?php _e('The absolute path to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
 				</tr>
 				<tr>
 					<td valign="top">
@@ -231,7 +231,8 @@ $download_sort = get_settings('download_sort');
 				</tr>
 				<tr valign="top"> 
 					<td width="30%" align="left">
-						<strong><?php _e('Download Listing:', 'wp-downloadmanager'); ?></strong><br /><br /><br />
+						<strong><?php _e('Download Listing:', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when listing files in the downloads page.', 'wp-downloadmanager'); ?><br /><br />
 						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
 						- %FILE_ID%<br />
 						- %FILE%<br />
@@ -247,7 +248,8 @@ $download_sort = get_settings('download_sort');
 				</tr>
 				<tr valign="top"> 
 					<td width="30%" align="left">
-						<strong><?php _e('Download Embedded File', 'wp-downloadmanager'); ?></strong><br /><br /><br />
+						<strong><?php _e('Download Embedded File', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when you embedded a file within a post or a page.', 'wp-downloadmanager'); ?><br /><br />
 						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
 						- %FILE_ID%<br />
 						- %FILE%<br />

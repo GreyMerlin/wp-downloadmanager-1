@@ -44,12 +44,55 @@ function downloads_menu() {
 	}
 	if (function_exists('add_submenu_page')) {
 		add_submenu_page('downloadmanager/download-manager.php', __('Manage Downloads', 'wp-downloadmanager'), __('Manage Downloads', 'wp-downloadmanager'), 'manage_downloads', 'downloadmanager/download-manager.php');
+		add_submenu_page('downloadmanager/download-manager.php', __('Add File', 'wp-downloadmanager'), __('Add File', 'wp-downloadmanager'), 'manage_downloads', 'downloadmanager/download-add.php');
 		add_submenu_page('downloadmanager/download-manager.php', __('Download Options', 'wp-downloadmanager'), __('Download Options', 'wp-downloadmanager'), 'manage_downloads', 'downloadmanager/download-options.php');
 	}
 }
 
 
-### Function: Format Bytes Into GB/MB/KB/Bytes
+### Function: Add Download Query Vars
+add_filter('query_vars', 'download_query_vars');
+function download_query_vars($public_query_vars) {
+	$public_query_vars[] = "download_id";
+	return $public_query_vars;
+}
+
+
+### Function: Download htaccess ReWrite Rules   
+add_action('init', 'download_rewrite'); 
+function download_rewrite() { 
+	add_rewrite_rule('download/([0-9]{1,})/?$', 'index.php?download_id=$matches[1]');
+}
+
+
+### Function: Download File
+add_action('template_redirect', 'download_file');
+function download_file() {
+	global $wpdb;
+	$id = intval(get_query_var('download_id'));
+	if($id > 0) {
+		$file = $wpdb->get_var("SELECT file FROM $wpdb->downloads WHERE file_id = $id");
+		if(!$file) {
+			die(__('File does not exist.', 'wp-downloadmanager'));
+		}
+		$update_hits = $wpdb->query("UPDATE $wpdb->downloads SET file_hits = file_hits + 1 WHERE file_id = $id");
+		$file_path = get_option('download_path');
+		$file_name = stripslashes($file);
+		header("Pragma: public");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+		header("Content-Type: application/force-download");
+		header("Content-Type: application/octet-stream");
+		header("Content-Disposition: attachment; filename=".basename($file_name).";");
+		header("Content-Transfer-Encoding: binary");
+		header("Content-Length: ".filesize($file_path.$file_name));
+		@readfile($file_path.$file_name);
+		exit();
+	}
+}
+
+
+### Function: Format Bytes Into TB/GB/MB/KB/Bytes
 if(!function_exists('format_size')) {
 	function format_size($rawSize) {
 		if($rawSize / 1099511627776 > 1) {
@@ -67,6 +110,22 @@ if(!function_exists('format_size')) {
 }
 
 
+### Function: Get Max File Size That Can Be Uploaded
+function get_max_upload_size() {
+	$maxsize = ini_get('upload_max_filesize');
+	if (!is_numeric($maxsize)) {
+		if (strpos($maxsize, 'M') !== false) {
+			$maxsize = intval($maxsize)*1024*1024;
+		} elseif (strpos($maxsize, 'K') !== false) {
+			$maxsize = intval($maxsize)*1024;
+		} elseif (strpos($maxsize, 'G') !== false) {
+			$maxsize = intval($maxsize)*1024*1024*1024;
+		}
+	}
+	return $maxsize;
+}
+
+
 ### Function: Place Download Page In Content
 add_filter('the_content', 'place_downloadpage', '7');
 function place_downloadpage($content){
@@ -79,7 +138,7 @@ function place_downloadpage($content){
 function downloads_page() {
 	global $wpdb;
 	$output = '';
-	$file_sort = get_settings('download_sort');
+	$file_sort = get_option('download_sort');
 	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads ORDER BY file_category ASC, {$file_sort['by']} {$file_sort['order']} LIMIT {$file_sort['perpage']}");
 	if($files) {
 		
@@ -88,19 +147,21 @@ function downloads_page() {
 
 
 ### Function: List Out All Files In Downloads Directory
-function list_files($dir, $orginal_dir, $selected = '') {
+function list_files($dir, $orginal_dir) {
+	global $download_files, $download_files_subfolder;
 	if (is_dir($dir)) {
 	   if ($dh = opendir($dir)) {
 		   while (($file = readdir($dh)) !== false) {
 				if($file != '.' && $file != '..')	{
-					if(is_dir($dir.'/'.$file)) {
-						list_files($dir.'/'.$file, $orginal_dir, $selected);
+					if(is_dir($dir.'/'.$file)) {						
+						list_files($dir.'/'.$file, $orginal_dir);
 					} else {
 						$folder_file =str_replace($orginal_dir, '', $dir.'/'.$file);
-						if($folder_file == $selected) {
-							echo '<option value="'.$folder_file.'" selected="selected">'.$folder_file.'</option>';
+						$sub_dir = explode('/', $folder_file);
+						if(sizeof($sub_dir)  > 2) {
+							$download_files_subfolder[] = $folder_file;
 						} else {
-							echo '<option value="'.$folder_file.'">'.$folder_file.'</option>';
+							$download_files[] = $folder_file;
 						}
 					}
 				}
@@ -108,6 +169,133 @@ function list_files($dir, $orginal_dir, $selected = '') {
 		   closedir($dh);
 	   }
 	}
+}
+
+
+### Function: List Out All Files In Downloads Directory
+function list_folders($dir, $orginal_dir) {
+	global $download_folders;
+	if (is_dir($dir)) {
+	   if ($dh = opendir($dir)) {
+		   while (($file = readdir($dh)) !== false) {
+				if($file != '.' && $file != '..')	{
+					if(is_dir($dir.'/'.$file)) {
+						$folder =str_replace($orginal_dir, '', $dir.'/'.$file);
+						$download_folders[] = $folder;
+						list_files($dir.'/'.$file, $orginal_dir);
+					}
+				}
+		   }
+		   closedir($dh);
+	   }
+	}
+}
+
+
+### Function: Print Listing Of Files In Alphabetical Order
+function print_list_files($dir, $orginal_dir, $selected = '') {
+	global $download_files, $download_files_subfolder;
+	list_files($dir, $orginal_dir);
+	natcasesort($download_files);
+	natcasesort($download_files_subfolder);
+	foreach($download_files as $download_file) {
+		if($download_file == $selected) {
+			echo '<option value="'.$download_file.'" selected="selected">'.$download_file.'</option>'."\n";	
+		} else {
+			echo '<option value="'.$download_file.'">'.$download_file.'</option>'."\n";	
+		}
+	}
+	foreach($download_files_subfolder as  $download_file_subfolder) {
+		if($download_file == $selected) {
+			echo '<option value="'.$download_file_subfolder.'" selected="selected">'.$download_file_subfolder.'</option>'."\n";	
+		} else {
+			echo '<option value="'.$download_file_subfolder.'">'.$download_file_subfolder.'</option>'."\n";	
+		}
+	}
+}
+
+
+### Function: Print Listing Of Folders In Alphabetical Order
+function print_list_folders($dir, $orginal_dir) {
+	global $download_folders;
+	list_folders($dir, $orginal_dir);
+	natcasesort($download_folders);
+	echo '<option value="/">/</option>'."\n";	
+	foreach($download_folders as $download_folder) {
+		echo '<option value="'.$download_folder.'">'.$download_folder.'</option>'."\n";	
+	}
+}
+
+
+### Function: Editable Timestamp
+function file_timestamp($file_timestamp) {
+	global $month;
+	$day = gmdate('j', $file_timestamp);
+	echo '<select name="file_timestamp_day" size="1">'."\n";
+	for($i = 1; $i <=31; $i++) {
+		if($day == $i) {
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+		} else {
+			echo "<option value=\"$i\">$i</option>\n";	
+		}
+	}
+	echo '</select>&nbsp;&nbsp;'."\n";
+	$month2 = gmdate('n', $file_timestamp);
+	echo '<select name="file_timestamp_month" size="1">'."\n";
+	for($i = 1; $i <= 12; $i++) {
+		if ($i < 10) {
+			$ii = '0'.$i;
+		} else {
+			$ii = $i;
+		}
+		if($month2 == $i) {
+			echo "<option value=\"$i\" selected=\"selected\">$month[$ii]</option>\n";	
+		} else {
+			echo "<option value=\"$i\">$month[$ii]</option>\n";	
+		}
+	}
+	echo '</select>&nbsp;&nbsp;'."\n";
+	$year = gmdate('Y', $file_timestamp);
+	echo '<select name="file_timestamp_year" size="1">'."\n";
+	for($i = 2000; $i <= gmdate('Y'); $i++) {
+		if($year == $i) {
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+		} else {
+			echo "<option value=\"$i\">$i</option>\n";	
+		}
+	}
+	echo '</select>&nbsp;@'."\n";
+	$hour = gmdate('H', $file_timestamp);
+	echo '<select name="file_timestamp_hour" size="1">'."\n";
+	for($i = 0; $i < 24; $i++) {
+		if($hour == $i) {
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+		} else {
+			echo "<option value=\"$i\">$i</option>\n";	
+		}
+	}
+	echo '</select>&nbsp;:'."\n";
+	$minute = gmdate('i', $file_timestamp);
+	echo '<select name="file_timestamp_minute" size="1">'."\n";
+	for($i = 0; $i < 60; $i++) {
+		if($minute == $i) {
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+		} else {
+			echo "<option value=\"$i\">$i</option>\n";	
+		}
+	}
+	
+	echo '</select>&nbsp;:'."\n";
+	$second = gmdate('s', $file_timestamp);
+	echo '<select name="file_timestamp_second" size="1">'."\n";
+	for($i = 0; $i <= 60; $i++) {
+		if($second == $i) {
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+		} else {
+			echo "<option value=\"$i\">$i</option>\n";	
+		}
+	}
+	echo '</select>'."\n";
 }
 
 
