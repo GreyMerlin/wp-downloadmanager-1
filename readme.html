@@ -352,13 +352,19 @@
 					To embed a specific file to be downloaded into a post/page, use [download=<strong>2</strong>] where <strong>2</strong> is your file id.
 				</li>
 				<li>
+					The file direct download link will be '<strong>http://yoursite.com/download/2/</strong>', where <strong>yoursite.com</strong> is your WordPress URL and <strong>2</strong> is your file id.
+				</li>
+				<li>
+					The direct download category link will be '<strong>http://yoursite.com/downloads/?dl_cat=3</strong>', where <strong>yoursite.com</strong> is your WordPress URL, <strong>downloads</strong> is your Downloads Page name and <strong>3</strong> is your download category id.
+				</li>
+				<li>
+					In order to upload the files straight to the downloads folder, the folder must be first <strong>CHMOD</strong> to <strong>777</strong>. You can specify which folder to be the downloads folder in <strong>Download Options</strong>.
+				</li>
+				<li>
 					You can configure the Download Options in '<strong>WP-Admin -> Downloads -> Download Options</strong>'
 				</li>
 				<li>
 					You can configure the Download Templates in '<strong>WP-Admin -> Downloads -> Download Templates</strong>'
-				</li>
-				<li>
-					The file direct download link will be '<strong>http://yoursite.com/download/2/</strong>', where <strong>yoursite.com</strong> is your WordPress URL and <strong>2</strong> is your file id.
 				</li>
 			</ol>
 			<div class="SubSubTitle">Downloads Page</div>
@@ -379,6 +385,55 @@
 					Click 'Publish'
 				</li>
 			</ol>
+			<div class="SubSubTitle">Download Stats (Outside WP Loop)</div>
+			<ul>
+				<li>
+					To Display <strong>Most Downloaded</strong>
+				</li>
+				<li>
+					Use:
+					<blockquote>
+						&lt;?php if (function_exists('get_most_downloaded')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;?php get_most_downloaded(); ?&gt;<br />
+						&lt;?php endif; ?&gt;
+					</blockquote>
+					<p>
+						The <strong>first value</strong> you pass in is the maximum number of files you want to get.
+					</p>
+					<p>Default: get_most_downloaded(10);</p>
+				</li>
+				<li>
+					To Display <strong>Newest Downloads</strong>
+				</li>
+				<li>
+					Use:
+					<blockquote>
+						&lt;?php if (function_exists('get_newest_downloads')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;?php get_newest_downloads(); ?&gt;<br />
+						&lt;?php endif; ?&gt;
+					</blockquote>
+					<p>
+						The <strong>first value</strong> you pass in is the maximum number of files you want to get.
+					</p>
+					<p>Default: get_newest_downloads(10);</p>
+				</li>
+				<li>
+					To Display <strong>Downloads By Category</strong>
+				</li>
+				<li>
+					Use:
+					<blockquote>
+						&lt;?php if (function_exists('get_downloads_category')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;?php get_downloads_category(1); ?&gt;<br />
+						&lt;?php endif; ?&gt;
+					</blockquote>
+					<p>
+						The <strong>first value</strong> you pass in is the category id.<br />
+						The <strong>second value</strong> you pass in is the maximum number of files you want to get.
+					</p>
+					<p>Default: get_downloads_category(1, 10);</p>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>

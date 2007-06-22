@@ -30,7 +30,8 @@ $base_page = 'admin.php?page='.$base_name;
 
 ### If Form Is Submitted
 if($_POST['Submit']) {
-	$download_path = addslashes(trim($_POST['download_path']));	
+	$download_path = addslashes(trim($_POST['download_path']));
+	$download_page_url = addslashes(trim($_POST['download_page_url']));
 	$download_categories_post = explode("\n", trim($_POST['download_categories']));
 	$download_sort_by = strip_tags(trim($_POST['download_sort_by']));
 	$download_sort_order = strip_tags(trim($_POST['download_sort_order']));
@@ -39,20 +40,21 @@ if($_POST['Submit']) {
 	$download_sort = array('by' => $download_sort_by, 'order' => $download_sort_order, 'perpage' => $download_sort_perpage, 'group' => $download_sort_group);
 	if(!empty($download_categories_post)) {
 		$download_categories = array();
+		$download_categories[] = '';
 		foreach($download_categories_post as $download_category) {
+			if(!empty($download_category)) {
 				$download_categories[] = trim($download_category);
+			}
 		}
 	}
-	$download_template_category_header = trim($_POST['download_template_category_header']);
-	$download_template_category_footer = trim($_POST['download_template_category_footer']);
-	$download_template_listing = trim($_POST['download_template_listing']);
-	$download_template_embedded = trim($_POST['download_template_embedded']);
 	$update_download_queries = array();
 	$update_download_text = array();
 	$update_download_queries[] = update_option('download_path', $download_path);
+	$update_download_queries[] = update_option('download_page_url', $download_path);
 	$update_download_queries[] = update_option('download_categories', $download_categories);
 	$update_download_queries[] = update_option('download_sort', $download_sort);
 	$update_download_text[] = __('Download Path', 'wp-downloadmanager');
+	$update_download_text[] = __('Download Page URL', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Categories', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Sorting', 'wp-downloadmanager');
 	$i=0;
@@ -74,7 +76,9 @@ $download_categories = get_option('download_categories');
 $download_categories_display = '';
 if(!empty($download_categories)) {
 	foreach($download_categories as $download_category) {
-		$download_categories_display .= $download_category."\n";
+		if(!empty($download_category)) {
+			$download_categories_display .= $download_category."\n";
+		}
 	}
 }
 
@@ -92,6 +96,10 @@ $download_sort = get_option('download_sort');
 				 <tr valign="top">
 					<th align="left" width="30%"><?php _e('Download Path:', 'wp-downloadmanager'); ?></th>
 					<td align="left"><input type="text" name="download_path" value="<?php echo stripslashes(get_option('download_path')); ?>" size="50" /><br /><?php _e('The absolute path to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
+				</tr>
+				<tr valign="top">
+					<th align="left" width="30%"><?php _e('Download Page URL:', 'wp-downloadmanager'); ?></th>
+					<td align="left"><input type="text" name="download_page_url" value="<?php echo stripslashes(get_option('download_page_url')); ?>" size="50" /><br /><?php _e('The url to the downloads page (without trailing slash).', 'wp-downloadmanager'); ?></td>
 				</tr>
 				<tr>
 					<td valign="top">
