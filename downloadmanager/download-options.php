@@ -103,7 +103,11 @@ $download_sort = get_option('download_sort');
 				</tr>
 				<tr>
 					<td valign="top">
-						<strong><?php _e('Download Categories:', 'wp-downloadmanager'); ?></strong><br /><?php _e('Start each entry on a new line.', 'wp-downloadmanager'); ?>
+						<strong><?php _e('Download Categories:', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Start each entry on a new line.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('The <strong>first line</strong> will have a category id of <strong>1</strong>.', 'wp-downloadmanager'); ?><br />
+						<?php _e('The <strong>2nd line</strong> will have a category id of <strong>2</strong>.', 'wp-downloadmanager'); ?><br />
+						<?php _e('And so on and so forth.', 'wp-downloadmanager'); ?>
 					</td>
 					<td>
 						<textarea cols="30" rows="10" name="download_categories"><?php echo $download_categories_display; ?></textarea>

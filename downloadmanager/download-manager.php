@@ -107,6 +107,35 @@ switch($mode) {
 	case 'edit':
 		$file = $wpdb->get_row("SELECT * FROM $wpdb->downloads WHERE file_id = $file_id");
 ?>
+		<script type="text/javascript">
+			/* <![CDATA[*/
+			var actual_day = "<?php echo gmdate('j', $file->file_date); ?>";
+			var actual_month = "<?php echo gmdate('n', $file->file_date); ?>";
+			var actual_year = "<?php echo gmdate('Y', $file->file_date); ?>";
+			var actual_hour = "<?php echo gmdate('G', $file->file_date); ?>";
+			var actual_minute = "<?php echo intval(gmdate('i', $file->file_date)); ?>";
+			var actual_second = "<?php echo intval(gmdate('s', $file->file_date)); ?>";
+			function file_usetodaydate() {
+				if(document.getElementById('edit_usetodaydate').checked) {
+					document.getElementById('edit_filetimestamp').checked = true;
+					document.getElementById('file_timestamp_day').value = "<?php echo gmdate('j', current_time('timestamp')); ?>";
+					document.getElementById('file_timestamp_month').value = "<?php echo gmdate('n', current_time('timestamp')); ?>";
+					document.getElementById('file_timestamp_year').value = "<?php echo gmdate('Y', current_time('timestamp')); ?>";
+					document.getElementById('file_timestamp_hour').value = "<?php echo gmdate('G', current_time('timestamp')); ?>";
+					document.getElementById('file_timestamp_minute').value = "<?php echo intval(gmdate('i', current_time('timestamp'))); ?>";
+					document.getElementById('file_timestamp_second').value = "<?php echo intval(gmdate('s', current_time('timestamp'))); ?>";
+				} else {
+					document.getElementById('edit_filetimestamp').checked = false;
+					document.getElementById('file_timestamp_day').value = actual_day;
+					document.getElementById('file_timestamp_month').value = actual_month;
+					document.getElementById('file_timestamp_year').value = actual_year;
+					document.getElementById('file_timestamp_hour').value = actual_hour;
+					document.getElementById('file_timestamp_minute').value = actual_minute;
+					document.getElementById('file_timestamp_second').value = actual_second;
+				}
+			}
+			/* ]]> */
+		</script>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Edit A File -->
 		<div class="wrap">
@@ -137,10 +166,12 @@ switch($mode) {
 							<select name="file_cat" size="1">
 								<?php
 									for($i = 0; $i<sizeof($file_categories); $i++) {
-										if($i == intval($file->file_category)) {
-											echo '<option value="'.$i.'" selected="selected">'.$file_categories[$i].'</option>'."\n";
-										} else {
-											echo '<option value="'.$i.'">'.$file_categories[$i].'</option>'."\n";
+										if(!empty($file_categories[$i])) {
+											if($i == intval($file->file_category)) {
+												echo '<option value="'.$i.'" selected="selected">'.$file_categories[$i].'</option>'."\n";
+											} else {
+												echo '<option value="'.$i.'">'.$file_categories[$i].'</option>'."\n";
+											}
 										}
 									}
 								?>
@@ -157,7 +188,7 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Date:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php _e('Existing Timestamp:', 'wp-downloadmanager') ?> <?php echo gmdate(get_option('date_format').' @ '.get_option('time_format'), $file->file_date); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" name="edit_filetimestamp" value="1" />&nbsp;<?php _e('Edit Timestamp', 'wp-downloadmanager') ?></td>
+						<td><?php _e('Existing Timestamp:', 'wp-downloadmanager') ?> <?php echo gmdate(get_option('date_format').' @ '.get_option('time_format'), $file->file_date); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" id="edit_filetimestamp" name="edit_filetimestamp" value="1" />&nbsp;<?php _e('Edit Timestamp', 'wp-downloadmanager') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="edit_usetodaydate" value="1" onclick="file_usetodaydate();" />&nbsp;<?php _e('Use Today\'s Date', 'wp-downloadmanager') ?></td>
 					</tr>					
 					<tr>
 						<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Edit File', 'wp-downloadmanager'); ?>"  class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-downloadmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>

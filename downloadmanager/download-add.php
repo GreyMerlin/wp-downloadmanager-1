@@ -122,7 +122,9 @@ if(!empty($_POST['do'])) {
 					<select name="file_cat" size="1">
 						<?php
 							for($i=0; $i<sizeof($file_categories); $i++) {
-								echo '<option value="'.$i.'">'.$file_categories[$i].'</option>'."\n";
+								if(!empty($file_categories[$i])) {
+									echo '<option value="'.$i.'">'.$file_categories[$i].'</option>'."\n";
+								}
 							}
 						?>
 					</select>

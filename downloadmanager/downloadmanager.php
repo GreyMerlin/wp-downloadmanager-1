@@ -454,7 +454,7 @@ function print_list_folders($dir, $orginal_dir) {
 function file_timestamp($file_timestamp) {
 	global $month;
 	$day = gmdate('j', $file_timestamp);
-	echo '<select name="file_timestamp_day" size="1">'."\n";
+	echo '<select id="file_timestamp_day" name="file_timestamp_day" size="1">'."\n";
 	for($i = 1; $i <=31; $i++) {
 		if($day == $i) {
 			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
@@ -464,7 +464,7 @@ function file_timestamp($file_timestamp) {
 	}
 	echo '</select>&nbsp;&nbsp;'."\n";
 	$month2 = gmdate('n', $file_timestamp);
-	echo '<select name="file_timestamp_month" size="1">'."\n";
+	echo '<select id="file_timestamp_month" name="file_timestamp_month" size="1">'."\n";
 	for($i = 1; $i <= 12; $i++) {
 		if ($i < 10) {
 			$ii = '0'.$i;
@@ -479,7 +479,7 @@ function file_timestamp($file_timestamp) {
 	}
 	echo '</select>&nbsp;&nbsp;'."\n";
 	$year = gmdate('Y', $file_timestamp);
-	echo '<select name="file_timestamp_year" size="1">'."\n";
+	echo '<select id="file_timestamp_year" name="file_timestamp_year" size="1">'."\n";
 	for($i = 2000; $i <= gmdate('Y'); $i++) {
 		if($year == $i) {
 			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
@@ -489,7 +489,7 @@ function file_timestamp($file_timestamp) {
 	}
 	echo '</select>&nbsp;@'."\n";
 	$hour = gmdate('H', $file_timestamp);
-	echo '<select name="file_timestamp_hour" size="1">'."\n";
+	echo '<select id="file_timestamp_hour" name="file_timestamp_hour" size="1">'."\n";
 	for($i = 0; $i < 24; $i++) {
 		if($hour == $i) {
 			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
@@ -499,7 +499,7 @@ function file_timestamp($file_timestamp) {
 	}
 	echo '</select>&nbsp;:'."\n";
 	$minute = gmdate('i', $file_timestamp);
-	echo '<select name="file_timestamp_minute" size="1">'."\n";
+	echo '<select id="file_timestamp_minute" name="file_timestamp_minute" size="1">'."\n";
 	for($i = 0; $i < 60; $i++) {
 		if($minute == $i) {
 			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
@@ -510,7 +510,7 @@ function file_timestamp($file_timestamp) {
 	
 	echo '</select>&nbsp;:'."\n";
 	$second = gmdate('s', $file_timestamp);
-	echo '<select name="file_timestamp_second" size="1">'."\n";
+	echo '<select id="file_timestamp_second" name="file_timestamp_second" size="1">'."\n";
 	for($i = 0; $i <= 60; $i++) {
 		if($second == $i) {
 			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
