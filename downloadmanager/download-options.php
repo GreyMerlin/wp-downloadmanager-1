@@ -50,7 +50,7 @@ if($_POST['Submit']) {
 	$update_download_queries = array();
 	$update_download_text = array();
 	$update_download_queries[] = update_option('download_path', $download_path);
-	$update_download_queries[] = update_option('download_page_url', $download_path);
+	$update_download_queries[] = update_option('download_page_url', $download_page_url);
 	$update_download_queries[] = update_option('download_categories', $download_categories);
 	$update_download_queries[] = update_option('download_sort', $download_sort);
 	$update_download_text[] = __('Download Path', 'wp-downloadmanager');

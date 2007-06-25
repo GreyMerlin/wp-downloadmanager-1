@@ -71,7 +71,8 @@ if(!empty($_POST['do'])) {
 				$file_hits = intval($_POST['file_hits']);
 				$file_size = filesize($file_path.$file);
 				$file_date = current_time('timestamp');
-				$addfile = $wpdb->query("INSERT INTO $wpdb->downloads VALUES (0, '$file', '$file_name', '$file_des', '$file_size', $file_category, '$file_date', $file_hits)");
+				$file_permission = intval($_POST['file_permission']);
+				$addfile = $wpdb->query("INSERT INTO $wpdb->downloads VALUES (0, '$file', '$file_name', '$file_des', '$file_size', $file_category, '$file_date', $file_hits, $file_permission)");
 				if(!$addfile) {
 					$text = '<font color="red">'.sprintf(__('Error In Adding File \'%s (%s)\'', 'wp-downloadmanager'), $file_name, $file).'</font>';
 				} else {
@@ -133,6 +134,15 @@ if(!empty($_POST['do'])) {
 			<tr>
 				<td><strong><?php _e('Starting File Hits:', 'wp-downloadmanager') ?></strong></td>
 				<td><input type="text" size="6" maxlength="10" name="file_hits" value="0" /></td>
+			</tr>
+			<tr>
+				<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
+				<td>
+					<select name="file_permission" size="1">
+						<option value="0"><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
+						<option value="1"><?php _e('Registered Users Only', 'wp-downloadmanager'); ?></option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Add File', 'wp-downloadmanager'); ?>"  class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-downloadmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>

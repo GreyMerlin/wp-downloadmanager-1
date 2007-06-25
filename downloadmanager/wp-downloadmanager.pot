@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-23 12:21+0800\n"
+"PO-Revision-Date: 2007-06-25 16:42+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: download-add.php:38
-#: download-add.php:138
+#: download-add.php:148
 #: downloadmanager.php:47
 msgid "Add File"
 msgstr ""
@@ -30,250 +30,280 @@ msgstr ""
 msgid "Error In Uploading File"
 msgstr ""
 
-#: download-add.php:76
+#: download-add.php:77
 #, php-format
 msgid "Error In Adding File '%s (%s)'"
 msgstr ""
 
-#: download-add.php:78
+#: download-add.php:79
 #, php-format
 msgid "File '%s (%s)' Added Successfully"
 msgstr ""
 
-#: download-add.php:81
-#: download-manager.php:77
+#: download-add.php:82
+#: download-manager.php:78
 #, php-format
 msgid "Invaild File '%s'"
 msgstr ""
 
-#: download-add.php:90
+#: download-add.php:91
 msgid "Add A File"
 msgstr ""
 
-#: download-add.php:95
-#: download-manager.php:147
-#: download-manager.php:215
+#: download-add.php:96
+#: download-manager.php:148
+#: download-manager.php:225
 msgid "File:"
 msgstr ""
 
-#: download-add.php:97
+#: download-add.php:98
 msgid "Browse File:"
 msgstr ""
 
-#: download-add.php:101
-#: download-manager.php:152
+#: download-add.php:102
+#: download-manager.php:153
 #, php-format
 msgid "Please upload the file to '%s' directory first."
 msgstr ""
 
-#: download-add.php:103
+#: download-add.php:104
 msgid "Upload File:"
 msgstr ""
 
-#: download-add.php:104
+#: download-add.php:105
 msgid "to"
 msgstr ""
 
-#: download-add.php:108
+#: download-add.php:109
 #, php-format
 msgid "Maximum file size is %s."
 msgstr ""
 
-#: download-add.php:112
-#: download-manager.php:156
-#: download-manager.php:219
+#: download-add.php:113
+#: download-manager.php:157
+#: download-manager.php:229
 msgid "File Name:"
 msgstr ""
 
-#: download-add.php:116
-#: download-manager.php:160
-#: download-manager.php:223
+#: download-add.php:117
+#: download-manager.php:161
+#: download-manager.php:233
 msgid "File Description:"
 msgstr ""
 
-#: download-add.php:120
-#: download-manager.php:164
-#: download-manager.php:227
+#: download-add.php:121
+#: download-manager.php:165
+#: download-manager.php:237
 msgid "File Category:"
 msgstr ""
 
-#: download-add.php:134
+#: download-add.php:135
 msgid "Starting File Hits:"
 msgstr ""
 
-#: download-add.php:138
-#: download-manager.php:194
-#: download-manager.php:246
+#: download-add.php:139
+#: download-manager.php:195
+#: download-manager.php:253
+msgid "Allowed To Download:"
+msgstr ""
+
+#: download-add.php:142
+#: download-manager.php:198
+#: download-manager.php:257
+#: download-manager.php:311
+msgid "Everyone"
+msgstr ""
+
+#: download-add.php:143
+#: download-manager.php:199
+#: download-manager.php:259
+msgid "Registered Users Only"
+msgstr ""
+
+#: download-add.php:148
+#: download-manager.php:204
+#: download-manager.php:268
 #: download-options.php:159
-#: download-templates.php:313
+#: download-templates.php:422
 msgid "Cancel"
 msgstr ""
 
 #: download-manager.php:40
-#: download-manager.php:194
+#: download-manager.php:204
 msgid "Edit File"
 msgstr ""
 
-#: download-manager.php:72
+#: download-manager.php:73
 #, php-format
 msgid "Error In Editing File '%s (%s)'"
 msgstr ""
 
-#: download-manager.php:74
+#: download-manager.php:75
 #, php-format
 msgid "File '%s (%s)' Edited Successfully"
 msgstr ""
 
-#: download-manager.php:81
-#: download-manager.php:246
+#: download-manager.php:82
+#: download-manager.php:268
 msgid "Delete File"
 msgstr ""
 
-#: download-manager.php:88
+#: download-manager.php:89
 #, php-format
 msgid "Error In Deleting File '%s (%s)' From Server"
 msgstr ""
 
-#: download-manager.php:90
+#: download-manager.php:91
 #, php-format
 msgid "File '%s (%s)' Deleted From Server Successfully"
 msgstr ""
 
-#: download-manager.php:95
+#: download-manager.php:96
 #, php-format
 msgid "Error In Deleting File '%s (%s)'"
 msgstr ""
 
-#: download-manager.php:97
+#: download-manager.php:98
 #, php-format
 msgid "File '%s (%s)' Deleted Successfully"
 msgstr ""
 
-#: download-manager.php:142
+#: download-manager.php:143
 msgid "Edit A File"
 msgstr ""
 
-#: download-manager.php:182
-#: download-manager.php:231
+#: download-manager.php:183
+#: download-manager.php:241
 msgid "File Size:"
 msgstr ""
 
-#: download-manager.php:186
+#: download-manager.php:187
 msgid "File Hits:"
 msgstr ""
 
-#: download-manager.php:187
-#: download-manager.php:236
-#: download-templates.php:88
-#: download-templates.php:91
-#: download-templates.php:94
-#: downloadmanager.php:654
-#: downloadmanager.php:655
-#: downloadmanager.php:656
+#: download-manager.php:188
+#: download-manager.php:246
+#: download-templates.php:100
+#: download-templates.php:103
+#: download-templates.php:106
+#: download-templates.php:109
+#: download-templates.php:112
+#: download-templates.php:115
+#: downloadmanager.php:728
+#: downloadmanager.php:729
+#: downloadmanager.php:730
 msgid "hits"
 msgstr ""
 
-#: download-manager.php:187
+#: download-manager.php:188
 msgid "Reset File Hits"
 msgstr ""
 
-#: download-manager.php:190
+#: download-manager.php:191
 msgid "File Date:"
 msgstr ""
 
-#: download-manager.php:191
+#: download-manager.php:192
 msgid "Existing Timestamp:"
 msgstr ""
 
-#: download-manager.php:191
+#: download-manager.php:192
 msgid "Edit Timestamp"
 msgstr ""
 
-#: download-manager.php:191
+#: download-manager.php:192
 msgid "Use Today's Date"
 msgstr ""
 
-#: download-manager.php:208
+#: download-manager.php:218
 msgid "Delete A File"
 msgstr ""
 
-#: download-manager.php:235
+#: download-manager.php:245
 #: download-options.php:130
 msgid "File Hits"
 msgstr ""
 
-#: download-manager.php:239
+#: download-manager.php:249
 #: download-options.php:129
 msgid "File Date"
 msgstr ""
 
-#: download-manager.php:243
+#: download-manager.php:265
 msgid "Delete File From Server?"
 msgstr ""
 
-#: download-manager.php:260
+#: download-manager.php:282
 #: downloadmanager.php:46
 msgid "Manage Downloads"
 msgstr ""
 
-#: download-manager.php:263
+#: download-manager.php:285
 msgid "ID"
 msgstr ""
 
-#: download-manager.php:264
+#: download-manager.php:286
 #: download-options.php:126
 msgid "File"
 msgstr ""
 
-#: download-manager.php:265
+#: download-manager.php:287
 msgid "Size"
 msgstr ""
 
-#: download-manager.php:266
+#: download-manager.php:288
 msgid "Hits"
 msgstr ""
 
-#: download-manager.php:267
+#: download-manager.php:289
+msgid "Permission"
+msgstr ""
+
+#: download-manager.php:290
 msgid "Category"
 msgstr ""
 
-#: download-manager.php:268
+#: download-manager.php:291
 msgid "Time/Date Added"
 msgstr ""
 
-#: download-manager.php:269
+#: download-manager.php:292
 msgid "Action"
 msgstr ""
 
-#: download-manager.php:303
-msgid "Edit"
-msgstr ""
-
-#: download-manager.php:304
-msgid "Delete"
-msgstr ""
-
-#: download-manager.php:309
-msgid "No Files Found"
-msgstr ""
-
-#: download-manager.php:317
-msgid "Download Stats"
-msgstr ""
-
-#: download-manager.php:320
-msgid "Total Files:"
-msgstr ""
-
-#: download-manager.php:324
-msgid "Total Size:"
-msgstr ""
-
-#: download-manager.php:328
-msgid "Total Hits:"
+#: download-manager.php:313
+msgid "Registered"
 msgstr ""
 
 #: download-manager.php:332
+msgid "Edit"
+msgstr ""
+
+#: download-manager.php:333
+msgid "Delete"
+msgstr ""
+
+#: download-manager.php:338
+msgid "No Files Found"
+msgstr ""
+
+#: download-manager.php:346
+msgid "Download Stats"
+msgstr ""
+
+#: download-manager.php:349
+msgid "Total Files:"
+msgstr ""
+
+#: download-manager.php:353
+msgid "Total Size:"
+msgstr ""
+
+#: download-manager.php:357
+msgid "Total Hits:"
+msgstr ""
+
+#: download-manager.php:361
 msgid "Total Bandwidth:"
 msgstr ""
 
@@ -294,12 +324,12 @@ msgid "Download Sorting"
 msgstr ""
 
 #: download-options.php:64
-#: download-templates.php:60
+#: download-templates.php:66
 msgid "Updated"
 msgstr ""
 
 #: download-options.php:69
-#: download-templates.php:65
+#: download-templates.php:71
 msgid "No Download Option Updated"
 msgstr ""
 
@@ -397,275 +427,442 @@ msgstr ""
 msgid "Update Options"
 msgstr ""
 
-#: download-templates.php:49
+#: download-templates.php:55
 msgid "Download Page Header"
 msgstr ""
 
-#: download-templates.php:50
+#: download-templates.php:56
 msgid "Download Page Footer"
 msgstr ""
 
-#: download-templates.php:51
+#: download-templates.php:57
 msgid "Download Category Header Template"
 msgstr ""
 
-#: download-templates.php:52
+#: download-templates.php:58
 msgid "Download Category Footer Template"
 msgstr ""
 
-#: download-templates.php:53
+#: download-templates.php:59
 msgid "Download Listing Template"
 msgstr ""
 
-#: download-templates.php:54
+#: download-templates.php:60
 msgid "Download Embedded Template"
 msgstr ""
 
-#: download-templates.php:55
-msgid "Most DownloadedTemplate"
-msgstr ""
-
-#: download-templates.php:76
-#: downloadmanager.php:650
-msgid "There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files."
-msgstr ""
-
-#: download-templates.php:82
-#: downloadmanager.php:652
-msgid "View all downloads in %FILE_CATEGORY_NAME%"
+#: download-templates.php:61
+msgid "Most Downloaded Template"
 msgstr ""
 
 #: download-templates.php:88
-#: download-templates.php:91
+#: downloadmanager.php:724
+msgid "There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files."
+msgstr ""
+
 #: download-templates.php:94
-#: downloadmanager.php:654
-#: downloadmanager.php:655
-#: downloadmanager.php:656
+#: downloadmanager.php:726
+msgid "View all downloads in %FILE_CATEGORY_NAME%"
+msgstr ""
+
+#: download-templates.php:100
+#: download-templates.php:103
+#: download-templates.php:112
+#: downloadmanager.php:728
+#: downloadmanager.php:729
+#: downloadmanager.php:730
 msgid "Download: %FILE_NAME%"
 msgstr ""
 
-#: download-templates.php:102
-#: download-templates.php:195
+#: download-templates.php:106
+#: download-templates.php:109
+#: download-templates.php:115
+#: downloadmanager.php:95
+#: downloadmanager.php:728
+#: downloadmanager.php:729
+#: downloadmanager.php:730
+msgid "You need to be a registered user to download this file."
+msgstr ""
+
+#: download-templates.php:123
 #: downloadmanager.php:49
 msgid "Download Templates"
 msgstr ""
 
-#: download-templates.php:105
+#: download-templates.php:126
 msgid "Template Variables"
 msgstr ""
 
-#: download-templates.php:110
+#: download-templates.php:131
 msgid "Display the file's ID."
 msgstr ""
 
-#: download-templates.php:114
+#: download-templates.php:135
 msgid "Display the file's filename."
 msgstr ""
 
-#: download-templates.php:118
+#: download-templates.php:139
 msgid "Display the total number of files in the category."
 msgstr ""
 
-#: download-templates.php:122
+#: download-templates.php:143
 msgid "Display the total number of files."
 msgstr ""
 
-#: download-templates.php:126
+#: download-templates.php:147
 msgid "Display the start number of the record."
 msgstr ""
 
-#: download-templates.php:132
+#: download-templates.php:153
 msgid "Display the file's name."
 msgstr ""
 
-#: download-templates.php:136
+#: download-templates.php:157
 msgid "Display the file's description."
 msgstr ""
 
-#: download-templates.php:140
+#: download-templates.php:161
 msgid "Display the total number of file hits in the category."
 msgstr ""
 
-#: download-templates.php:144
+#: download-templates.php:165
 msgid "Displays the total file hits."
 msgstr ""
 
-#: download-templates.php:148
+#: download-templates.php:169
 msgid "Display the end number of the record."
 msgstr ""
 
-#: download-templates.php:154
+#: download-templates.php:175
 msgid "Display the file's size in bytes/KB/MB/GB/TB."
 msgstr ""
 
-#: download-templates.php:158
+#: download-templates.php:179
 msgid "Display the files's category name."
 msgstr ""
 
-#: download-templates.php:162
+#: download-templates.php:183
 msgid "Display the total size of all the files in the category."
 msgstr ""
 
-#: download-templates.php:166
+#: download-templates.php:187
 msgid "Display the total file size."
 msgstr ""
 
-#: download-templates.php:170
+#: download-templates.php:191
 msgid "Display the number of times the file has been downloaded."
 msgstr ""
 
-#: download-templates.php:176
+#: download-templates.php:197
 msgid "Displays the file's date."
 msgstr ""
 
-#: download-templates.php:180
+#: download-templates.php:201
 msgid "Displays the file's time."
 msgstr ""
 
-#: download-templates.php:184
+#: download-templates.php:205
 msgid "Displays the url to the category."
 msgstr ""
 
-#: download-templates.php:188
+#: download-templates.php:209
 msgid "Displays the file's download url."
 msgstr ""
 
-#: download-templates.php:199
+#: download-templates.php:216
+msgid "Download Page Templates"
+msgstr ""
+
+#: download-templates.php:220
 msgid "Download Page Header:"
 msgstr ""
 
-#: download-templates.php:200
-#: download-templates.php:214
-#: download-templates.php:226
-#: download-templates.php:239
-#: download-templates.php:253
-#: download-templates.php:272
-#: download-templates.php:295
+#: download-templates.php:221
+#: download-templates.php:235
+#: download-templates.php:252
+#: download-templates.php:265
+#: download-templates.php:284
+#: download-templates.php:303
+#: download-templates.php:327
+#: download-templates.php:346
+#: download-templates.php:375
+#: download-templates.php:404
 msgid "Allowed Variables:"
 msgstr ""
 
-#: download-templates.php:207
-#: download-templates.php:219
-#: download-templates.php:232
-#: download-templates.php:245
-#: download-templates.php:264
-#: download-templates.php:283
-#: download-templates.php:306
+#: download-templates.php:228
+#: download-templates.php:240
+#: download-templates.php:258
+#: download-templates.php:271
+#: download-templates.php:295
+#: download-templates.php:314
+#: download-templates.php:338
+#: download-templates.php:357
+#: download-templates.php:386
+#: download-templates.php:415
 msgid "Restore Default Template"
 msgstr ""
 
-#: download-templates.php:213
+#: download-templates.php:234
 msgid "Download Page Footer:"
 msgstr ""
 
-#: download-templates.php:225
-msgid "Download Category Header:"
-msgstr ""
-
-#: download-templates.php:238
-msgid "Download Category Footer:"
+#: download-templates.php:247
+msgid "Download Category Templates"
 msgstr ""
 
 #: download-templates.php:251
+msgid "Download Category Header:"
+msgstr ""
+
+#: download-templates.php:264
+msgid "Download Category Footer:"
+msgstr ""
+
+#: download-templates.php:278
+msgid "Download Templates (With Permission)"
+msgstr ""
+
+#: download-templates.php:282
+#: download-templates.php:325
 msgid "Download Listing:"
 msgstr ""
 
-#: download-templates.php:252
-msgid "Displayed when listing files in the downloads page."
+#: download-templates.php:283
+msgid "Displayed when listing files in the downloads page and users have permission to download the file."
 msgstr ""
 
-#: download-templates.php:270
+#: download-templates.php:301
+#: download-templates.php:344
 msgid "Download Embedded File"
 msgstr ""
 
-#: download-templates.php:271
-msgid "Displayed when you embedded a file within a post or a page."
+#: download-templates.php:302
+msgid "Displayed when you embedded a file within a post or a page and users have permission to download the file."
 msgstr ""
 
-#: download-templates.php:289
+#: download-templates.php:321
+msgid "Download Templates (Without Permission)"
+msgstr ""
+
+#: download-templates.php:326
+msgid "Displayed when listing files in the downloads page and users <strong>DO NOT</strong> have permission to download the file."
+msgstr ""
+
+#: download-templates.php:345
+msgid "Displayed when you embedded a file within a post or a page and users <strong>DO NOT</strong> have permission to download the file."
+msgstr ""
+
+#: download-templates.php:364
+msgid "Download Stats Templates (With Permission)"
+msgstr ""
+
+#: download-templates.php:368
+#: download-templates.php:397
+#: download-widget.php:69
 msgid "Most Downloaded"
 msgstr ""
 
-#: download-templates.php:290
+#: download-templates.php:369
+#: download-templates.php:398
 msgid "Displayed when listing most downloaded files."
 msgstr ""
 
-#: download-templates.php:291
+#: download-templates.php:370
+#: download-templates.php:399
+#: download-widget.php:95
 msgid "Newest Downloads"
 msgstr ""
 
-#: download-templates.php:292
+#: download-templates.php:371
+#: download-templates.php:400
 msgid "Displayed when listing newest downloads."
 msgstr ""
 
-#: download-templates.php:293
+#: download-templates.php:372
+#: download-templates.php:401
 msgid "Downloads By Category"
 msgstr ""
 
-#: download-templates.php:294
+#: download-templates.php:373
+#: download-templates.php:402
 msgid "Displayed when listing downloads by category."
 msgstr ""
 
-#: download-templates.php:313
+#: download-templates.php:374
+msgid "Displayed when users have permission to download the file."
+msgstr ""
+
+#: download-templates.php:393
+msgid "Download Stats Templates (Without Permission)"
+msgstr ""
+
+#: download-templates.php:403
+msgid "Displayed when users <strong>DO NOT</strong> have permission to download the file."
+msgstr ""
+
+#: download-templates.php:422
 msgid "Update Templates"
+msgstr ""
+
+#: download-uninstall.php:40
+#: download-uninstall.php:142
+msgid "UNINSTALL WP-DownloadManager"
+msgstr ""
+
+#: download-uninstall.php:47
+#, php-format
+msgid "Table '%s' has been deleted."
+msgstr ""
+
+#: download-uninstall.php:56
+#, php-format
+msgid "Setting Key '%s' has been deleted."
+msgstr ""
+
+#: download-uninstall.php:60
+#, php-format
+msgid "Error deleting Setting Key '%s'."
+msgstr ""
+
+#: download-uninstall.php:66
+#: download-uninstall.php:103
+msgid "The download files uploaded by WP-DownloadManager <strong>WILL NOT</strong> be deleted. You will have to delete it manually."
+msgstr ""
+
+#: download-uninstall.php:68
+#: download-uninstall.php:104
+#, php-format
+msgid "The path to the downloads folder is <strong>'%s'</strong>."
+msgstr ""
+
+#: download-uninstall.php:87
+#: download-uninstall.php:97
+#: downloadmanager.php:50
+msgid "Uninstall WP-DownloadManager"
+msgstr ""
+
+#: download-uninstall.php:88
+#, php-format
+msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And WP-DownloadManager Will Be Deactivated Automatically."
+msgstr ""
+
+#: download-uninstall.php:99
+msgid "Deactivating WP-DownloadManager plugin does not remove any data that may have been created, such as the download options and the download data. To completely remove this plugin, you can uninstall it here."
+msgstr ""
+
+#: download-uninstall.php:102
+msgid "NOTE:"
+msgstr ""
+
+#: download-uninstall.php:107
+msgid "WARNING:"
+msgstr ""
+
+#: download-uninstall.php:108
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr ""
+
+#: download-uninstall.php:111
+msgid "The following WordPress Options/Tables will be DELETED:"
+msgstr ""
+
+#: download-uninstall.php:115
+msgid "WordPress Options"
+msgstr ""
+
+#: download-uninstall.php:116
+msgid "WordPress Tables"
+msgstr ""
+
+#: download-uninstall.php:141
+msgid "Yes"
+msgstr ""
+
+#: download-uninstall.php:142
+msgid ""
+"You Are About To Uninstall WP-DownloadManager From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+
+#: download-widget.php:78
+#: download-widget.php:104
+msgid "Title"
+msgstr ""
+
+#: download-widget.php:81
+#: download-widget.php:107
+msgid "Limit"
+msgstr ""
+
+#: download-widget.php:84
+#: download-widget.php:110
+msgid "Post Title Length (Characters)"
+msgstr ""
+
+#: download-widget.php:86
+#: download-widget.php:112
+msgid "(<strong>0</strong> to disable)"
 msgstr ""
 
 #: downloadmanager.php:43
 msgid "Downloads"
 msgstr ""
 
-#: downloadmanager.php:77
+#: downloadmanager.php:78
 msgid "File does not exist."
 msgstr ""
 
-#: downloadmanager.php:164
+#: downloadmanager.php:195
 msgid "Note: There is a file embedded within this post, please visit the site to download the file."
 msgstr ""
 
-#: downloadmanager.php:207
+#: downloadmanager.php:243
 msgid "total"
 msgstr ""
 
-#: downloadmanager.php:327
+#: downloadmanager.php:368
 msgid "Previous Page"
 msgstr ""
 
-#: downloadmanager.php:335
+#: downloadmanager.php:376
 msgid "Next Page"
 msgstr ""
 
-#: downloadmanager.php:344
+#: downloadmanager.php:385
 msgid "Pages"
 msgstr ""
 
-#: downloadmanager.php:346
+#: downloadmanager.php:387
 msgid "Go to First Page"
 msgstr ""
 
-#: downloadmanager.php:346
+#: downloadmanager.php:387
 msgid "First"
 msgstr ""
 
-#: downloadmanager.php:349
-#: downloadmanager.php:361
+#: downloadmanager.php:390
+#: downloadmanager.php:402
 msgid "Go to Page"
 msgstr ""
 
-#: downloadmanager.php:356
+#: downloadmanager.php:397
 msgid "Page"
 msgstr ""
 
-#: downloadmanager.php:364
+#: downloadmanager.php:405
 msgid "Go to Last Page"
 msgstr ""
 
-#: downloadmanager.php:364
+#: downloadmanager.php:405
 msgid "Last"
 msgstr ""
 
-#: downloadmanager.php:548
-#: downloadmanager.php:582
-#: downloadmanager.php:617
+#: downloadmanager.php:599
+#: downloadmanager.php:643
+#: downloadmanager.php:688
 msgid "N/A"
 msgstr ""
 

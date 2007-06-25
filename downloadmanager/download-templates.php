@@ -30,13 +30,19 @@ $base_page = 'admin.php?page='.$base_name;
 
 ### If Form Is Submitted
 if($_POST['Submit']) {
+	$download_template_listing = array();
+	$download_template_embedded = array();
+	$download_template_most = array();
 	$download_template_header = trim($_POST['download_template_header']);
 	$download_template_footer = trim($_POST['download_template_footer']);
 	$download_template_category_header = trim($_POST['download_template_category_header']);
 	$download_template_category_footer = trim($_POST['download_template_category_footer']);
-	$download_template_listing = trim($_POST['download_template_listing']);
-	$download_template_embedded = trim($_POST['download_template_embedded']);
-	$download_template_most = trim($_POST['download_template_most']);
+	$download_template_listing[] = trim($_POST['download_template_listing']);
+	$download_template_listing[] = trim($_POST['download_template_listing_2']);
+	$download_template_embedded[] = trim($_POST['download_template_embedded']);
+	$download_template_embedded[] = trim($_POST['download_template_embedded_2']);
+	$download_template_most[] = trim($_POST['download_template_most']);
+	$download_template_most[] = trim($_POST['download_template_most_2']);
 	$update_download_queries = array();
 	$update_download_text = array();
 	$update_download_queries[] = update_option('download_template_header', $download_template_header);
@@ -52,7 +58,7 @@ if($_POST['Submit']) {
 	$update_download_text[] = __('Download Category Footer Template', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Listing Template', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Embedded Template', 'wp-downloadmanager');
-	$update_download_text[] = __('Most DownloadedTemplate', 'wp-downloadmanager');
+	$update_download_text[] = __('Most Downloaded Template', 'wp-downloadmanager');
 	$i=0;
 	$text = '';
 	foreach($update_download_queries as $update_download_query) {
@@ -65,6 +71,12 @@ if($_POST['Submit']) {
 		$text = '<font color="red">'.__('No Download Option Updated', 'wp-downloadmanager').'</font>';
 	}
 }
+
+
+### Get Arrayed Templates
+$download_template_embedded = get_option('download_template_embedded');
+$download_template_listing = get_option('download_template_listing');
+$download_template_most = get_option('download_template_most');
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <script type="text/javascript">
@@ -90,8 +102,17 @@ if($_POST['Submit']) {
 			case "embedded":
 				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/downloadmanager/images/drive_go.gif\" alt=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong><a href=\"%FILE_DOWNLOAD_URL%\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\">%FILE_NAME%</a></strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)</p>";
 				break;
+			case "listing_2":
+				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/downloadmanager/images/drive_go.gif\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?> - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>";
+				break;
+			case "embedded_2":
+				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/downloadmanager/images/drive_go.gif\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i></p>";
+				break;
 			case 'most':
 				default_template = "<li><strong><a href=\"%FILE_DOWNLOAD_URL%\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\">%FILE_NAME%</a></strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)</li>";
+				break;
+			case 'most_2':
+				default_template = "<li><strong>%FILE_NAME%</strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i></li>";
 				break;
 		}
 		document.getElementById("download_template_" + template).value = default_template;
@@ -192,7 +213,7 @@ if($_POST['Submit']) {
 			</table>
 		</fieldset>
 		<fieldset class="options">
-			<legend><?php _e('Download Templates', 'wp-downloadmanager'); ?></legend>
+			<legend><?php _e('Download Page Templates', 'wp-downloadmanager'); ?></legend>
 			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 				<tr valign="top">
 					<td width="30%" align="left">
@@ -220,6 +241,11 @@ if($_POST['Submit']) {
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_footer" name="download_template_footer"><?php echo htmlspecialchars(stripslashes(get_option('download_template_footer'))); ?></textarea></td>
 				 </tr>
+			</table>
+		</fieldset>
+		<fieldset class="options">
+			<legend><?php _e('Download Category Templates', 'wp-downloadmanager'); ?></legend>
+			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 				 <tr valign="top">
 					<td width="30%" align="left">
 						<strong><?php _e('Download Category Header:', 'wp-downloadmanager'); ?></strong><br /><br /><br />
@@ -246,10 +272,15 @@ if($_POST['Submit']) {
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_category_footer" name="download_template_category_footer"><?php echo htmlspecialchars(stripslashes(get_option('download_template_category_footer'))); ?></textarea></td>
 				</tr>
+			</table>
+		</fieldset>
+		<fieldset class="options">
+			<legend><?php _e('Download Templates (With Permission)', 'wp-downloadmanager'); ?></legend>
+			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 				<tr valign="top"> 
 					<td width="30%" align="left">
 						<strong><?php _e('Download Listing:', 'wp-downloadmanager'); ?></strong><br />
-						<?php _e('Displayed when listing files in the downloads page.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('Displayed when listing files in the downloads page and users have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
 						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
 						- %FILE_ID%<br />
 						- %FILE%<br />
@@ -263,12 +294,12 @@ if($_POST['Submit']) {
 						- %FILE_DOWNLOAD_URL%<br /><br />
 						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('listing');" class="button" />
 					</td>
-					<td align="left"><textarea cols="80" rows="12" id="download_template_listing" name="download_template_listing"><?php echo htmlspecialchars(stripslashes(get_option('download_template_listing'))); ?></textarea></td> 
+					<td align="left"><textarea cols="80" rows="12" id="download_template_listing" name="download_template_listing"><?php echo htmlspecialchars(stripslashes($download_template_listing[0])); ?></textarea></td> 
 				</tr>
 				<tr valign="top"> 
 					<td width="30%" align="left">
 						<strong><?php _e('Download Embedded File', 'wp-downloadmanager'); ?></strong><br />
-						<?php _e('Displayed when you embedded a file within a post or a page.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('Displayed when you embedded a file within a post or a page and users have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
 						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
 						- %FILE_ID%<br />
 						- %FILE%<br />
@@ -282,8 +313,56 @@ if($_POST['Submit']) {
 						- %FILE_DOWNLOAD_URL%<br /><br />
 						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('embedded');" class="button" />
 					</td>
-					<td align="left"><textarea cols="80" rows="12" id="download_template_embedded" name="download_template_embedded"><?php echo htmlspecialchars(stripslashes(get_option('download_template_embedded'))); ?></textarea></td> 
+					<td align="left"><textarea cols="80" rows="12" id="download_template_embedded" name="download_template_embedded"><?php echo htmlspecialchars(stripslashes($download_template_embedded[0])); ?></textarea></td> 
 				</tr>
+			</table>
+		</fieldset>
+		<fieldset class="options">
+			<legend><?php _e('Download Templates (Without Permission)', 'wp-downloadmanager'); ?></legend>
+			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
+				<tr valign="top"> 
+					<td width="30%" align="left">
+						<strong><?php _e('Download Listing:', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when listing files in the downloads page and users <strong>DO NOT</strong> have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
+						- %FILE_ID%<br />
+						- %FILE%<br />
+						- %FILE_NAME%<br />
+						- %FILE_DESCRIPTION%<br />
+						- %FILE_SIZE%<br />
+						- %FILE_CATEGORY_NAME%<br />
+						- %FILE_DATE%<br />
+						- %FILE_TIME%<br />
+						- %FILE_HITS%<br />
+						- %FILE_DOWNLOAD_URL%<br /><br />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('listing_2');" class="button" />
+					</td>
+					<td align="left"><textarea cols="80" rows="12" id="download_template_listing_2" name="download_template_listing_2"><?php echo htmlspecialchars(stripslashes($download_template_listing[1])); ?></textarea></td> 
+				</tr>
+				<tr valign="top"> 
+					<td width="30%" align="left">
+						<strong><?php _e('Download Embedded File', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when you embedded a file within a post or a page and users <strong>DO NOT</strong> have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
+						- %FILE_ID%<br />
+						- %FILE%<br />
+						- %FILE_NAME%<br />
+						- %FILE_DESCRIPTION%<br />
+						- %FILE_SIZE%<br />
+						- %FILE_CATEGORY_NAME%<br />
+						- %FILE_DATE%<br />
+						- %FILE_DATE%<br />
+						- %FILE_HITS%<br />
+						- %FILE_DOWNLOAD_URL%<br /><br />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('embedded_2');" class="button" />
+					</td>
+					<td align="left"><textarea cols="80" rows="12" id="download_template_embedded_2" name="download_template_embedded_2"><?php echo htmlspecialchars(stripslashes($download_template_embedded[1])); ?></textarea></td> 
+				</tr>
+			</table>
+		</fieldset>
+		<fieldset class="options">
+			<legend><?php _e('Download Stats Templates (With Permission)', 'wp-downloadmanager'); ?></legend>
+			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 				<tr valign="top"> 
 					<td width="30%" align="left">
 						<strong><?php _e('Most Downloaded', 'wp-downloadmanager'); ?></strong><br />
@@ -292,6 +371,7 @@ if($_POST['Submit']) {
 						<?php _e('Displayed when listing newest downloads.', 'wp-downloadmanager'); ?><br />
 						<strong><?php _e('Downloads By Category', 'wp-downloadmanager'); ?></strong><br />
 						<?php _e('Displayed when listing downloads by category.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('Displayed when users have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
 						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
 						- %FILE_ID%<br />
 						- %FILE%<br />
@@ -305,7 +385,36 @@ if($_POST['Submit']) {
 						- %FILE_DOWNLOAD_URL%<br /><br />
 						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('most');" class="button" />
 					</td>
-					<td align="left"><textarea cols="80" rows="12" id="download_template_most" name="download_template_most"><?php echo htmlspecialchars(stripslashes(get_option('download_template_most'))); ?></textarea></td> 
+					<td align="left"><textarea cols="80" rows="12" id="download_template_most" name="download_template_most"><?php echo htmlspecialchars(stripslashes($download_template_most[0])); ?></textarea></td> 
+				</tr>
+			</table>
+		</fieldset>
+		<fieldset class="options">
+			<legend><?php _e('Download Stats Templates (Without Permission)', 'wp-downloadmanager'); ?></legend>
+			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
+				<tr valign="top"> 
+					<td width="30%" align="left">						
+						<strong><?php _e('Most Downloaded', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when listing most downloaded files.', 'wp-downloadmanager'); ?><br />
+						<strong><?php _e('Newest Downloads', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when listing newest downloads.', 'wp-downloadmanager'); ?><br />
+						<strong><?php _e('Downloads By Category', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when listing downloads by category.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('Displayed when users <strong>DO NOT</strong> have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
+						<?php _e('Allowed Variables:', 'wp-downloadmanager'); ?><br />
+						- %FILE_ID%<br />
+						- %FILE%<br />
+						- %FILE_NAME%<br />
+						- %FILE_DESCRIPTION%<br />
+						- %FILE_SIZE%<br />
+						- %FILE_CATEGORY_NAME%<br />
+						- %FILE_DATE%<br />
+						- %FILE_DATE%<br />
+						- %FILE_HITS%<br />
+						- %FILE_DOWNLOAD_URL%<br /><br />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('most_2');" class="button" />
+					</td>
+					<td align="left"><textarea cols="80" rows="12" id="download_template_most_2" name="download_template_most_2"><?php echo htmlspecialchars(stripslashes($download_template_most[1])); ?></textarea></td> 
 				</tr>
 			</table>
 		</fieldset>
