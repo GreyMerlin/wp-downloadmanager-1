@@ -563,6 +563,42 @@ function file_timestamp($file_timestamp) {
 }
 
 
+### Function: Get Total Download Files
+function get_download_files($display = true) {
+	global $wpdb;
+	$totalfiles = $wpdb->get_var("SELECT COUNT(file_id) FROM $wpdb->downloads");
+	if($display) {
+		echo number_format($totalfiles);
+	} else {
+		return number_format($totalfiles);
+	}
+}
+
+
+### Function Get Total Download Size
+function get_download_size($display = true) {
+	global $wpdb;
+	$totalsize = $wpdb->get_var("SELECT SUM(file_size) FROM $wpdb->downloads");
+	if($display) {
+		echo format_size($totalsize);
+	} else {
+		return format_size($totalsize);
+	}
+}
+
+
+### Function: Get Total Download Hits
+function get_download_hits($display = true) {
+	global $wpdb;
+	$totalhits = $wpdb->get_var("SELECT SUM(file_hits) FROM $wpdb->downloads");
+	if($display) {
+		echo number_format($totalhits);
+	} else {
+		return number_format($totalhits);
+	}
+}
+
+
 ### Function: Get Most Downloaded Files
 if(!function_exists('get_most_downloaded')) {
 	function get_most_downloaded($limit = 10, $chars = 0, $display = true) {
@@ -696,6 +732,100 @@ if(!function_exists('get_downloads_category')) {
 }
 
 
+### Function: Plug Into WP-Stats
+if(strpos(get_option('stats_url'), $_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], 'stats-options.php')) {
+	add_filter('wp_stats_page_admin_plugins', 'downloadmanager_page_admin_general_stats');
+	add_filter('wp_stats_page_admin_recent', 'downloadmanager_page_admin_recent_stats');
+	add_filter('wp_stats_page_admin_most', 'downloadmanager_page_admin_most_stats');
+	add_filter('wp_stats_page_plugins', 'downloadmanager_page_general_stats');
+	add_filter('wp_stats_page_recent', 'downloadmanager_page_recent_stats');
+	add_filter('wp_stats_page_most', 'downloadmanager_page_most_stats');
+}
+
+
+### Function: Add WP-DownloadManager General Stats To WP-Stats Page Options
+function downloadmanager_page_admin_general_stats($content) {
+	$stats_display = get_option('stats_display');
+	if($stats_display['downloads'] == 1) {
+		$content .= '<input type="checkbox" name="stats_display[]" value="downloads" checked="checked" />&nbsp;&nbsp;'.__('WP-DownloadManager', 'wp-downloadmanager').'<br />'."\n";
+	} else {
+		$content .= '<input type="checkbox" name="stats_display[]" value="downloads" />&nbsp;&nbsp;'.__('WP-DownloadManager', 'wp-downloadmanager').'<br />'."\n";
+	}
+	return $content;
+}
+
+
+### Function: Add WP-DownloadManager Top Recent Stats To WP-Stats Page Options
+function downloadmanager_page_admin_recent_stats($content) {
+	$stats_display = get_option('stats_display');
+	$stats_mostlimit = intval(get_option('stats_mostlimit'));
+	if($stats_display['recent_downloads'] == 1) {
+		$content .= '<input type="checkbox" name="stats_display[]" value="recent_downloads" checked="checked" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Recent Downloads', 'wp-downloadmanager').'<br />'."\n";
+	} else {
+		$content .= '<input type="checkbox" name="stats_display[]" value="recent_downloads" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Recent Downloads', 'wp-downloadmanager').'<br />'."\n";
+	}
+	return $content;
+}
+
+
+### Function: Add WP-DownloadManager Top Most/Highest Stats To WP-Stats Page Options
+function downloadmanager_page_admin_most_stats($content) {
+	$stats_display = get_option('stats_display');
+	$stats_mostlimit = intval(get_option('stats_mostlimit'));
+	if($stats_display['downloaded_most'] == 1) {
+		$content .= '<input type="checkbox" name="stats_display[]" value="downloaded_most" checked="checked" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Downloaded Files', 'wp-downloadmanager').'<br />'."\n";
+	} else {
+		$content .= '<input type="checkbox" name="stats_display[]" value="downloaded_most" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Downloaded Files', 'wp-downloadmanager').'<br />'."\n";
+	}
+	return $content;
+}
+
+
+### Function: Add WP-DownloadManager General Stats To WP-Stats Page
+function downloadmanager_page_general_stats($content) {
+	global $wpdb;
+	$stats_display = get_option('stats_display');
+	if($stats_display['downloads'] == 1) {
+		$download_stats = $wpdb->get_row("SELECT COUNT(file_id) as total_files, SUM(file_size) total_size, SUM(file_hits) as total_hits FROM $wpdb->downloads");
+		$content .= '<p><strong>'.__('WP-DownloadManager', 'wp-downloadmanager').'</strong></p>'."\n";
+		$content .= '<ul>'."\n";
+		$content .= '<li><strong>'.number_format($download_stats->total_files).'</strong> '.__('Files Were Added.', 'wp-downloadmanager').'</li>'."\n";
+		$content .= '<li><strong>'.number_format($download_stats->total_size).'</strong> '.__('Worth Of Files.', 'wp-downloadmanager').'</li>'."\n";
+		$content .= '<li><strong>'.number_format($download_stats->total_hits).'</strong> '.__('Hits Were Generated.', 'wp-downloadmanager').'</li>'."\n";
+		$content .= '</ul>'."\n";
+	}
+	return $content;
+}
+
+
+### Function: Add WP-DownloadManager Top Recent Stats To WP-Stats Page
+function downloadmanager_page_recent_stats($content) {
+	$stats_display = get_option('stats_display');
+	$stats_mostlimit = intval(get_option('stats_mostlimit'));
+	if($stats_display['recent_downloads'] == 1) {
+		$content .= '<p><strong>'.$stats_mostlimit.' '.__('Recent Downloads', 'wp-downloadmanager').'</strong></p>'."\n";
+		$content .= '<ul>'."\n";
+		$content .= get_newest_downloads($stats_mostlimit, 0, false);
+		$content .= '</ul>'."\n";
+	}
+	return $content;
+}
+
+
+### Function: Add WP-DownloadManager Top Most/Highest Stats To WP-Stats Page
+function downloadmanager_page_most_stats($content) {
+	$stats_display = get_option('stats_display');
+	$stats_mostlimit = intval(get_option('stats_mostlimit'));
+	if($stats_display['downloaded_most'] == 1) {
+		$content .= '<p><strong>'.$stats_mostlimit.' '.__('Most Downloaded Files', 'wp-downloadmanager').'</strong></p>'."\n";
+		$content .= '<ul>'."\n";
+		$content .= get_most_downloaded($stats_mostlimit, 0, false);
+		$content .= '</ul>'."\n";
+	}
+	return $content;
+}
+
+
 ### Function: Create Downloads Table
 add_action('activate_downloadmanager/downloadmanager.php', 'create_download_table');
 function create_download_table() {
@@ -716,6 +846,7 @@ function create_download_table() {
 	maybe_create_table($wpdb->downloads, $create_table);
 	// To Be Deleted When Released
 	maybe_add_column($wpdb->downloads, 'file_permission', "ALTER TABLE $wpdb->downloads ADD file_permission TINYINT(2) NOT NULL DEFAULT '0'");
+	delete_option('widget_download_newest_downloads');
 	// WP-Downloads Options
 	add_option('download_path', ABSPATH.'wp-content/files', 'Download Path');
 	add_option('download_page_url', get_option('siteurl').'/downloads/', 'Download Page URL');

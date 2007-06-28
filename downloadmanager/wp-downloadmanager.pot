@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-25 16:42+0800\n"
+"PO-Revision-Date: 2007-06-28 16:01+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: download-add.php:38
-#: download-add.php:148
+#: download-add.php:158
 #: downloadmanager.php:47
 msgid "Add File"
 msgstr ""
@@ -30,97 +30,102 @@ msgstr ""
 msgid "Error In Uploading File"
 msgstr ""
 
-#: download-add.php:77
+#: download-add.php:83
 #, php-format
 msgid "Error In Adding File '%s (%s)'"
 msgstr ""
 
-#: download-add.php:79
+#: download-add.php:85
 #, php-format
 msgid "File '%s (%s)' Added Successfully"
 msgstr ""
 
-#: download-add.php:82
+#: download-add.php:88
 #: download-manager.php:78
 #, php-format
 msgid "Invaild File '%s'"
 msgstr ""
 
-#: download-add.php:91
+#: download-add.php:97
 msgid "Add A File"
 msgstr ""
 
-#: download-add.php:96
+#: download-add.php:102
 #: download-manager.php:148
 #: download-manager.php:225
 msgid "File:"
 msgstr ""
 
-#: download-add.php:98
+#: download-add.php:104
 msgid "Browse File:"
 msgstr ""
 
-#: download-add.php:102
+#: download-add.php:108
 #: download-manager.php:153
 #, php-format
 msgid "Please upload the file to '%s' directory first."
 msgstr ""
 
-#: download-add.php:104
+#: download-add.php:110
 msgid "Upload File:"
 msgstr ""
 
-#: download-add.php:105
+#: download-add.php:111
 msgid "to"
 msgstr ""
 
-#: download-add.php:109
+#: download-add.php:115
 #, php-format
 msgid "Maximum file size is %s."
 msgstr ""
 
-#: download-add.php:113
+#: download-add.php:119
 #: download-manager.php:157
 #: download-manager.php:229
 msgid "File Name:"
 msgstr ""
 
-#: download-add.php:117
+#: download-add.php:123
 #: download-manager.php:161
 #: download-manager.php:233
 msgid "File Description:"
 msgstr ""
 
-#: download-add.php:121
+#: download-add.php:127
 #: download-manager.php:165
 #: download-manager.php:237
 msgid "File Category:"
 msgstr ""
 
-#: download-add.php:135
+#: download-add.php:141
 msgid "Starting File Hits:"
 msgstr ""
 
-#: download-add.php:139
+#: download-add.php:145
+#: download-manager.php:191
+msgid "File Date:"
+msgstr ""
+
+#: download-add.php:149
 #: download-manager.php:195
 #: download-manager.php:253
 msgid "Allowed To Download:"
 msgstr ""
 
-#: download-add.php:142
+#: download-add.php:152
 #: download-manager.php:198
 #: download-manager.php:257
 #: download-manager.php:311
 msgid "Everyone"
 msgstr ""
 
-#: download-add.php:143
+#: download-add.php:153
 #: download-manager.php:199
 #: download-manager.php:259
 msgid "Registered Users Only"
 msgstr ""
 
-#: download-add.php:148
+#: download-add.php:158
 #: download-manager.php:204
 #: download-manager.php:268
 #: download-options.php:159
@@ -189,18 +194,14 @@ msgstr ""
 #: download-templates.php:109
 #: download-templates.php:112
 #: download-templates.php:115
-#: downloadmanager.php:728
-#: downloadmanager.php:729
-#: downloadmanager.php:730
+#: downloadmanager.php:859
+#: downloadmanager.php:860
+#: downloadmanager.php:861
 msgid "hits"
 msgstr ""
 
 #: download-manager.php:188
 msgid "Reset File Hits"
-msgstr ""
-
-#: download-manager.php:191
-msgid "File Date:"
 msgstr ""
 
 #: download-manager.php:192
@@ -456,21 +457,21 @@ msgid "Most Downloaded Template"
 msgstr ""
 
 #: download-templates.php:88
-#: downloadmanager.php:724
+#: downloadmanager.php:855
 msgid "There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files."
 msgstr ""
 
 #: download-templates.php:94
-#: downloadmanager.php:726
+#: downloadmanager.php:857
 msgid "View all downloads in %FILE_CATEGORY_NAME%"
 msgstr ""
 
 #: download-templates.php:100
 #: download-templates.php:103
 #: download-templates.php:112
-#: downloadmanager.php:728
-#: downloadmanager.php:729
-#: downloadmanager.php:730
+#: downloadmanager.php:859
+#: downloadmanager.php:860
+#: downloadmanager.php:861
 msgid "Download: %FILE_NAME%"
 msgstr ""
 
@@ -478,9 +479,9 @@ msgstr ""
 #: download-templates.php:109
 #: download-templates.php:115
 #: downloadmanager.php:95
-#: downloadmanager.php:728
-#: downloadmanager.php:729
-#: downloadmanager.php:730
+#: downloadmanager.php:859
+#: downloadmanager.php:860
+#: downloadmanager.php:861
 msgid "You need to be a registered user to download this file."
 msgstr ""
 
@@ -670,7 +671,6 @@ msgstr ""
 
 #: download-templates.php:370
 #: download-templates.php:399
-#: download-widget.php:95
 msgid "Newest Downloads"
 msgstr ""
 
@@ -807,6 +807,11 @@ msgstr ""
 msgid "(<strong>0</strong> to disable)"
 msgstr ""
 
+#: download-widget.php:95
+#: downloadmanager.php:806
+msgid "Recent Downloads"
+msgstr ""
+
 #: downloadmanager.php:43
 msgid "Downloads"
 msgstr ""
@@ -860,9 +865,38 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: downloadmanager.php:599
-#: downloadmanager.php:643
-#: downloadmanager.php:688
+#: downloadmanager.php:635
+#: downloadmanager.php:679
+#: downloadmanager.php:724
 msgid "N/A"
+msgstr ""
+
+#: downloadmanager.php:750
+#: downloadmanager.php:752
+#: downloadmanager.php:790
+msgid "WP-DownloadManager"
+msgstr ""
+
+#: downloadmanager.php:763
+#: downloadmanager.php:765
+msgid "Most Recent Downloads"
+msgstr ""
+
+#: downloadmanager.php:776
+#: downloadmanager.php:778
+#: downloadmanager.php:820
+msgid "Most Downloaded Files"
+msgstr ""
+
+#: downloadmanager.php:792
+msgid "Files Were Added."
+msgstr ""
+
+#: downloadmanager.php:793
+msgid "Worth Of Files."
+msgstr ""
+
+#: downloadmanager.php:794
+msgid "Hits Were Generated."
 msgstr ""
 

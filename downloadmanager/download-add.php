@@ -70,7 +70,13 @@ if(!empty($_POST['do'])) {
 				$file_category = intval($_POST['file_cat']); 
 				$file_hits = intval($_POST['file_hits']);
 				$file_size = filesize($file_path.$file);
-				$file_date = current_time('timestamp');
+				$file_timestamp_day = intval($_POST['file_timestamp_day']);
+				$file_timestamp_month = intval($_POST['file_timestamp_month']);
+				$file_timestamp_year = intval($_POST['file_timestamp_year']);
+				$file_timestamp_hour = intval($_POST['file_timestamp_hour']);
+				$file_timestamp_minute = intval($_POST['file_timestamp_minute']);
+				$file_timestamp_second = intval($_POST['file_timestamp_second']);
+				$file_date = gmmktime($file_timestamp_hour, $file_timestamp_minute, $file_timestamp_second, $file_timestamp_month, $file_timestamp_day, $file_timestamp_year);
 				$file_permission = intval($_POST['file_permission']);
 				$addfile = $wpdb->query("INSERT INTO $wpdb->downloads VALUES (0, '$file', '$file_name', '$file_des', '$file_size', $file_category, '$file_date', $file_hits, $file_permission)");
 				if(!$addfile) {
@@ -135,6 +141,10 @@ if(!empty($_POST['do'])) {
 				<td><strong><?php _e('Starting File Hits:', 'wp-downloadmanager') ?></strong></td>
 				<td><input type="text" size="6" maxlength="10" name="file_hits" value="0" /></td>
 			</tr>
+			<tr>
+				<td valign="top"><strong><?php _e('File Date:', 'wp-downloadmanager') ?></strong></td>
+				<td><?php file_timestamp(current_time('timestamp')); ?></td>
+			</tr>	
 			<tr>
 				<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 				<td>
