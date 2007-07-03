@@ -789,9 +789,9 @@ function downloadmanager_page_general_stats($content) {
 		$download_stats = $wpdb->get_row("SELECT COUNT(file_id) as total_files, SUM(file_size) total_size, SUM(file_hits) as total_hits FROM $wpdb->downloads");
 		$content .= '<p><strong>'.__('WP-DownloadManager', 'wp-downloadmanager').'</strong></p>'."\n";
 		$content .= '<ul>'."\n";
-		$content .= '<li><strong>'.number_format($download_stats->total_files).'</strong> '.__('Files Were Added.', 'wp-downloadmanager').'</li>'."\n";
-		$content .= '<li><strong>'.format_size($download_stats->total_size).'</strong> '.__('Worth Of Files.', 'wp-downloadmanager').'</li>'."\n";
-		$content .= '<li><strong>'.number_format($download_stats->total_hits).'</strong> '.__('Hits Were Generated.', 'wp-downloadmanager').'</li>'."\n";
+		$content .= '<li><strong>'.number_format($download_stats->total_files).'</strong> '.__('files were added.', 'wp-downloadmanager').'</li>'."\n";
+		$content .= '<li><strong>'.format_size($download_stats->total_size).'</strong> '.__('worth of files.', 'wp-downloadmanager').'</li>'."\n";
+		$content .= '<li><strong>'.number_format($download_stats->total_hits).'</strong> '.__('hits were generated.', 'wp-downloadmanager').'</li>'."\n";
 		$content .= '</ul>'."\n";
 	}
 	return $content;
