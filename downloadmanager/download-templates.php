@@ -225,7 +225,7 @@ $download_template_most = get_option('download_template_most');
 						- %RECORD_START%<br />
 						- %RECORD_END%<br />
 						- %FILE_CATEGORY_NAME%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('header');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('header');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_header" name="download_template_header"><?php echo htmlspecialchars(stripslashes(get_option('download_template_header'))); ?></textarea></td>
 				 </tr>
@@ -237,7 +237,7 @@ $download_template_most = get_option('download_template_most');
 						- %TOTAL_HITS%<br />
 						- %TOTAL_SIZE%<br />
 						- %FILE_CATEGORY_NAME%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('footer');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('footer');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_footer" name="download_template_footer"><?php echo htmlspecialchars(stripslashes(get_option('download_template_footer'))); ?></textarea></td>
 				 </tr>
@@ -255,7 +255,7 @@ $download_template_most = get_option('download_template_most');
 						- %CATEGORY_FILES_COUNT%<br />
 						- %CATEGORY_HITS%<br />
 						- %CATEGORY_SIZE%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('category_header');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('category_header');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_category_header" name="download_template_category_header"><?php echo htmlspecialchars(stripslashes(get_option('download_template_category_header'))); ?></textarea></td>
 				</tr>
@@ -268,7 +268,7 @@ $download_template_most = get_option('download_template_most');
 						- %CATEGORY_FILES_COUNT%<br />
 						- %CATEGORY_HITS%<br />
 						- %CATEGORY_SIZE%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('category_footer');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('category_footer');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_category_footer" name="download_template_category_footer"><?php echo htmlspecialchars(stripslashes(get_option('download_template_category_footer'))); ?></textarea></td>
 				</tr>
@@ -292,7 +292,7 @@ $download_template_most = get_option('download_template_most');
 						- %FILE_TIME%<br />
 						- %FILE_HITS%<br />
 						- %FILE_DOWNLOAD_URL%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('listing');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('listing');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_listing" name="download_template_listing"><?php echo htmlspecialchars(stripslashes($download_template_listing[0])); ?></textarea></td> 
 				</tr>
@@ -311,7 +311,7 @@ $download_template_most = get_option('download_template_most');
 						- %FILE_DATE%<br />
 						- %FILE_HITS%<br />
 						- %FILE_DOWNLOAD_URL%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('embedded');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('embedded');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_embedded" name="download_template_embedded"><?php echo htmlspecialchars(stripslashes($download_template_embedded[0])); ?></textarea></td> 
 				</tr>
@@ -335,7 +335,7 @@ $download_template_most = get_option('download_template_most');
 						- %FILE_TIME%<br />
 						- %FILE_HITS%<br />
 						- %FILE_DOWNLOAD_URL%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('listing_2');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('listing_2');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_listing_2" name="download_template_listing_2"><?php echo htmlspecialchars(stripslashes($download_template_listing[1])); ?></textarea></td> 
 				</tr>
@@ -354,7 +354,7 @@ $download_template_most = get_option('download_template_most');
 						- %FILE_DATE%<br />
 						- %FILE_HITS%<br />
 						- %FILE_DOWNLOAD_URL%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('embedded_2');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('embedded_2');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_embedded_2" name="download_template_embedded_2"><?php echo htmlspecialchars(stripslashes($download_template_embedded[1])); ?></textarea></td> 
 				</tr>
@@ -383,7 +383,7 @@ $download_template_most = get_option('download_template_most');
 						- %FILE_DATE%<br />
 						- %FILE_HITS%<br />
 						- %FILE_DOWNLOAD_URL%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('most');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('most');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_most" name="download_template_most"><?php echo htmlspecialchars(stripslashes($download_template_most[0])); ?></textarea></td> 
 				</tr>
@@ -412,7 +412,7 @@ $download_template_most = get_option('download_template_most');
 						- %FILE_DATE%<br />
 						- %FILE_HITS%<br />
 						- %FILE_DOWNLOAD_URL%<br /><br />
-						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="javascript: download_default_templates('most_2');" class="button" />
+						<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('most_2');" class="button" />
 					</td>
 					<td align="left"><textarea cols="80" rows="12" id="download_template_most_2" name="download_template_most_2"><?php echo htmlspecialchars(stripslashes($download_template_most[1])); ?></textarea></td> 
 				</tr>
