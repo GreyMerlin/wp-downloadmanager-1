@@ -38,44 +38,80 @@ if(!empty($_POST['do'])) {
 	switch($_POST['do']) {
 		// Edit File
 		case __('Edit File', 'wp-downloadmanager'):
+			$file_sql = '';
 			$file_id  = intval($_POST['file_id']);
-			$file = addslashes(trim($_POST['file']));
-			if(is_file($file_path.$file)) {
-				$file_name= addslashes(trim($_POST['file_name']));
+			$file_type = intval($_POST['file_type']);
+			$file_name = addslashes(trim($_POST['file_name']));
+			switch($file_type) {
+				case -1:
+					$file = $_POST['old_file'];
+					break;
+				case 0:
+					$file = addslashes(trim($_POST['file']));
+					$file_size = filesize($file_path.$file);
+					break;
+				case 1:
+					if($_FILES['file_upload']['size'] > get_max_upload_size()) {
+						$text = '<font color="red">'.sprintf(__('File Size Too Large. Maximum Size Is %s', 'wp-downloadmanager'), format_filesize(get_max_upload_size())).'</font>';
+						break;
+					} else {
+						if(is_uploaded_file($_FILES['file_upload']['tmp_name'])) {
+							if($_POST['file_upload_to'] == '/') {
+								$file_upload_to = '/';
+							} else {
+								$file_upload_to = $_POST['file_upload_to'].'/';
+							}
+							if(move_uploaded_file($_FILES['file_upload']['tmp_name'], $file_path.$file_upload_to.basename($_FILES['file_upload']['name']))) {
+								$file = $file_upload_to.basename($_FILES['file_upload']['name']);
+								$file_size = filesize($file_path.$file);
+							} else {
+								$text = '<font color="red">'.__('Error In Uploading File', 'wp-downloadmanager').'</font>';
+								break;
+							}
+						} else {
+							$text = '<font color="red">'.__('Error In Uploading File', 'wp-downloadmanager').'</font>';
+							break;
+						}
+					}
+					break;
+				case 2:
+					$file = addslashes(trim($_POST['file_remote']));
+					$file_size = remote_filesize($file);
+					break;
+			}
+			if($file_type > -1) {
+				$file_sql = "file = '$file',";
 				if(empty($file_name)) {
-					$file_name = $file;
+					$file_name = basename($file);
 				}
-				$file_des = addslashes(trim($_POST['file_des']));
-				$file_category = intval($_POST['file_cat']); 
-				$file_size = filesize($file_path.$file);
-				$file_hits = intval($_POST['file_hits']);
-				$edit_filetimestamp = intval($_POST['edit_filetimestamp']);
-				$reset_filehits = intval($_POST['reset_filehits']);
-				$hits_sql = '';
-				if($reset_filehits == 1) {
-					$hits_sql = ', file_hits = 0';
-				} else {
-					$hits_sql = ", file_hits = $file_hits";
-				}
-				$timestamp_sql = '';
-				if($edit_filetimestamp == 1) {
-					$file_timestamp_day = intval($_POST['file_timestamp_day']);
-					$file_timestamp_month = intval($_POST['file_timestamp_month']);
-					$file_timestamp_year = intval($_POST['file_timestamp_year']);
-					$file_timestamp_hour = intval($_POST['file_timestamp_hour']);
-					$file_timestamp_minute = intval($_POST['file_timestamp_minute']);
-					$file_timestamp_second = intval($_POST['file_timestamp_second']);
-					$timestamp_sql = ", file_date = '".gmmktime($file_timestamp_hour, $file_timestamp_minute, $file_timestamp_second, $file_timestamp_month, $file_timestamp_day, $file_timestamp_year)."'";
-				}
-				$file_permission = intval($_POST['file_permission']);
-				$editfile = $wpdb->query("UPDATE $wpdb->downloads SET file = '$file', file_name = '$file_name', file_des = '$file_des', file_size = '$file_size', file_category = $file_category, file_permission = $file_permission $timestamp_sql $hits_sql WHERE file_id = $file_id;");
-				if(!$editfile) {
-					$text = '<font color="red">'.sprintf(__('Error In Editing File \'%s (%s)\'', 'wp-downloadmanager'), $file_name, $file).'</font>';
-				} else {
-					$text = '<font color="green">'.sprintf(__('File \'%s (%s)\' Edited Successfully', 'wp-downloadmanager'), $file_name, $file).'</font>';
-				}
+			}
+			$file_des = addslashes(trim($_POST['file_des']));
+			$file_category = intval($_POST['file_cat']); 			
+			$file_hits = intval($_POST['file_hits']);
+			$edit_filetimestamp = intval($_POST['edit_filetimestamp']);
+			$reset_filehits = intval($_POST['reset_filehits']);
+			$hits_sql = '';
+			if($reset_filehits == 1) {
+				$hits_sql = ', file_hits = 0';
 			} else {
-					$text = '<font color="red">'.sprintf(__('Invaild File \'%s\'', 'wp-downloadmanager'), $file).'</font>';
+				$hits_sql = ", file_hits = $file_hits";
+			}
+			$timestamp_sql = '';
+			if($edit_filetimestamp == 1) {
+				$file_timestamp_day = intval($_POST['file_timestamp_day']);
+				$file_timestamp_month = intval($_POST['file_timestamp_month']);
+				$file_timestamp_year = intval($_POST['file_timestamp_year']);
+				$file_timestamp_hour = intval($_POST['file_timestamp_hour']);
+				$file_timestamp_minute = intval($_POST['file_timestamp_minute']);
+				$file_timestamp_second = intval($_POST['file_timestamp_second']);
+				$timestamp_sql = ", file_date = '".gmmktime($file_timestamp_hour, $file_timestamp_minute, $file_timestamp_second, $file_timestamp_month, $file_timestamp_day, $file_timestamp_year)."'";
+			}
+			$file_permission = intval($_POST['file_permission']);
+			$editfile = $wpdb->query("UPDATE $wpdb->downloads SET $file_sql file_name = '$file_name', file_des = '$file_des', file_size = '$file_size', file_category = $file_category, file_permission = $file_permission $timestamp_sql $hits_sql WHERE file_id = $file_id;");
+			if(!$editfile) {
+				$text = '<font color="red">'.sprintf(__('Error In Editing File \'%s (%s)\'', 'wp-downloadmanager'), $file_name, $file).'</font>';
+			} else {
+				$text = '<font color="green">'.sprintf(__('File \'%s (%s)\' Edited Successfully', 'wp-downloadmanager'), $file_name, $file).'</font>';
 			}
 			break;
 		// Delete File
@@ -141,16 +177,36 @@ switch($mode) {
 		<!-- Edit A File -->
 		<div class="wrap">
 			<h2><?php _e('Edit A File', 'wp-downloadmanager'); ?></h2>
-			<form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post">
+			<form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_max_upload_size(); ?>" />
 				<input type="hidden" name="file_id" value="<?php echo intval($file->file_id); ?>" />
+				<input type="hidden" name="old_file" value="<?php echo stripslashes($file->file); ?>" />
 				<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 					<tr>
 						<td valign="top"><strong><?php _e('File:', 'wp-downloadmanager') ?></strong></td>
 						<td>
-							<select name="file" size="1">
+							<!-- File Name -->
+							<input type="radio" id="file_type_-1" name="file_type" value="-1" checked="checked" />&nbsp;&nbsp;<label for="file_type_-1"><?php _e('Current File:', 'wp-downloadmanager'); ?>&nbsp;<strong><?php echo stripslashes($file->file); ?></strong></label>&nbsp;
+							<br /><br />
+							<!-- Browse File -->
+							<input type="radio" id="file_type_0" name="file_type" value="0" />&nbsp;&nbsp;<label for="file_type_0"><?php _e('Browse File:', 'wp-downloadmanager'); ?></label>&nbsp;
+							<select name="file" size="1" onclick="document.getElementById('file_type_0').checked = true;">
 								<?php print_list_files($file_path, $file_path, stripslashes($file->file)); ?>
-							</select><br />
-							<small><?php printf(__('Please upload the file to \'%s\' directory first.', 'wp-downloadmanager'), $file_path); ?></small>
+							</select>
+							<br /><small><?php printf(__('Please upload the file to \'%s\' directory first.', 'wp-downloadmanager'), $file_path); ?></small>
+							<br /><br />
+							<!-- Upload File -->
+							<input type="radio" id="file_type_1" name="file_type" value="1" />&nbsp;&nbsp;<label for="file_type_1"><?php _e('Upload File:', 'wp-downloadmanager'); ?></label>&nbsp;
+							<input type="file" name="file_upload" size="25" onclick="document.getElementById('file_type_1').checked = true;" />&nbsp;&nbsp;<?php _e('to', 'wp-downloadmanager'); ?>&nbsp;&nbsp;
+							<select name="file_upload_to" size="1" onclick="document.getElementById('file_type_1').checked = true;">
+								<?php print_list_folders($file_path, $file_path); ?>
+							</select>
+							<br /><small><?php printf(__('Maximum file size is %s.', 'wp-downloadmanager'), format_filesize(get_max_upload_size())); ?></small>
+							<!-- Remote File -->
+							<br /><br />
+							<input type="radio" id="file_type_2" name="file_type" value="2" />&nbsp;&nbsp;<label for="file_type_2"><?php _e('Remote File:', 'wp-downloadmanager'); ?></label>&nbsp;
+							<input type="text" name="file_remote" size="50" maxlength="255" onclick="document.getElementById('file_type_2').checked = true;" value="http://" />
+							<br /><small><?php _e('Please include http:// or ftp:// in front.', 'wp-downloadmanager'); ?></small>
 						</td>
 					</tr>
 					<tr>
@@ -181,7 +237,7 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td><strong><?php _e('File Size:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php echo format_size($file->file_size); ?></td>
+						<td><?php echo format_filesize($file->file_size); ?></td>
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Hits:', 'wp-downloadmanager') ?></strong></td>
@@ -239,7 +295,7 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td><strong><?php _e('File Size:', 'wp-downloadmanager'); ?></strong></td>
-						<td><?php echo format_size($file->file_size); ?></td>
+						<td><?php echo format_filesize($file->file_size); ?></td>
 					</tr>
 					<tr>
 						<td><strong><?php _e('File Hits', 'wp-downloadmanager'); ?></strong></td>
@@ -261,9 +317,11 @@ switch($mode) {
 							?>
 						</td>
 					</tr>
+					<?php if(!is_remote_file(stripslashes($file->file))): ?>
 					<tr>
-						<td colspan="2" align="center"><input type="checkbox" name="unlinkfile" value="1" />&nbsp;<?php _e('Delete File From Server?', 'wp-downloadmanager'); ?></td>
+						<td colspan="2" align="center"><input type="checkbox" id="unlinkfile" name="unlinkfile" value="1" />&nbsp;<label for="unlinkfile"><?php _e('Delete File From Server?', 'wp-downloadmanager'); ?></label></td>
 					</tr>
+					<?php endif; ?>
 					<tr>
 						<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Delete File', 'wp-downloadmanager'); ?>" class="button"  onclick="return confirm('You Are About To The Delete This File \'<?php echo stripslashes(strip_tags($file->file_name)); ?> (<?php echo stripslashes($file->file); ?>)\'.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')"/>&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-downloadmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 					</tr>
@@ -323,8 +381,8 @@ switch($mode) {
 						}
 						echo "<tr $style>\n";
 						echo "<td valign=\"top\">$file_id</td>\n";
-						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i>$file_name</i></td>\n";
-						echo '<td style="text-align: center;">'.format_size($file_size).'</td>'."\n";
+						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i>".snippet_chars($file_name, 45)."</i></td>\n";
+						echo '<td style="text-align: center;">'.format_filesize($file_size).'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_hits.'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_permission.'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_categories[$file_cat].'</td>'."\n";						
@@ -351,7 +409,7 @@ switch($mode) {
 				</tr>
 				<tr>
 					<th align="left"><?php _e('Total Size:', 'wp-downloadmanager'); ?></th>
-					<td align="left"><?php echo format_size($total_filesize); ?></td>
+					<td align="left"><?php echo format_filesize($total_filesize); ?></td>
 				</tr>
 				<tr>
 					<th align="left"><?php _e('Total Hits:', 'wp-downloadmanager'); ?></th>
@@ -359,7 +417,7 @@ switch($mode) {
 				</tr>
 					<tr>
 					<th align="left"><?php _e('Total Bandwidth:', 'wp-downloadmanager'); ?></th>
-					<td align="left"><?php echo format_size($total_bandwidth); ?></td>
+					<td align="left"><?php echo format_filesize($total_bandwidth); ?></td>
 				</tr>
 			</table>
 		</div>
