@@ -189,6 +189,14 @@ if(!function_exists('snippet_chars')) {
 }
 
 
+### Function: HTML Special Chars Decode
+if (!function_exists('htmlspecialchars_decode')) {
+   function htmlspecialchars_decode($text) {
+       return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
+   }
+}
+
+
 ### Function: Download URL
 function download_file_url($file_id) {
 	$file_id = intval($file_id);
