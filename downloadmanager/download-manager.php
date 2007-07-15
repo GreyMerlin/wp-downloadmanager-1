@@ -38,6 +38,7 @@ if(!empty($_POST['do'])) {
 	switch($_POST['do']) {
 		// Edit File
 		case __('Edit File', 'wp-downloadmanager'):
+			$file_size_sql = '';
 			$file_sql = '';
 			$file_id  = intval($_POST['file_id']);
 			$file_type = intval($_POST['file_type']);
@@ -84,6 +85,7 @@ if(!empty($_POST['do'])) {
 				if(empty($file_name)) {
 					$file_name = basename($file);
 				}
+				$file_size_sql = "file_size = '$file_size',";
 			}
 			$file_des = addslashes(trim($_POST['file_des']));
 			$file_category = intval($_POST['file_cat']); 			
@@ -107,7 +109,7 @@ if(!empty($_POST['do'])) {
 				$timestamp_sql = ", file_date = '".gmmktime($file_timestamp_hour, $file_timestamp_minute, $file_timestamp_second, $file_timestamp_month, $file_timestamp_day, $file_timestamp_year)."'";
 			}
 			$file_permission = intval($_POST['file_permission']);
-			$editfile = $wpdb->query("UPDATE $wpdb->downloads SET $file_sql file_name = '$file_name', file_des = '$file_des', file_size = '$file_size', file_category = $file_category, file_permission = $file_permission $timestamp_sql $hits_sql WHERE file_id = $file_id;");
+			$editfile = $wpdb->query("UPDATE $wpdb->downloads SET $file_sql file_name = '$file_name', file_des = '$file_des', $file_size_sql file_category = $file_category, file_permission = $file_permission $timestamp_sql $hits_sql WHERE file_id = $file_id;");
 			if(!$editfile) {
 				$text = '<font color="red">'.sprintf(__('Error In Editing File \'%s (%s)\'', 'wp-downloadmanager'), $file_name, $file).'</font>';
 			} else {
