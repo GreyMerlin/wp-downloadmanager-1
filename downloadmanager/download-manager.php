@@ -375,7 +375,9 @@ switch($mode) {
 						$file_name_actual = basename($file_name);
 						$total_filesize += $file_size;
 						$total_filehits += $file_hits;
-						$total_bandwidth += $file_size*$file_hits;
+						if($file_size != __('unknown', 'wp-downloadmanager')) {
+							$total_bandwidth += $file_size*$file_hits;
+						}
 						if($i%2 == 0) {
 							$style = 'style="background-color: none;"';
 						}  else {
