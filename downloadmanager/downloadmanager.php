@@ -243,7 +243,7 @@ function place_download($content){
 	if(!is_feed()) {
 		$content = preg_replace("/\[download=(\d+)\]/ise", "download_embedded('\\1')", $content);
 	} else {
-		$content = preg_replace("/\[download=(\d+)\]/i", __('Note: There is a file embedded within this post, please visit the site to download the file.', 'wp-downloadmanager'), $content);
+		$content = preg_replace("/\[download=(\d+)\]/i", __('Note: There is a file embedded within this post, please visit this post to download the file.', 'wp-downloadmanager'), $content);
 	}
     return $content;
 }

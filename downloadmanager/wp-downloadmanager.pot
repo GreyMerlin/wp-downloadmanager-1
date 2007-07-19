@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-16 18:19+0800\n"
+"PO-Revision-Date: 2007-07-20 04:23+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -843,7 +843,7 @@ msgid "File does not exist."
 msgstr ""
 
 #: downloadmanager.php:246
-msgid "Note: There is a file embedded within this post, please visit the site to download the file."
+msgid "Note: There is a file embedded within this post, please visit this post to download the file."
 msgstr ""
 
 #: downloadmanager.php:294
