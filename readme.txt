@@ -22,8 +22,8 @@ It is the exact same readme.html is included in the zip package.
 
 == Screenshots ==
 
-[GaMerZ WordPress Plugins Screenshots](http://www.lesterchan.net/wordpress/screenshots/ "GaMerZ WordPress Plugins Screenshots")
+[WP-DownloadManager Screenshots](http://www.lesterchan.net/wordpress/screenshots/browse/wp-downloadmanager/ "WP-DownloadManager Screenshots")
 
 == Frequently Asked Questions ==
 
-You will need [GaMerZ WordPress Plugins Support Forums](http://forums.lesterchan.net/ "GaMerZ WordPress Plugins Support Forums")
+[WP-DownloadManager Support Forums](http://forums.lesterchan.net/index.php?board=12.0 "WP-DownloadManager Support Forums")
