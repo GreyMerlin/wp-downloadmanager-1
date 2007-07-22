@@ -76,6 +76,7 @@ function download_file() {
 		$file_path = get_option('download_path');
 		$file = $wpdb->get_row("SELECT file, file_permission FROM $wpdb->downloads WHERE file_id = $id");
 		if(!$file) {
+			header('HTTP/1.0 404 Not Found');
 			die(__('Invalid File ID.', 'wp-downloadmanager'));
 		}
 		if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
@@ -83,6 +84,7 @@ function download_file() {
 			$file_name = stripslashes($file->file);
 			if(!is_remote_file($file_name)) {
 				if(!is_file($file_path.$file_name)) {
+					header('HTTP/1.0 404 Not Found');
 					die(__('File does not exist.', 'wp-downloadmanager'));
 				}
 				header("Pragma: public");

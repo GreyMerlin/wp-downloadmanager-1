@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-22 17:16+0800\n"
+"PO-Revision-Date: 2007-07-23 01:10+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -209,9 +209,9 @@ msgstr ""
 #: download-templates.php:109
 #: download-templates.php:112
 #: download-templates.php:115
-#: downloadmanager.php:916
-#: downloadmanager.php:917
 #: downloadmanager.php:918
+#: downloadmanager.php:919
+#: downloadmanager.php:920
 msgid "hits"
 msgstr ""
 
@@ -292,9 +292,9 @@ msgid "Registered"
 msgstr ""
 
 #: download-manager.php:378
-#: downloadmanager.php:110
-#: downloadmanager.php:135
-#: downloadmanager.php:154
+#: downloadmanager.php:112
+#: downloadmanager.php:137
+#: downloadmanager.php:156
 msgid "unknown"
 msgstr ""
 
@@ -479,31 +479,31 @@ msgid "Most Downloaded Template"
 msgstr ""
 
 #: download-templates.php:88
-#: downloadmanager.php:912
+#: downloadmanager.php:914
 msgid "There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files."
 msgstr ""
 
 #: download-templates.php:94
-#: downloadmanager.php:914
+#: downloadmanager.php:916
 msgid "View all downloads in %FILE_CATEGORY_NAME%"
 msgstr ""
 
 #: download-templates.php:100
 #: download-templates.php:103
 #: download-templates.php:112
-#: downloadmanager.php:916
-#: downloadmanager.php:917
 #: downloadmanager.php:918
+#: downloadmanager.php:919
+#: downloadmanager.php:920
 msgid "Download: %FILE_NAME%"
 msgstr ""
 
 #: download-templates.php:106
 #: download-templates.php:109
 #: download-templates.php:115
-#: downloadmanager.php:120
-#: downloadmanager.php:916
-#: downloadmanager.php:917
+#: downloadmanager.php:122
 #: downloadmanager.php:918
+#: downloadmanager.php:919
+#: downloadmanager.php:920
 msgid "You need to be a registered user to download this file."
 msgstr ""
 
@@ -830,7 +830,7 @@ msgid "(<strong>0</strong> to disable)"
 msgstr ""
 
 #: download-widget.php:95
-#: downloadmanager.php:862
+#: downloadmanager.php:864
 msgid "Recent Downloads"
 msgstr ""
 
@@ -838,91 +838,91 @@ msgstr ""
 msgid "Downloads"
 msgstr ""
 
-#: downloadmanager.php:79
+#: downloadmanager.php:80
 msgid "Invalid File ID."
 msgstr ""
 
-#: downloadmanager.php:86
+#: downloadmanager.php:88
 msgid "File does not exist."
 msgstr ""
 
-#: downloadmanager.php:251
+#: downloadmanager.php:253
 msgid "Note: There is a file embedded within this post, please visit this post to download the file."
 msgstr ""
 
-#: downloadmanager.php:299
+#: downloadmanager.php:301
 msgid "total"
 msgstr ""
 
-#: downloadmanager.php:424
+#: downloadmanager.php:426
 msgid "Previous Page"
 msgstr ""
 
-#: downloadmanager.php:432
+#: downloadmanager.php:434
 msgid "Next Page"
 msgstr ""
 
-#: downloadmanager.php:441
+#: downloadmanager.php:443
 msgid "Pages"
 msgstr ""
 
-#: downloadmanager.php:443
+#: downloadmanager.php:445
 msgid "Go to First Page"
 msgstr ""
 
-#: downloadmanager.php:443
+#: downloadmanager.php:445
 msgid "First"
 msgstr ""
 
-#: downloadmanager.php:446
-#: downloadmanager.php:458
+#: downloadmanager.php:448
+#: downloadmanager.php:460
 msgid "Go to Page"
 msgstr ""
 
-#: downloadmanager.php:453
+#: downloadmanager.php:455
 msgid "Page"
 msgstr ""
 
-#: downloadmanager.php:461
+#: downloadmanager.php:463
 msgid "Go to Last Page"
 msgstr ""
 
-#: downloadmanager.php:461
+#: downloadmanager.php:463
 msgid "Last"
 msgstr ""
 
-#: downloadmanager.php:691
-#: downloadmanager.php:735
-#: downloadmanager.php:780
+#: downloadmanager.php:693
+#: downloadmanager.php:737
+#: downloadmanager.php:782
 msgid "N/A"
 msgstr ""
 
-#: downloadmanager.php:806
 #: downloadmanager.php:808
-#: downloadmanager.php:846
+#: downloadmanager.php:810
+#: downloadmanager.php:848
 msgid "WP-DownloadManager"
 msgstr ""
 
-#: downloadmanager.php:819
 #: downloadmanager.php:821
+#: downloadmanager.php:823
 msgid "Most Recent Downloads"
 msgstr ""
 
-#: downloadmanager.php:832
 #: downloadmanager.php:834
-#: downloadmanager.php:876
+#: downloadmanager.php:836
+#: downloadmanager.php:878
 msgid "Most Downloaded Files"
 msgstr ""
 
-#: downloadmanager.php:848
+#: downloadmanager.php:850
 msgid "files were added."
 msgstr ""
 
-#: downloadmanager.php:849
+#: downloadmanager.php:851
 msgid "worth of files."
 msgstr ""
 
-#: downloadmanager.php:850
+#: downloadmanager.php:852
 msgid "hits were generated."
 msgstr ""
 
