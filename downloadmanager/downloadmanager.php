@@ -73,15 +73,18 @@ function download_file() {
 	global $wpdb, $user_ID;
 	$id = intval(get_query_var('dl_id'));
 	if($id > 0) {
+		$file_path = get_option('download_path');
 		$file = $wpdb->get_row("SELECT file, file_permission FROM $wpdb->downloads WHERE file_id = $id");
 		if(!$file) {
-			die(__('File does not exist.', 'wp-downloadmanager'));
+			die(__('Invalid File ID.', 'wp-downloadmanager'));
 		}
 		if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
 			$update_hits = $wpdb->query("UPDATE $wpdb->downloads SET file_hits = file_hits + 1 WHERE file_id = $id");
-			$file_path = get_option('download_path');
 			$file_name = stripslashes($file->file);
 			if(!is_remote_file($file_name)) {
+				if(!is_file($file_path.$file_name)) {
+					die(__('File does not exist.', 'wp-downloadmanager'));
+				}
 				header("Pragma: public");
 				header("Expires: 0");
 				header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
@@ -92,6 +95,7 @@ function download_file() {
 				header("Content-Transfer-Encoding: binary");
 				header("Content-Length: ".filesize($file_path.$file_name));
 				@readfile($file_path.$file_name);
+				exit();
 			} else {
 				if(ini_get('allow_url_fopen')) {
 					header("Pragma: public");
@@ -108,13 +112,14 @@ function download_file() {
 					}
 					@readfile($file_name);
 				} else {
-					header('Location: '.$file_name);
+					header('Location: '.$file_name);					
 				}
+				exit();
 			}
 		} else {
 			_e('You need to be a registered user to download this file.', 'wp-downloadmanager');
+			exit();
 		}
-		exit();
 	}
 }
 
