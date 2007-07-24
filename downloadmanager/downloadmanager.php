@@ -893,8 +893,8 @@ function create_download_table() {
 	$create_table = "CREATE TABLE $wpdb->downloads (".
 							"file_id int(10) NOT NULL auto_increment,".
 							"file tinytext NOT NULL,".
-							"file_name text NOT NULL,".
-							"file_des text NOT NULL,".
+							"file_name text character set utf8 NOT NULL,".
+							"file_des text character set utf8 NOT NULL,".
 							"file_size varchar(20) NOT NULL default '',".
 							"file_category int(2) NOT NULL default '0',".
 							"file_date varchar(20) NOT NULL default '',".
