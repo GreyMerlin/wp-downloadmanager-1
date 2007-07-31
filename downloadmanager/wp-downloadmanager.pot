@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-25 02:17+0800\n"
+"PO-Revision-Date: 2007-07-31 18:47+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -21,15 +21,15 @@ msgid "Add File"
 msgstr ""
 
 #: download-add.php:47
-#: download-manager.php:56
+#: download-manager.php:125
 #, php-format
 msgid "File Size Too Large. Maximum Size Is %s"
 msgstr ""
 
 #: download-add.php:60
 #: download-add.php:64
-#: download-manager.php:69
-#: download-manager.php:73
+#: download-manager.php:138
+#: download-manager.php:142
 msgid "Error In Uploading File"
 msgstr ""
 
@@ -48,63 +48,63 @@ msgid "Add A File"
 msgstr ""
 
 #: download-add.php:107
-#: download-manager.php:188
-#: download-manager.php:283
+#: download-manager.php:257
+#: download-manager.php:352
 msgid "File:"
 msgstr ""
 
 #: download-add.php:110
-#: download-manager.php:194
+#: download-manager.php:263
 msgid "Browse File:"
 msgstr ""
 
 #: download-add.php:114
-#: download-manager.php:198
+#: download-manager.php:267
 #, php-format
 msgid "Please upload the file to '%s' directory first."
 msgstr ""
 
 #: download-add.php:117
-#: download-manager.php:201
+#: download-manager.php:270
 msgid "Upload File:"
 msgstr ""
 
 #: download-add.php:118
-#: download-manager.php:202
+#: download-manager.php:271
 msgid "to"
 msgstr ""
 
 #: download-add.php:122
-#: download-manager.php:206
+#: download-manager.php:275
 #, php-format
 msgid "Maximum file size is %s."
 msgstr ""
 
 #: download-add.php:125
-#: download-manager.php:209
+#: download-manager.php:278
 msgid "Remote File:"
 msgstr ""
 
 #: download-add.php:127
-#: download-manager.php:211
+#: download-manager.php:280
 msgid "Please include http:// or ftp:// in front."
 msgstr ""
 
 #: download-add.php:131
-#: download-manager.php:215
-#: download-manager.php:287
+#: download-manager.php:284
+#: download-manager.php:356
 msgid "File Name:"
 msgstr ""
 
 #: download-add.php:135
-#: download-manager.php:219
-#: download-manager.php:291
+#: download-manager.php:288
+#: download-manager.php:360
 msgid "File Description:"
 msgstr ""
 
 #: download-add.php:139
-#: download-manager.php:223
-#: download-manager.php:295
+#: download-manager.php:292
+#: download-manager.php:364
 msgid "File Category:"
 msgstr ""
 
@@ -113,96 +113,157 @@ msgid "Starting File Hits:"
 msgstr ""
 
 #: download-add.php:157
-#: download-manager.php:249
+#: download-manager.php:318
 msgid "File Date:"
 msgstr ""
 
 #: download-add.php:161
-#: download-manager.php:253
-#: download-manager.php:311
+#: download-manager.php:322
+#: download-manager.php:380
 msgid "Allowed To Download:"
 msgstr ""
 
 #: download-add.php:164
-#: download-manager.php:256
-#: download-manager.php:315
-#: download-manager.php:371
+#: download-manager.php:325
+#: download-manager.php:384
+#: download-manager.php:471
 msgid "Everyone"
 msgstr ""
 
 #: download-add.php:165
-#: download-manager.php:257
-#: download-manager.php:317
+#: download-manager.php:326
+#: download-manager.php:386
 msgid "Registered Users Only"
 msgstr ""
 
 #: download-add.php:170
-#: download-manager.php:262
-#: download-manager.php:328
+#: download-manager.php:331
+#: download-manager.php:397
 #: download-options.php:159
 #: download-templates.php:422
 msgid "Cancel"
 msgstr ""
 
-#: download-manager.php:40
-#: download-manager.php:262
+#: download-manager.php:58
+#: download-manager.php:568
+#: download-options.php:125
+msgid "File ID"
+msgstr ""
+
+#: download-manager.php:62
+#: download-manager.php:446
+#: download-manager.php:569
+#: download-options.php:126
+msgid "File"
+msgstr ""
+
+#: download-manager.php:66
+#: download-manager.php:572
+#: download-options.php:128
+msgid "File Size"
+msgstr ""
+
+#: download-manager.php:70
+#: download-manager.php:573
+msgid "File Category"
+msgstr ""
+
+#: download-manager.php:74
+#: download-manager.php:372
+#: download-manager.php:574
+#: download-options.php:130
+msgid "File Hits"
+msgstr ""
+
+#: download-manager.php:78
+#: download-manager.php:575
+msgid "File Permission"
+msgstr ""
+
+#: download-manager.php:82
+#: download-manager.php:376
+#: download-manager.php:571
+#: download-options.php:129
+msgid "File Date"
+msgstr ""
+
+#: download-manager.php:87
+#: download-manager.php:570
+#: download-options.php:127
+msgid "File Name"
+msgstr ""
+
+#: download-manager.php:95
+#: download-manager.php:580
+#: download-options.php:139
+msgid "Descending"
+msgstr ""
+
+#: download-manager.php:100
+#: download-manager.php:579
+#: download-options.php:138
+msgid "Ascending"
+msgstr ""
+
+#: download-manager.php:109
+#: download-manager.php:331
 msgid "Edit File"
 msgstr ""
 
-#: download-manager.php:114
+#: download-manager.php:183
 #, php-format
 msgid "Error In Editing File '%s (%s)'"
 msgstr ""
 
-#: download-manager.php:116
+#: download-manager.php:185
 #, php-format
 msgid "File '%s (%s)' Edited Successfully"
 msgstr ""
 
-#: download-manager.php:120
-#: download-manager.php:328
+#: download-manager.php:189
+#: download-manager.php:397
 msgid "Delete File"
 msgstr ""
 
-#: download-manager.php:127
+#: download-manager.php:196
 #, php-format
 msgid "Error In Deleting File '%s (%s)' From Server"
 msgstr ""
 
-#: download-manager.php:129
+#: download-manager.php:198
 #, php-format
 msgid "File '%s (%s)' Deleted From Server Successfully"
 msgstr ""
 
-#: download-manager.php:134
+#: download-manager.php:203
 #, php-format
 msgid "Error In Deleting File '%s (%s)'"
 msgstr ""
 
-#: download-manager.php:136
+#: download-manager.php:205
 #, php-format
 msgid "File '%s (%s)' Deleted Successfully"
 msgstr ""
 
-#: download-manager.php:181
+#: download-manager.php:250
 msgid "Edit A File"
 msgstr ""
 
-#: download-manager.php:191
+#: download-manager.php:260
 msgid "Current File:"
 msgstr ""
 
-#: download-manager.php:241
-#: download-manager.php:299
+#: download-manager.php:310
+#: download-manager.php:368
 msgid "File Size:"
 msgstr ""
 
-#: download-manager.php:245
+#: download-manager.php:314
 msgid "File Hits:"
 msgstr ""
 
-#: download-manager.php:246
-#: download-manager.php:304
+#: download-manager.php:315
+#: download-manager.php:373
 #: download-templates.php:100
 #: download-templates.php:103
 #: download-templates.php:106
@@ -215,118 +276,173 @@ msgstr ""
 msgid "hits"
 msgstr ""
 
-#: download-manager.php:246
+#: download-manager.php:315
 msgid "Reset File Hits"
 msgstr ""
 
-#: download-manager.php:250
+#: download-manager.php:319
 msgid "Existing Timestamp:"
 msgstr ""
 
-#: download-manager.php:250
+#: download-manager.php:319
 msgid "Edit Timestamp"
 msgstr ""
 
-#: download-manager.php:250
+#: download-manager.php:319
 msgid "Use Today's Date"
 msgstr ""
 
-#: download-manager.php:276
+#: download-manager.php:345
 msgid "Delete A File"
 msgstr ""
 
-#: download-manager.php:303
-#: download-options.php:130
-msgid "File Hits"
-msgstr ""
-
-#: download-manager.php:307
-#: download-options.php:129
-msgid "File Date"
-msgstr ""
-
-#: download-manager.php:324
+#: download-manager.php:393
 msgid "Delete File From Server?"
 msgstr ""
 
-#: download-manager.php:342
+#: download-manager.php:440
 #: downloadmanager.php:46
 msgid "Manage Downloads"
 msgstr ""
 
-#: download-manager.php:345
+#: download-manager.php:441
+#, php-format
+msgid "Dispaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files"
+msgstr ""
+
+#: download-manager.php:442
+#, php-format
+msgid "Sorted By <strong>%s</strong> In <strong>%s</strong> Order"
+msgstr ""
+
+#: download-manager.php:445
 msgid "ID"
 msgstr ""
 
-#: download-manager.php:346
-#: download-options.php:126
-msgid "File"
-msgstr ""
-
-#: download-manager.php:347
+#: download-manager.php:447
 msgid "Size"
 msgstr ""
 
-#: download-manager.php:348
+#: download-manager.php:448
 msgid "Hits"
 msgstr ""
 
-#: download-manager.php:349
+#: download-manager.php:449
 msgid "Permission"
 msgstr ""
 
-#: download-manager.php:350
+#: download-manager.php:450
 msgid "Category"
 msgstr ""
 
-#: download-manager.php:351
+#: download-manager.php:451
 msgid "Time/Date Added"
 msgstr ""
 
-#: download-manager.php:352
+#: download-manager.php:452
 msgid "Action"
 msgstr ""
 
-#: download-manager.php:373
+#: download-manager.php:473
 msgid "Registered"
 msgstr ""
 
-#: download-manager.php:378
+#: download-manager.php:478
 #: downloadmanager.php:112
 #: downloadmanager.php:137
 #: downloadmanager.php:156
 msgid "unknown"
 msgstr ""
 
-#: download-manager.php:394
+#: download-manager.php:494
 msgid "Edit"
 msgstr ""
 
-#: download-manager.php:395
+#: download-manager.php:495
 msgid "Delete"
 msgstr ""
 
-#: download-manager.php:400
+#: download-manager.php:500
 msgid "No Files Found"
 msgstr ""
 
-#: download-manager.php:408
+#: download-manager.php:514
+#: downloadmanager.php:426
+msgid "Previous Page"
+msgstr ""
+
+#: download-manager.php:523
+#: downloadmanager.php:434
+msgid "Next Page"
+msgstr ""
+
+#: download-manager.php:532
+#: downloadmanager.php:443
+msgid "Pages"
+msgstr ""
+
+#: download-manager.php:535
+#: downloadmanager.php:445
+msgid "Go to First Page"
+msgstr ""
+
+#: download-manager.php:535
+#: downloadmanager.php:445
+msgid "First"
+msgstr ""
+
+#: download-manager.php:538
+#: download-manager.php:550
+#: downloadmanager.php:448
+#: downloadmanager.php:460
+msgid "Go to Page"
+msgstr ""
+
+#: download-manager.php:545
+#: downloadmanager.php:455
+msgid "Page"
+msgstr ""
+
+#: download-manager.php:553
+#: downloadmanager.php:463
+msgid "Go to Last Page"
+msgstr ""
+
+#: download-manager.php:553
+#: downloadmanager.php:463
+msgid "Last"
+msgstr ""
+
+#: download-manager.php:566
+msgid "Sort Options:"
+msgstr ""
+
+#: download-manager.php:587
+#: download-manager.php:589
+msgid "Per Page"
+msgstr ""
+
+#: download-manager.php:594
+msgid "Sort"
+msgstr ""
+
+#: download-manager.php:600
 msgid "Download Stats"
 msgstr ""
 
-#: download-manager.php:411
+#: download-manager.php:603
 msgid "Total Files:"
 msgstr ""
 
-#: download-manager.php:415
+#: download-manager.php:607
 msgid "Total Size:"
 msgstr ""
 
-#: download-manager.php:419
+#: download-manager.php:611
 msgid "Total Hits:"
 msgstr ""
 
-#: download-manager.php:423
+#: download-manager.php:615
 msgid "Total Bandwidth:"
 msgstr ""
 
@@ -406,28 +522,8 @@ msgstr ""
 msgid "Sort Downloads By:"
 msgstr ""
 
-#: download-options.php:125
-msgid "File ID"
-msgstr ""
-
-#: download-options.php:127
-msgid "File Name"
-msgstr ""
-
-#: download-options.php:128
-msgid "File Size"
-msgstr ""
-
 #: download-options.php:135
 msgid "Sort Order Of Downloads:"
-msgstr ""
-
-#: download-options.php:138
-msgid "Ascending"
-msgstr ""
-
-#: download-options.php:139
-msgid "Descending"
 msgstr ""
 
 #: download-options.php:144
@@ -852,43 +948,6 @@ msgstr ""
 
 #: downloadmanager.php:301
 msgid "total"
-msgstr ""
-
-#: downloadmanager.php:426
-msgid "Previous Page"
-msgstr ""
-
-#: downloadmanager.php:434
-msgid "Next Page"
-msgstr ""
-
-#: downloadmanager.php:443
-msgid "Pages"
-msgstr ""
-
-#: downloadmanager.php:445
-msgid "Go to First Page"
-msgstr ""
-
-#: downloadmanager.php:445
-msgid "First"
-msgstr ""
-
-#: downloadmanager.php:448
-#: downloadmanager.php:460
-msgid "Go to Page"
-msgstr ""
-
-#: downloadmanager.php:455
-msgid "Page"
-msgstr ""
-
-#: downloadmanager.php:463
-msgid "Go to Last Page"
-msgstr ""
-
-#: downloadmanager.php:463
-msgid "Last"
 msgstr ""
 
 #: downloadmanager.php:693

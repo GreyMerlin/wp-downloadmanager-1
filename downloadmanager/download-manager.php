@@ -30,6 +30,75 @@ $mode = trim($_GET['mode']);
 $file_id = intval($_GET['id']);
 $file_path = get_option('download_path');
 $file_categories = get_option('download_categories');
+$file_page = intval($_GET['filepage']);
+$file_sortby = trim($_GET['by']);
+$file_sortby_text = '';
+$file_sortorder = trim($_GET['order']);
+$file_sortorder_text = '';
+$file_perpage = intval($_GET['perpage']);
+$file_sort_url = '';
+
+
+### Form Sorting URL
+if(!empty($file_sortby)) {
+	$file_sort_url .= '&amp;by='.$file_sortby;
+}
+if(!empty($file_sortorder)) {
+	$file_sort_url .= '&amp;order='.$file_sortorder;
+}
+if(!empty($file_perpage)) {
+	$file_sort_url .= '&amp;perpage='.$file_perpage;
+}
+
+
+### Get Order By
+switch($file_sortby) {
+	case 'id':
+		$file_sortby = 'file_id';
+		$file_sortby_text = __('File ID', 'wp-downloadmanager');
+		break;
+	case 'file':
+		$file_sortby = 'file';
+		$file_sortby_text = __('File', 'wp-downloadmanager');
+		break;
+	case 'size':
+		$file_sortby = '(file_size+0.00)';
+		$file_sortby_text = __('File Size', 'wp-downloadmanager');
+		break;
+	case 'category':
+		$file_sortby = 'file_category';
+		$file_sortby_text = __('File Category', 'wp-downloadmanager');
+		break;
+	case 'hits':
+		$file_sortby = 'file_hits';
+		$file_sortby_text = __('File Hits', 'wp-downloadmanager');
+		break;
+	case 'permission':
+		$file_sortby = 'file_permission';
+		$file_sortby_text = __('File Permission', 'wp-downloadmanager');
+		break;
+	case 'date':
+		$file_sortby = 'file_date';
+		$file_sortby_text = __('File Date', 'wp-downloadmanager');
+		break;
+	case 'name':
+	default:
+		$file_sortby = 'file_name';
+		$file_sortby_text = __('File Name', 'wp-downloadmanager');
+}
+
+
+### Get Sort Order
+switch($file_sortorder) {
+	case 'desc':
+		$file_sortorder = 'DESC';
+		$file_sortorder_text = __('Descending', 'wp-downloadmanager');
+		break;
+	case 'asc':
+	default:
+		$file_sortorder = 'ASC';
+		$file_sortorder_text = __('Ascending', 'wp-downloadmanager');
+}
 
 
 ### Form Processing 
@@ -334,12 +403,43 @@ switch($mode) {
 		break;
 	// Main Page
 	default:
-		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads ORDER BY file_name ASC");
+		### Get Total Files
+		$total_file = $wpdb->get_var("SELECT COUNT(file_id) FROM $wpdb->downloads");
+
+		### Checking $file_page and $offset
+		if(empty($file_page) || $file_page == 0) { $file_page = 1; }
+		if(empty($offset)) { $offset = 0; }
+		if(empty($file_perpage) || $file_perpage == 0) { $file_perpage = 20; }
+
+		### Determin $offset
+		$offset = ($file_page-1) * $file_perpage;
+
+		### Determine Max Number Of Polls To Display On Page
+		if(($offset + $file_perpage) > $total_file) { 
+			$max_on_page = $total_file; 
+		} else { 
+			$max_on_page = ($offset + $file_perpage); 
+		}
+
+		### Determine Number Of Polls To Display On Page
+		if (($offset + 1) > ($total_file)) { 
+			$display_on_page = $total_file; 
+		} else { 
+			$display_on_page = ($offset + 1); 
+		}
+
+		### Determing Total Amount Of Pages
+		$total_pages = ceil($total_file / $file_perpage);
+
+		### Get Files		
+		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads ORDER BY $file_sortby $file_sortorder LIMIT $offset, $file_perpage");
 ?>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Manage Downloads -->
 		<div class="wrap">
 			<h2><?php _e('Manage Downloads'); ?></h2>
+			<p><?php printf(__('Dispaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), $display_on_page, $max_on_page, $total_file); ?></p>
+			<p><?php printf(__('Sorted By <strong>%s</strong> In <strong>%s</strong> Order', 'wp-downloadmanager'), $file_sortby_text, $file_sortorder_text); ?></p>
 			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
 			<tr class="thead">
 				<th width="3%"><?php _e('ID', 'wp-downloadmanager'); ?></th>
@@ -401,7 +501,99 @@ switch($mode) {
 				}
 			?>
 			</table>
-		</div>
+		<!-- <Paging> -->
+		<?php
+			if($total_pages > 1) {
+		?>
+		<br />
+		<table width="100%" cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td align="left" width="50%">
+					<?php
+						if($file_page > 1 && ((($file_page*$file_perpage)-($file_perpage-1)) <= $total_file)) {
+							echo '<strong>&laquo;</strong> <a href="'.$base_page.'&amp;filepage='.($file_page-1).$file_sort_url.'" title="&laquo; '.__('Previous Page', 'wp-downloadmanager').'">'.__('Previous Page', 'wp-downloadmanager').'</a>';
+						} else {
+							echo '&nbsp;';
+						}
+					?>
+				</td>
+				<td align="right" width="50%">
+					<?php
+						if($file_page >= 1 && ((($file_page*$file_perpage)+1) <=  $total_file)) {
+							echo '<a href="'.$base_page.'&amp;filepage='.($file_page+1).$file_sort_url.'" title="'.__('Next Page', 'wp-downloadmanager').' &raquo;">'.__('Next Page', 'wp-downloadmanager').'</a> <strong>&raquo;</strong>';
+						} else {
+							echo '&nbsp;';
+						}
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<?php _e('Pages', 'wp-downloadmanager'); ?> (<?php echo $total_pages; ?>):
+					<?php
+						if ($file_page >= 4) {
+							echo '<strong><a href="'.$base_page.'&amp;filepage=1'.$file_sort_url.'" title="'.__('Go to First Page', 'wp-downloadmanager').'">&laquo; '.__('First', 'wp-downloadmanager').'</a></strong> ... ';
+						}
+						if($file_page > 1) {
+							echo ' <strong><a href="'.$base_page.'&amp;filepage='.($file_page-1).$file_sort_url.'" title="&laquo; '.__('Go to Page', 'wp-downloadmanager').' '.($file_page-1).'">&laquo;</a></strong> ';
+						}
+						for($i = $file_page - 2 ; $i  <= $file_page +2; $i++) {
+							if ($i >= 1 && $i <= $total_pages) {
+								if($i == $file_page) {
+									echo "<strong>[$i]</strong> ";
+								} else {
+									echo '<a href="'.$base_page.'&amp;filepage='.($i).$file_sort_url.'" title="'.__('Page', 'wp-downloadmanager').' '.$i.'">'.$i.'</a> ';
+								}
+							}
+						}
+						if($file_page < $total_pages) {
+							echo ' <strong><a href="'.$base_page.'&amp;filepage='.($file_page+1).$file_sort_url.'" title="'.__('Go to Page', 'wp-downloadmanager').' '.($file_page+1).' &raquo;">&raquo;</a></strong> ';
+						}
+						if (($file_page+2) < $total_pages) {
+							echo ' ... <strong><a href="'.$base_page.'&amp;filepage='.($total_pages).$file_sort_url.'" title="'.__('Go to Last Page', 'wp-downloadmanager'), 'wp-downloadmanager'.'">'.__('Last', 'wp-downloadmanager').' &raquo;</a></strong>';
+						}
+					?>
+				</td>
+			</tr>
+		</table>	
+		<!-- </Paging> -->
+		<?php
+			}
+		?>
+	<br />
+	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">
+		<input type="hidden" name="page" value="<?php echo $base_name; ?>" />
+		<?php _e('Sort Options:', 'wp-downloadmanager'); ?>&nbsp;&nbsp;&nbsp;
+		<select name="by" size="1">
+			<option value="id"<?php if($file_sortby == 'file_id') { echo ' selected="selected"'; }?>><?php _e('File ID', 'wp-downloadmanager'); ?></option>
+			<option value="file"<?php if($file_sortby == 'file') { echo ' selected="selected"'; }?>><?php _e('File', 'wp-downloadmanager'); ?></option>
+			<option value="name"<?php if($file_sortby == 'file_name') { echo ' selected="selected"'; }?>><?php _e('File Name', 'wp-downloadmanager'); ?></option>
+			<option value="date"<?php if($file_sortby == 'file_date') { echo ' selected="selected"'; }?>><?php _e('File Date', 'wp-downloadmanager'); ?></option>
+			<option value="size"<?php if($file_sortby == '(file_size+0.00)') { echo ' selected="selected"'; }?>><?php _e('File Size', 'wp-downloadmanager'); ?></option>
+			<option value="category"<?php if($file_sortby == 'file_category') { echo ' selected="selected"'; }?>><?php _e('File Category', 'wp-downloadmanager'); ?></option>
+			<option value="hits"<?php if($file_sortby == 'file_hits') { echo ' selected="selected"'; }?>><?php _e('File Hits', 'wp-downloadmanager'); ?></option>
+			<option value="permission"<?php if($file_sortby == 'file_timestamp') { echo ' selected="selected"'; }?>><?php _e('File Permission', 'wp-downloadmanager'); ?></option>
+		</select>
+		&nbsp;&nbsp;&nbsp;
+		<select name="order" size="1">
+			<option value="asc"<?php if($file_sortorder == 'ASC') { echo ' selected="selected"'; }?>><?php _e('Ascending', 'wp-downloadmanager'); ?></option>
+			<option value="desc"<?php if($file_sortorder == 'DESC') { echo ' selected="selected"'; } ?>><?php _e('Descending', 'wp-downloadmanager'); ?></option>
+		</select>
+		&nbsp;&nbsp;&nbsp;
+		<select name="perpage" size="1">
+		<?php
+			for($i=10; $i <= 100; $i+=10) {
+				if($file_perpage == $i) {
+					echo "<option value=\"$i\" selected=\"selected\">".__('Per Page', 'wp-downloadmanager').": $i</option>\n";
+				} else {
+					echo "<option value=\"$i\">".__('Per Page', 'wp-downloadmanager').": $i</option>\n";
+				}
+			}
+		?>
+		</select>
+		<input type="submit" value="<?php _e('Sort', 'wp-downloadmanager'); ?>" class="button" />
+	</form>
+</div>
 
 		<!-- Download Stats -->
 		<div class="wrap">
