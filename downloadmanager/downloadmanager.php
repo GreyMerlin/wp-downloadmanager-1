@@ -52,6 +52,38 @@ function downloads_menu() {
 }
 
 
+### Function: Displays Download Manager Footer In WP-Admin
+add_action('admin_footer', 'downloads_footer_admin');
+function downloads_footer_admin() {
+	// Javascript Code Courtesy Of WP-AddQuicktag (http://bueltge.de/wp-addquicktags-de-plugin/120/)
+	echo '<script type="text/javascript">'."\n";
+	echo "\t".'function edInsertDownload(myField) {'."\n";
+	echo "\t\t".'var download_id = prompt("'.__('Enter File ID', 'wp-downloadmanager').'");'."\n";
+	echo "\t\t".'while(isNaN(download_id)) {'."\n";
+	echo "\t\t\t".'download_id = prompt("'.__('Error: File ID must be numeric', 'wp-downloadmanager').'\n\n'.__('Please enter File ID again', 'wp-downloadmanager').'");'."\n";
+	echo "\t\t".'}'."\n";
+	echo "\t\t".'if (download_id > 0) {'."\n";
+	echo "\t\t\t".'edInsertContent(myField, "[download=" + download_id + "]");'."\n";
+	echo "\t\t".'}'."\n";
+	echo "\t".'}'."\n";
+	echo "\t".'if(document.getElementById("ed_toolbar")){'."\n";
+	echo "\t\t".'qt_toolbar = document.getElementById("ed_toolbar");'."\n";
+	echo "\t\t".'edButtons[edButtons.length] = new edButton("ed_downloadmanager","'.__('Downloads', 'wp-downloadmanager').'", "", "","");'."\n";
+	echo "\t\t".'var qt_button = qt_toolbar.lastChild;'."\n";
+	echo "\t\t".'while (qt_button.nodeType != 1){'."\n";
+	echo "\t\t\t".'qt_button = qt_button.previousSibling;'."\n";
+	echo "\t\t".'}'."\n";
+	echo "\t\t".'qt_button = qt_button.cloneNode(true);'."\n";
+	echo "\t\t".'qt_button.value = "'.__('Downloads', 'wp-downloadmanager').'";'."\n";
+	echo "\t\t".'qt_button.title = "'.__('Insert File Download', 'wp-downloadmanager').'";'."\n";
+	echo "\t\t".'qt_button.onclick = function () {edInsertDownload(edCanvas);}'."\n";
+	echo "\t\t".'qt_button.id = "ed_downloadmanager";'."\n";
+	echo "\t\t".'qt_toolbar.appendChild(qt_button);'."\n";
+	echo "\t".'}'."\n";
+	echo '</script>'."\n";
+}
+
+
 ### Function: Add Download Query Vars
 add_filter('query_vars', 'download_query_vars');
 function download_query_vars($public_query_vars) {
