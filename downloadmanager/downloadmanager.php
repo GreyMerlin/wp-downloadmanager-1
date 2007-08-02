@@ -72,13 +72,13 @@ function downloads_footer_admin() {
 	echo "\t".'}'."\n";
 	echo "\t".'if(document.getElementById("ed_toolbar")){'."\n";
 	echo "\t\t".'qt_toolbar = document.getElementById("ed_toolbar");'."\n";
-	echo "\t\t".'edButtons[edButtons.length] = new edButton("ed_downloadmanager","'.__('Downloads', 'wp-downloadmanager').'", "", "","");'."\n";
+	echo "\t\t".'edButtons[edButtons.length] = new edButton("ed_downloadmanager","'.__('Download', 'wp-downloadmanager').'", "", "","");'."\n";
 	echo "\t\t".'var qt_button = qt_toolbar.lastChild;'."\n";
 	echo "\t\t".'while (qt_button.nodeType != 1){'."\n";
 	echo "\t\t\t".'qt_button = qt_button.previousSibling;'."\n";
 	echo "\t\t".'}'."\n";
 	echo "\t\t".'qt_button = qt_button.cloneNode(true);'."\n";
-	echo "\t\t".'qt_button.value = "'.__('Downloads', 'wp-downloadmanager').'";'."\n";
+	echo "\t\t".'qt_button.value = "'.__('Download', 'wp-downloadmanager').'";'."\n";
 	echo "\t\t".'qt_button.title = "'.__('Insert File Download', 'wp-downloadmanager').'";'."\n";
 	echo "\t\t".'qt_button.onclick = function () { insertDownload(\'code\', edCanvas);}'."\n";
 	echo "\t\t".'qt_button.id = "ed_downloadmanager";'."\n";

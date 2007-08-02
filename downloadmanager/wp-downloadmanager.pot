@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-02 19:20+0800\n"
+"PO-Revision-Date: 2007-08-02 19:29+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -931,8 +931,6 @@ msgid "Recent Downloads"
 msgstr ""
 
 #: downloadmanager.php:43
-#: downloadmanager.php:75
-#: downloadmanager.php:81
 msgid "Downloads"
 msgstr ""
 
@@ -946,6 +944,11 @@ msgstr ""
 
 #: downloadmanager.php:63
 msgid "Please enter File ID again"
+msgstr ""
+
+#: downloadmanager.php:75
+#: downloadmanager.php:81
+msgid "Download"
 msgstr ""
 
 #: downloadmanager.php:82
