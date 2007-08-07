@@ -300,6 +300,7 @@ function download_page_link($page) {
 
 ### Function: Place Download In Content
 add_filter('the_content', 'place_download', '7');
+add_filter('the_excerpt', 'place_download', '7');
 function place_download($content){
 	if(!is_feed()) {
 		$content = preg_replace("/\[download=(\d+)\]/ise", "download_embedded('\\1')", $content);
