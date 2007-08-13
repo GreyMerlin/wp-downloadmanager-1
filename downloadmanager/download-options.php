@@ -30,8 +30,10 @@ $base_page = 'admin.php?page='.$base_name;
 
 ### If Form Is Submitted
 if($_POST['Submit']) {
-	$download_path = addslashes(trim($_POST['download_path']));
-	$download_page_url = addslashes(trim($_POST['download_page_url']));
+	$download_path = trim($_POST['download_path']);
+	$download_path_url = trim($_POST['download_path_url']);
+	$download_page_url = trim($_POST['download_page_url']);
+	$download_method = intval($_POST['download_method']);
 	$download_categories_post = explode("\n", trim($_POST['download_categories']));
 	$download_sort_by = strip_tags(trim($_POST['download_sort_by']));
 	$download_sort_order = strip_tags(trim($_POST['download_sort_order']));
@@ -50,11 +52,15 @@ if($_POST['Submit']) {
 	$update_download_queries = array();
 	$update_download_text = array();
 	$update_download_queries[] = update_option('download_path', $download_path);
+	$update_download_queries[] = update_option('download_path_url', $download_path_url);
 	$update_download_queries[] = update_option('download_page_url', $download_page_url);
+	$update_download_queries[] = update_option('download_method', $download_method);
 	$update_download_queries[] = update_option('download_categories', $download_categories);
 	$update_download_queries[] = update_option('download_sort', $download_sort);
 	$update_download_text[] = __('Download Path', 'wp-downloadmanager');
+	$update_download_text[] = __('Download Path URL', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Page URL', 'wp-downloadmanager');
+	$update_download_text[] = __('Download Method', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Categories', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Sorting', 'wp-downloadmanager');
 	$i=0;
@@ -85,6 +91,9 @@ if(!empty($download_categories)) {
 
 ### Get File Sorting
 $download_sort = get_option('download_sort');
+
+### Get File Download Method
+$download_method = intval(get_option('download_method'));
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <div class="wrap"> 
@@ -97,9 +106,23 @@ $download_sort = get_option('download_sort');
 					<th align="left" width="30%"><?php _e('Download Path:', 'wp-downloadmanager'); ?></th>
 					<td align="left"><input type="text" name="download_path" value="<?php echo stripslashes(get_option('download_path')); ?>" size="50" /><br /><?php _e('The absolute path to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
 				</tr>
+				 <tr valign="top">
+					<th align="left" width="30%"><?php _e('Download Path URL:', 'wp-downloadmanager'); ?></th>
+					<td align="left"><input type="text" name="download_path_url" value="<?php echo stripslashes(get_option('download_path_url')); ?>" size="50" /><br /><?php _e('The url to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
+				</tr>
 				<tr valign="top">
 					<th align="left" width="30%"><?php _e('Download Page URL:', 'wp-downloadmanager'); ?></th>
 					<td align="left"><input type="text" name="download_page_url" value="<?php echo stripslashes(get_option('download_page_url')); ?>" size="50" /><br /><?php _e('The url to the downloads page (without trailing slash).', 'wp-downloadmanager'); ?></td>
+				</tr>
+				<tr valign="top">
+					<th align="left" width="30%"><?php _e('Download Method:', 'wp-downloadmanager'); ?></th>
+					<td align="left">
+						<select name="download_method" size="1">
+							<option value="0"<?php selected('0', $download_method); ?>><?php _e('Output File', 'wp-downloadmanager'); ?></option>
+							<option value="1"<?php selected('1', $download_method); ?>><?php _e('Redirect To File', 'wp-downloadmanager'); ?></option>
+						</select>
+						<br /><?php _e('Change it to <strong>Redirect To File</strong> when you have problem with large files.', 'wp-downloadmanager'); ?>
+						</td>
 				</tr>
 				<tr>
 					<td valign="top">
@@ -122,7 +145,7 @@ $download_sort = get_option('download_sort');
 					<th align="left" width="30%"><?php _e('Sort Downloads By:', 'wp-downloadmanager'); ?></th>
 					<td align="left">
 						<select name="download_sort_by" size="1">
-							<option value="file_id"<?php selected('file_id',$download_sort['by']); ?>><?php _e('File ID', 'wp-downloadmanager'); ?></option>
+							<option value="file_id"<?php selected('file_id', $download_sort['by']); ?>><?php _e('File ID', 'wp-downloadmanager'); ?></option>
 							<option value="file"<?php selected('file', $download_sort['by']); ?>><?php _e('File', 'wp-downloadmanager'); ?></option>
 							<option value="file_name"<?php selected('file_name', $download_sort['by']); ?>><?php _e('File Name', 'wp-downloadmanager'); ?></option>
 							<option value="file_size"<?php selected('file_size', $download_sort['by']); ?>><?php _e('File Size', 'wp-downloadmanager'); ?></option>

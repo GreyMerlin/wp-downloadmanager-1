@@ -127,7 +127,9 @@ function download_file() {
 	global $wpdb, $user_ID;
 	$id = intval(get_query_var('dl_id'));
 	if($id > 0) {
-		$file_path = get_option('download_path');
+		$file_path = stripslashes(get_option('download_path'));
+		$file_url = stripslashes(get_option('download_path_url'));
+		$download_method = intval(get_option('download_method'));
 		$file = $wpdb->get_row("SELECT file, file_permission FROM $wpdb->downloads WHERE file_id = $id");
 		if(!$file) {
 			header('HTTP/1.0 404 Not Found');
@@ -141,19 +143,23 @@ function download_file() {
 					header('HTTP/1.0 404 Not Found');
 					die(__('File does not exist.', 'wp-downloadmanager'));
 				}
-				header("Pragma: public");
-				header("Expires: 0");
-				header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
-				header("Content-Type: application/force-download");
-				header("Content-Type: application/octet-stream");
-				header("Content-Type: application/download");
-				header("Content-Disposition: attachment; filename=".basename($file_name).";");
-				header("Content-Transfer-Encoding: binary");
-				header("Content-Length: ".filesize($file_path.$file_name));
-				@readfile($file_path.$file_name);
+				if($download_method == 0) {
+					header("Pragma: public");
+					header("Expires: 0");
+					header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+					header("Content-Type: application/force-download");
+					header("Content-Type: application/octet-stream");
+					header("Content-Type: application/download");
+					header("Content-Disposition: attachment; filename=".basename($file_name).";");
+					header("Content-Transfer-Encoding: binary");
+					header("Content-Length: ".filesize($file_path.$file_name));
+					@readfile($file_path.$file_name);
+				} else {
+					header('Location: '.$file_url.$file_name);
+				}
 				exit();
 			} else {
-				if(ini_get('allow_url_fopen')) {
+				if(ini_get('allow_url_fopen') && $download_method == 0) {
 					header("Pragma: public");
 					header("Expires: 0");
 					header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
@@ -963,7 +969,9 @@ function create_download_table() {
 	delete_option('widget_download_newest_downloads');
 	// WP-Downloads Options
 	add_option('download_path', ABSPATH.'wp-content/files', 'Download Path');
+	add_option('download_path_url', get_option('siteurl').'/wp-content/files', 'Download Path URL');
 	add_option('download_page_url', get_option('siteurl').'/downloads/', 'Download Page URL');
+	add_option('download_method', 0, 'Download Type');
 	add_option('download_categories', array('General'), 'Download Categories');
 	add_option('download_sort', array('by' => 'file_name', 'order' => 'asc', 'perpage' => 20, 'group' => 1), 'Download Sorting Options');
 	add_option('download_template_header', '<p>'.__('There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files.', 'wp-downloadmanager').'</p>', 'Download Page Header Template');
