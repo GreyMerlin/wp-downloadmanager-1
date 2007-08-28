@@ -866,9 +866,9 @@ if(strpos(get_option('stats_url'), $_SERVER['REQUEST_URI']) || strpos($_SERVER['
 function downloadmanager_page_admin_general_stats($content) {
 	$stats_display = get_option('stats_display');
 	if($stats_display['downloads'] == 1) {
-		$content .= '<input type="checkbox" name="stats_display[]" value="downloads" checked="checked" />&nbsp;&nbsp;'.__('WP-DownloadManager', 'wp-downloadmanager').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloads" value="downloads" checked="checked" />&nbsp;&nbsp;<label for="wpstats_downloads">'.__('WP-DownloadManager', 'wp-downloadmanager').'</label><br />'."\n";
 	} else {
-		$content .= '<input type="checkbox" name="stats_display[]" value="downloads" />&nbsp;&nbsp;'.__('WP-DownloadManager', 'wp-downloadmanager').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloads" value="downloads" />&nbsp;&nbsp;<label for="wpstats_downloads">'.__('WP-DownloadManager', 'wp-downloadmanager').'</label><br />'."\n";
 	}
 	return $content;
 }
@@ -879,9 +879,9 @@ function downloadmanager_page_admin_recent_stats($content) {
 	$stats_display = get_option('stats_display');
 	$stats_mostlimit = intval(get_option('stats_mostlimit'));
 	if($stats_display['recent_downloads'] == 1) {
-		$content .= '<input type="checkbox" name="stats_display[]" value="recent_downloads" checked="checked" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Recent Downloads', 'wp-downloadmanager').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_recent_downloads" value="recent_downloads" checked="checked" />&nbsp;&nbsp;<label for="wpstats_recent_downloads">'.$stats_mostlimit.' '.__('Most Recent Downloads', 'wp-downloadmanager').'</label><br />'."\n";
 	} else {
-		$content .= '<input type="checkbox" name="stats_display[]" value="recent_downloads" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Recent Downloads', 'wp-downloadmanager').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_recent_downloads" value="recent_downloads" />&nbsp;&nbsp;<label for="wpstats_recent_downloads">'.$stats_mostlimit.' '.__('Most Recent Downloads', 'wp-downloadmanager').'</label><br />'."\n";
 	}
 	return $content;
 }
@@ -892,9 +892,9 @@ function downloadmanager_page_admin_most_stats($content) {
 	$stats_display = get_option('stats_display');
 	$stats_mostlimit = intval(get_option('stats_mostlimit'));
 	if($stats_display['downloaded_most'] == 1) {
-		$content .= '<input type="checkbox" name="stats_display[]" value="downloaded_most" checked="checked" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Downloaded Files', 'wp-downloadmanager').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloaded_most" value="downloaded_most" checked="checked" />&nbsp;&nbsp;<label for="wpstats_downloaded_most">'.$stats_mostlimit.' '.__('Most Downloaded Files', 'wp-downloadmanager').'</label><br />'."\n";
 	} else {
-		$content .= '<input type="checkbox" name="stats_display[]" value="downloaded_most" />&nbsp;&nbsp;'.$stats_mostlimit.' '.__('Most Downloaded Files', 'wp-downloadmanager').'<br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloaded_most" value="downloaded_most" />&nbsp;&nbsp;<label for="wpstats_downloaded_most">'.$stats_mostlimit.' '.__('Most Downloaded Files', 'wp-downloadmanager').'</label><br />'."\n";
 	}
 	return $content;
 }
@@ -949,7 +949,13 @@ function downloadmanager_page_most_stats($content) {
 add_action('activate_downloadmanager/downloadmanager.php', 'create_download_table');
 function create_download_table() {
 	global $wpdb;
-	include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
+	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {
+		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
+	} elseif(@is_file(ABSPATH.'/wp-admin/includes/upgrade.php')) {
+		include_once(ABSPATH.'/wp-admin/includes/upgrade.php');
+	} else {
+		die('We have problem finding your \'/wp-admin/upgrade-functions.php\' and \'/wp-admin/includes/upgrade.php\'');
+	}
 	// Create WP-Downloads Table
 	$create_table = "CREATE TABLE $wpdb->downloads (".
 							"file_id int(10) NOT NULL auto_increment,".

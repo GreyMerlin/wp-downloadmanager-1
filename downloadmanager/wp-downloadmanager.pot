@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-08-15 21:48+0800\n"
+"PO-Revision-Date: 2007-08-29 00:45+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -270,9 +270,9 @@ msgstr ""
 #: download-templates.php:109
 #: download-templates.php:112
 #: download-templates.php:115
-#: downloadmanager.php:981
-#: downloadmanager.php:982
-#: downloadmanager.php:983
+#: downloadmanager.php:987
+#: downloadmanager.php:988
+#: downloadmanager.php:989
 msgid "hits"
 msgstr ""
 
@@ -607,21 +607,21 @@ msgid "Most Downloaded Template"
 msgstr ""
 
 #: download-templates.php:88
-#: downloadmanager.php:977
+#: downloadmanager.php:983
 msgid "There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files."
 msgstr ""
 
 #: download-templates.php:94
-#: downloadmanager.php:979
+#: downloadmanager.php:985
 msgid "View all downloads in %FILE_CATEGORY_NAME%"
 msgstr ""
 
 #: download-templates.php:100
 #: download-templates.php:103
 #: download-templates.php:112
-#: downloadmanager.php:981
-#: downloadmanager.php:982
-#: downloadmanager.php:983
+#: downloadmanager.php:987
+#: downloadmanager.php:988
+#: downloadmanager.php:989
 msgid "Download: %FILE_NAME%"
 msgstr ""
 
@@ -629,9 +629,9 @@ msgstr ""
 #: download-templates.php:109
 #: download-templates.php:115
 #: downloadmanager.php:182
-#: downloadmanager.php:981
-#: downloadmanager.php:982
-#: downloadmanager.php:983
+#: downloadmanager.php:987
+#: downloadmanager.php:988
+#: downloadmanager.php:989
 msgid "You need to be a registered user to download this file."
 msgstr ""
 
