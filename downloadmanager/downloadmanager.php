@@ -29,7 +29,10 @@ Author URI: http://lesterchan.net
 
 
 ### Create text domain for translations
-load_plugin_textdomain('wp-downloadmanager', 'wp-content/plugins/downloadmanager');
+add_action('init', 'downloadmanager_textdomain');
+function downloadmanager_textdomain() {
+	load_plugin_textdomain('wp-downloadmanager', 'wp-content/plugins/downloadmanager');
+}
 
 
 ### Downloads Table Name
