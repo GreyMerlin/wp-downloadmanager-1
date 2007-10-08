@@ -3,7 +3,7 @@
 Plugin Name: WP-DownloadManager
 Plugin URI: http://lesterchan.net/portfolio/programming.php
 Description: Adds a simple download manager to your WordPress blog.
-Version: 1.00
+Version: 1.10
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -766,8 +766,8 @@ if(!function_exists('get_most_downloaded')) {
 
 
 ### Function: Get Newest Downloads
-if(!function_exists('get_newest_downloads')) {
-	function get_newest_downloads($limit = 10, $chars = 0, $display = true) {
+if(!function_exists('get_recent_downloads')) {
+	function get_recent_downloads($limit = 10, $chars = 0, $display = true) {
 		global $wpdb, $user_ID;
 		$output = '';
 		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads ORDER BY file_date DESC LIMIT $limit");
@@ -927,7 +927,7 @@ function downloadmanager_page_recent_stats($content) {
 	if($stats_display['recent_downloads'] == 1) {
 		$content .= '<p><strong>'.$stats_mostlimit.' '.__('Recent Downloads', 'wp-downloadmanager').'</strong></p>'."\n";
 		$content .= '<ul>'."\n";
-		$content .= get_newest_downloads($stats_mostlimit, 0, false);
+		$content .= get_recent_downloads($stats_mostlimit, 0, false);
 		$content .= '</ul>'."\n";
 	}
 	return $content;

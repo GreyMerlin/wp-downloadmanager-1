@@ -2,7 +2,7 @@
 <html>
 <head>	
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>WP-DownloadManager 1.00 Readme</title>
+	<title>WP-DownloadManager 1.10 Readme</title>
 	<style type="text/css" media="screen">
 		/* Default Style */
 		BODY {
@@ -203,7 +203,7 @@
 <body>
 <div id="Container">
 	<!-- Title -->
-	<div id="Title">WP-DownloadManager 1.00&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
+	<div id="Title">WP-DownloadManager 1.10&nbsp;&nbsp;&nbsp;<span style="color: #aaaaaa;">Readme</span></div>
 
 	<!-- Tabs -->
 	<ul id="Tabs">
@@ -225,15 +225,6 @@
 				<strong>&raquo;</strong> Lester 'GaMerZ' Chan
 			</p>
 			<p>
-				<strong>EMail:</strong><br />
-				<strong>&raquo;</strong>
-				<script type="text/javascript">
-					/* <![CDATA[*/
-					document.write(' <a href="mailto:gamerz84@hotmail.com?Subject=WP-DownloadManager%201.00%20Support" title="EMail To gamerz84@hotmail.com">gamerz84@hotmail.com</a>');
-					/* ]]> */
-				</script>
-			</p>
-			<p>
 				<strong>Website:</strong><br />
 				<strong>&raquo;</strong> <a href="http://lesterchan.net/" title="http://lesterchan.net/">http://lesterchan.net/</a>
 			</p>
@@ -243,7 +234,7 @@
 			</p>
 			<p>
 				<strong>Download:</strong><br />
-				<strong>&raquo;</strong> <a href="http://lesterchan.net/others/downloads.php?id=29" title="http://lesterchan.net/others/downloads.php?id=29">WP-DownloadManager 1.00 For WordPress 2.3.x And Above</a><br />
+				<strong>&raquo;</strong> <a href="http://lesterchan.net/others/downloads.php?id=29" title="http://lesterchan.net/others/downloads.php?id=29">WP-DownloadManager 1.10 For WordPress 2.3.x And Above</a><br />
 			</p>
 			<p>
 				<strong>Screenshots:</strong><br />
@@ -289,6 +280,15 @@
 			<div class="SubTitle">&raquo; Changelog</div>
 			<ul>
 				<li>
+					<strong>Version 1.10 (01-01-2008)</strong>
+					<ul>
+						<li>FIXED: Replaced get_newest_downloads() With get_recent_downloads()</li>
+						<li>FIXED: Recent Downloads Widget Not Working</li>
+					</ul>
+				</li>
+			</ul>
+			<ul>
+				<li>
 					<strong>Version 1.00 (01-10-2007)</strong>
 					<ul>
 						<li>NEW: Initial Release</li>
@@ -323,7 +323,7 @@
 		<!-- Upgrade Instructions -->	
 		<div id="Upgrade" style="display: none;">
 			<div class="SubTitle">&raquo; Upgrade Instructions</div>
-			<div class="SubSubTitle">From v1.0x To v1.00</div>
+			<div class="SubSubTitle">From v1.0x To v1.10</div>
 			<ol>
 				<li>
 					<strong>Deactivate</strong> WP-DownloadManager Plugin
@@ -441,19 +441,19 @@
 					<p>Default: get_most_downloaded(10);</p>
 				</li>
 				<li>
-					To Display <strong>Newest Downloads</strong>
+					To Display <strong>Recent Downloads</strong>
 				</li>
 				<li>
 					Use:
 					<blockquote>
-						&lt;?php if (function_exists('get_newest_downloads')): ?&gt;<br />
-						&nbsp;&nbsp;&nbsp;&lt;?php get_newest_downloads(); ?&gt;<br />
+						&lt;?php if (function_exists('get_recent_downloads')): ?&gt;<br />
+						&nbsp;&nbsp;&nbsp;&lt;?php get_recent_downloads(); ?&gt;<br />
 						&lt;?php endif; ?&gt;
 					</blockquote>
 					<p>
 						The <strong>first value</strong> you pass in is the maximum number of files you want to get.
 					</p>
-					<p>Default: get_newest_downloads(10);</p>
+					<p>Default: get_recent_downloads(10);</p>
 				</li>
 				<li>
 					To Display <strong>Downloads By Category</strong>
@@ -475,6 +475,6 @@
 		</div>
 	</div>
 </div>
-<p id="Copyright">WP-DownloadManager 1.00<br />Copyright &copy; 2007 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
+<p id="Copyright">WP-DownloadManager 1.10<br />Copyright &copy; 2007 Lester 'GaMerZ' Chan. All Rights Reserved.</p>
 </body>
 </html>

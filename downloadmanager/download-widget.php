@@ -3,7 +3,7 @@
 Plugin Name: WP-DownloadManager Widget
 Plugin URI: http://lesterchan.net/portfolio/programming.php
 Description: Adds a Download Widget to display most downloaded file and recent downloads on your sidebar. You will need to activate WP-DownloadManager first.
-Version: 1.00
+Version: 1.10
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -49,7 +49,7 @@ function widget_download_init() {
 	}
 
 	### Function: WP-DownloadManager Recent Downloads Widget
-	function widget_download_Recent_downloads($args) {
+	function widget_download_recent_downloads($args) {
 		extract($args);
 		$options = get_option('widget_download_recent_downloads');
 		$title = htmlspecialchars($options['title']);		
