@@ -6,13 +6,13 @@ var TinyMCE_DownloadsPlugin = {
 			author : 'Lester Chan',
 			authorurl : 'http://lesterchan.net',
 			infourl : 'http://lesterchan.net/portfolio/programming.php',
-			version : "1.00"
+			version : "1.30"
 		};
 	},
 	getControlHTML : function(cn) {
 		switch (cn) {
-			case "downloads":
-				return tinyMCE.getButtonHTML(cn, 'lang_downloads_desc', '{$pluginurl}/images/download.gif', 'mceDownloadInsert');
+			case "wp-downloadmanager":
+				return tinyMCE.getButtonHTML(cn, 'lang_downloads_insert', '{$pluginurl}/images/download.gif', 'mceDownloadInsert');
 		}
 		return "";
 	},

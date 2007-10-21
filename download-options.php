@@ -1,19 +1,19 @@
 <?php
 /*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.1 Plugin: WP-Downloads 1.10								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Download Options																|
-|	- wp-content/plugins/downloadmanager/download-options.php		|
-|																							|
-+----------------------------------------------------------------+
++-------------------------------------------------------------------+
+|																								|
+|	WordPress 2.1 Plugin: WP-Downloads 1.30									|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan										|
+|																								|
+|	File Written By:																		|
+|	- Lester "GaMerZ" Chan																|
+|	- http://lesterchan.net																|
+|																								|
+|	File Information:																		|
+|	- Download Options																	|
+|	- wp-content/plugins/wp-downloadmanager/download-options.php	|
+|																								|
++-------------------------------------------------------------------+
 */
 
 
@@ -24,7 +24,7 @@ if(!current_user_can('manage_downloads')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('downloadmanager/download-manager.php');
+$base_name = plugin_basename('wp-downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 
 
@@ -99,6 +99,9 @@ $download_method = intval(get_option('download_method'));
 <div class="wrap"> 
 	<h2><?php _e('Download Options', 'wp-downloadmanager'); ?></h2> 
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+		<p class="submit">
+			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-downloadmanager'); ?>" />
+		</p>
 		<fieldset class="options">
 			<legend><?php _e('Download Options', 'wp-downloadmanager'); ?></legend>
 			<table width="100%"  border="0" cellspacing="3" cellpadding="3">
@@ -178,8 +181,8 @@ $download_method = intval(get_option('download_method'));
 				</tr>
 			</table>
 		</fieldset>
-		<div align="center">
-			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options', 'wp-downloadmanager'); ?>" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-downloadmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /> 
-		</div>
+		<p class="submit">
+			<input type="submit" name="Submit" class="button" value="<?php _e('Update Options &raquo;', 'wp-downloadmanager'); ?>" />
+		</p>
 	</form> 
 </div> 

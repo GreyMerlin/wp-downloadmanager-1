@@ -1,19 +1,19 @@
 <?php
 /*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.1 Plugin: WP-DownloadManager 1.10						|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Uninstall WP-DownloadManager												|
-|	- wp-content/plugins/downloadmanager/download-uninstall.php	|
-|																							|
-+----------------------------------------------------------------+
++-------------------------------------------------------------------+
+|																								|
+|	WordPress 2.1 Plugin: WP-DownloadManager 1.30							|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan										|
+|																								|
+|	File Written By:																		|
+|	- Lester "GaMerZ" Chan																|
+|	- http://lesterchan.net																|
+|																								|
+|	File Information:																		|
+|	- Uninstall WP-DownloadManager													|
+|	- wp-content/plugins/wp-downloadmanager/download-uninstall.php	|
+|																								|
++-------------------------------------------------------------------+
 */
 
 
@@ -24,11 +24,11 @@ if(!current_user_can('manage_downloads')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('downloadmanager/download-manager.php');
+$base_name = plugin_basename('wp-downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $mode = trim($_GET['mode']);
 $downloads_tables = array($wpdb->downloads);
-$downloads_settings = array('download_path', 'download_page_url', 'download_categories', 'download_sort', 'download_template_header', 'download_template_footer', 'download_template_category_header', 'download_template_category_footer', 'download_template_listing', 'download_template_embedded', 'download_template_most', 'widget_download_most_downloaded', 'widget_download_recent_downloads');
+$downloads_settings = array('download_path', 'download_path_url', 'download_page_url', 'download_method', 'download_categories', 'download_sort', 'download_template_header', 'download_template_footer', 'download_template_category_header', 'download_template_category_footer', 'download_template_listing', 'download_template_embedded', 'download_template_most', 'widget_download_most_downloaded', 'widget_download_recent_downloads');
 $download_path = get_option('download_path');
 
 
@@ -79,9 +79,9 @@ if(!empty($_POST['do'])) {
 switch($mode) {
 		//  Deactivating WP-DownloadManager
 		case 'end-UNINSTALL':
-			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=downloadmanager/downloadmanager.php';
+			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-downloadmanager/wp-downloadmanager.php';
 			if(function_exists('wp_nonce_url')) { 
-				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_downloadmanager/downloadmanager.php');
+				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-downloadmanager/wp-downloadmanager.php');
 			}
 			echo '<div class="wrap">';
 			echo '<h2>'.__('Uninstall WP-DownloadManager', 'wp-downloadmanager').'</h2>';

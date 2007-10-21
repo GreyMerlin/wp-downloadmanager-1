@@ -1,19 +1,19 @@
 <?php
 /*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.1 Plugin: WP-DownloadManager 1.10						|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Manage Your Downloads														|
-|	- wp-content/plugins/downloadmanager/download-manager.php	|
-|																							|
-+----------------------------------------------------------------+
++-------------------------------------------------------------------+
+|																								|
+|	WordPress 2.1 Plugin: WP-DownloadManager 1.30							|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan										|
+|																								|
+|	File Written By:																		|
+|	- Lester "GaMerZ" Chan																|
+|	- http://lesterchan.net																|
+|																								|
+|	File Information:																		|
+|	- Manage Your Downloads															|
+|	- wp-content/plugins/wp-downloadmanager/download-manager.php	|
+|																								|
++-------------------------------------------------------------------+
 */
 
 
@@ -24,7 +24,7 @@ if(!current_user_can('manage_downloads')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('downloadmanager/download-manager.php');
+$base_name = plugin_basename('wp-downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $mode = trim($_GET['mode']);
 $file_id = intval($_GET['id']);
@@ -312,16 +312,17 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Hits:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php echo number_format($file->file_hits); ?> <?php _e('hits', 'wp-downloadmanager') ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" name="reset_filehits" value="1" />&nbsp;<?php _e('Reset File Hits', 'wp-downloadmanager') ?></td>
+						<td><?php echo number_format_i18n($file->file_hits); ?> <?php _e('hits', 'wp-downloadmanager') ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" name="reset_filehits" value="1" />&nbsp;<?php _e('Reset File Hits', 'wp-downloadmanager') ?></td>
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Date:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php _e('Existing Timestamp:', 'wp-downloadmanager') ?> <?php echo gmdate(get_option('date_format').' @ '.get_option('time_format'), $file->file_date); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" id="edit_filetimestamp" name="edit_filetimestamp" value="1" />&nbsp;<?php _e('Edit Timestamp', 'wp-downloadmanager') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="edit_usetodaydate" value="1" onclick="file_usetodaydate();" />&nbsp;<?php _e('Use Today\'s Date', 'wp-downloadmanager') ?></td>
+						<td><?php _e('Existing Timestamp:', 'wp-downloadmanager') ?> <?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_date)); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" id="edit_filetimestamp" name="edit_filetimestamp" value="1" />&nbsp;<?php _e('Edit Timestamp', 'wp-downloadmanager') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="edit_usetodaydate" value="1" onclick="file_usetodaydate();" />&nbsp;<?php _e('Use Today\'s Date', 'wp-downloadmanager') ?></td>
 					</tr>	
 					<tr>
 						<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 						<td>
 							<select name="file_permission" size="1">
+								<option value="-1" <?php selected('0', $file->file_permission); ?>><?php _e('Hidden', 'wp-downloadmanager'); ?></option>
 								<option value="0" <?php selected('0', $file->file_permission); ?>><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
 								<option value="1" <?php selected('1', $file->file_permission); ?>><?php _e('Registered Users Only', 'wp-downloadmanager'); ?></option>
 							</select>
@@ -370,17 +371,19 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td><strong><?php _e('File Hits', 'wp-downloadmanager'); ?></strong></td>
-						<td><?php echo number_format($file->file_hits); ?> <?php _e('hits', 'wp-downloadmanager'); ?></td>
+						<td><?php echo number_format_i18n($file->file_hits); ?> <?php _e('hits', 'wp-downloadmanager'); ?></td>
 					</tr>
 					<tr>
 						<td><strong><?php _e('File Date', 'wp-downloadmanager'); ?></strong></td>
-						<td><?php echo gmdate(get_option('date_format').' @ '.get_option('time_format'), $file->file_date); ?></td>
+						<td><?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_date)); ?></td>
 					</tr>
 					<tr>
 						<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 						<td>
 							<?php
-								if($file->file_permission == '0') {
+								if($file->file_permission == '-1') {
+									_e('Hidden', 'wp-downloadmanager');
+								} else if($file->file_permission == '0') {
 									_e('Everyone', 'wp-downloadmanager');
 								} else {
 									_e('Registered Users Only', 'wp-downloadmanager');
@@ -464,10 +467,12 @@ switch($mode) {
 						$file_des = stripslashes($file->file_des);
 						$file_size = $file->file_size;
 						$file_cat = intval($file->file_category);
-						$file_date = gmdate(get_option('date_format'), $file->file_date);
-						$file_time = gmdate(get_option('time_format'), $file->file_date);
+						$file_date = mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date));
+						$file_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date));
 						$file_hits = intval($file->file_hits);
-						if($file->file_permission == 0) {
+						if($file->file_permission == '-1') {
+							$file_permission = __('Hidden', 'wp-downloadmanager');
+						} else if($file->file_permission == 0) {
 							$file_permission = __('Everyone', 'wp-downloadmanager');
 						} else {
 							$file_permission = __('Registered', 'wp-downloadmanager');
@@ -609,7 +614,7 @@ switch($mode) {
 				</tr>
 				<tr>
 					<th align="left"><?php _e('Total Hits:', 'wp-downloadmanager'); ?></th>
-					<td align="left"><?php echo number_format($total_filehits); ?></td>
+					<td align="left"><?php echo number_format_i18n($total_filehits); ?></td>
 				</tr>
 					<tr>
 					<th align="left"><?php _e('Total Bandwidth:', 'wp-downloadmanager'); ?></th>

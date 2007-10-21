@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.1 Plugin: WP-DownloadManager 1.10						|
+|	WordPress 2.1 Plugin: WP-DownloadManager 1.30						|
 |	Copyright (c) 2007 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -11,7 +11,7 @@
 |																							|
 |	File Information:																	|
 |	- Add File Download																|
-|	- wp-content/plugins/downloadmanager/download-add.php			|
+|	- wp-content/plugins/wp-downloadmanager/download-add.php		|
 |																							|
 +----------------------------------------------------------------+
 */
@@ -24,7 +24,7 @@ if(!current_user_can('manage_downloads')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('downloadmanager/download-manager.php');
+$base_name = plugin_basename('wp-downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $file_path = get_option('download_path');
 $file_categories = get_option('download_categories');
@@ -161,7 +161,8 @@ if(!empty($_POST['do'])) {
 				<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 				<td>
 					<select name="file_permission" size="1">
-						<option value="0"><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
+						<option value="-1"><?php _e('Hidden', 'wp-downloadmanager'); ?></option>
+						<option value="0" selected="selected"><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
 						<option value="1"><?php _e('Registered Users Only', 'wp-downloadmanager'); ?></option>
 					</select>
 				</td>

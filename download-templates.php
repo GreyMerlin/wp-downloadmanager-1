@@ -1,19 +1,19 @@
 <?php
 /*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.1 Plugin: WP-Downloads 1.10								|
-|	Copyright (c) 2007 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Downloads Templates															|
-|	- wp-content/plugins/downloadmanager/download-templates.php	|
-|																							|
-+----------------------------------------------------------------+
++----------------------------------------------------------------------+
+|																									|
+|	WordPress 2.1 Plugin: WP-Downloads 1.30										|
+|	Copyright (c) 2007 Lester "GaMerZ" Chan											|
+|																									|
+|	File Written By:																			|
+|	- Lester "GaMerZ" Chan																	|
+|	- http://lesterchan.net																	|
+|																									|
+|	File Information:																			|
+|	- Downloads Templates																	|
+|	- wp-content/plugins/wp-downloadmanager/download-templates.php	|
+|																									|
++----------------------------------------------------------------------+
 */
 
 
@@ -24,7 +24,7 @@ if(!current_user_can('manage_downloads')) {
 
 
 ### Variables Variables Variables
-$base_name = plugin_basename('downloadmanager/download-manager.php');
+$base_name = plugin_basename('wp-downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 
 
@@ -97,16 +97,16 @@ $download_template_most = get_option('download_template_most');
 				default_template = "";
 				break;
 			case "listing":
-				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/downloadmanager/images/drive_go.gif\" alt=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong><a href=\"%FILE_DOWNLOAD_URL%\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\">%FILE_NAME%</a></strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?> - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>";
+				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/wp-downloadmanager/images/drive_go.gif\" alt=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong><a href=\"%FILE_DOWNLOAD_URL%\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\">%FILE_NAME%</a></strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?> - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>";
 				break;
 			case "embedded":
-				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/downloadmanager/images/drive_go.gif\" alt=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong><a href=\"%FILE_DOWNLOAD_URL%\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\">%FILE_NAME%</a></strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)</p>";
+				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/wp-downloadmanager/images/drive_go.gif\" alt=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong><a href=\"%FILE_DOWNLOAD_URL%\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\">%FILE_NAME%</a></strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)</p>";
 				break;
 			case "listing_2":
-				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/downloadmanager/images/drive_go.gif\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?> - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>";
+				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/wp-downloadmanager/images/drive_go.gif\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?> - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>";
 				break;
 			case "embedded_2":
-				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/downloadmanager/images/drive_go.gif\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i></p>";
+				default_template = "<p><img src=\"<?php echo get_option('siteurl'); ?>/wp-content/plugins/wp-downloadmanager/images/drive_go.gif\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i></p>";
 				break;
 			case 'most':
 				default_template = "<li><strong><a href=\"%FILE_DOWNLOAD_URL%\" title=\"<?php _e('Download: %FILE_NAME%', 'wp-downloadmanager'); ?>\">%FILE_NAME%</a></strong> (%FILE_SIZE%, %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)</li>";
@@ -121,7 +121,10 @@ $download_template_most = get_option('download_template_most');
 </script>
 <div class="wrap"> 
 	<h2><?php _e('Download Templates', 'wp-downloadmanager'); ?></h2> 
-	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+	<p class="submit">
+		<input type="submit" name="Submit" class="button" value="<?php _e('Update Templates &raquo;', 'wp-downloadmanager'); ?>" />
+	</p>
 	<fieldset class="options">
 			<legend><?php _e('Template Variables', 'wp-downloadmanager'); ?></legend>
 			<table width="100%"  border="0" cellspacing="0" cellpadding="5">
@@ -418,8 +421,8 @@ $download_template_most = get_option('download_template_most');
 				</tr>
 			</table>
 		</fieldset>
-		<div align="center">
-			<input type="submit" name="Submit" class="button" value="<?php _e('Update Templates', 'wp-downloadmanager'); ?>" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-downloadmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /> 
-		</div>
+		<p class="submit">
+			<input type="submit" name="Submit" class="button" value="<?php _e('Update Templates &raquo;', 'wp-downloadmanager'); ?>" />
+		</p>
 	</form> 
 </div> 
