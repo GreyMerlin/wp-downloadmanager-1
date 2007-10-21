@@ -77,6 +77,9 @@ if(!empty($_POST['do'])) {
 			}
 			$file_des = addslashes(trim($_POST['file_des']));
 			$file_category = intval($_POST['file_cat']); 
+			if(!empty($_POST['file_size'])) {
+				$file_size = intval($_POST['file_size']);
+			}
 			$file_hits = intval($_POST['file_hits']);
 			$file_timestamp_day = intval($_POST['file_timestamp_day']);
 			$file_timestamp_month = intval($_POST['file_timestamp_month']);
@@ -150,13 +153,17 @@ if(!empty($_POST['do'])) {
 				</td>
 			</tr>
 			<tr>
-				<td><strong><?php _e('Starting File Hits:', 'wp-downloadmanager') ?></strong></td>
-				<td><input type="text" size="6" maxlength="10" name="file_hits" value="0" /></td>
+				<td valign="top"><strong><?php _e('File Size:', 'wp-downloadmanager') ?></strong></td>
+				<td><input type="text" size="10" name="file_size" />&nbsp;<?php _e('bytes', 'wp-downloadmanager'); ?><br /><small><?php _e('Leave blank for auto detection. Auto detection sometimes will not work for Remote File.', 'wp-downloadmanager'); ?></small></td>
 			</tr>
 			<tr>
 				<td valign="top"><strong><?php _e('File Date:', 'wp-downloadmanager') ?></strong></td>
 				<td><?php file_timestamp(current_time('timestamp')); ?></td>
-			</tr>	
+			</tr>
+			<tr>
+				<td><strong><?php _e('Starting File Hits:', 'wp-downloadmanager') ?></strong></td>
+				<td><input type="text" size="6" maxlength="10" name="file_hits" value="0" /></td>
+			</tr>
 			<tr>
 				<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 				<td>

@@ -154,12 +154,15 @@ if(!empty($_POST['do'])) {
 				if(empty($file_name)) {
 					$file_name = basename($file);
 				}
-				$file_size_sql = "file_size = '$file_size',";
 			}
 			$file_des = addslashes(trim($_POST['file_des']));
-			$file_category = intval($_POST['file_cat']); 			
+			$file_category = intval($_POST['file_cat']);
 			$file_hits = intval($_POST['file_hits']);
 			$edit_filetimestamp = intval($_POST['edit_filetimestamp']);
+			if(intval($_POST['auto_filesize']) == 0) {
+				$file_size = intval($_POST['file_size']);
+			}
+			$file_size_sql = "file_size = '$file_size',";
 			$reset_filehits = intval($_POST['reset_filehits']);
 			$hits_sql = '';
 			if($reset_filehits == 1) {
@@ -308,7 +311,7 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td><strong><?php _e('File Size:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php echo format_filesize($file->file_size); ?></td>
+						<td><?php echo format_filesize($file->file_size); ?><br /><input type="text" size="10" name="file_size" value="<?php echo $file->file_size; ?>" />&nbsp;<?php _e('bytes', 'wp-downloadmanager'); ?><br /><input type="checkbox" name="auto_filesize" value="1" checked="checked" />&nbsp;<?php _e('Auto Detection Of File Size', 'wp-downloadmanager') ?></td>
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Hits:', 'wp-downloadmanager') ?></strong></td>
