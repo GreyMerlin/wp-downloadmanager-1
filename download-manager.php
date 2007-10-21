@@ -472,7 +472,7 @@ switch($mode) {
 						$file_cat = intval($file->file_category);
 						$file_date = mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date));
 						$file_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date));
-						$file_hits = intval($file->file_hits);
+						$file_hits = number_format_i18n(intval($file->file_hits));
 						if($file->file_permission == '-1') {
 							$file_permission = __('Hidden', 'wp-downloadmanager');
 						} else if($file->file_permission == 0) {
@@ -590,11 +590,11 @@ switch($mode) {
 		&nbsp;&nbsp;&nbsp;
 		<select name="perpage" size="1">
 		<?php
-			for($i=10; $i <= 100; $i+=10) {
-				if($file_perpage == $i) {
-					echo "<option value=\"$i\" selected=\"selected\">".__('Per Page', 'wp-downloadmanager').": $i</option>\n";
+			for($k=10; $k <= 100; $k+=10) {
+				if($file_perpage == $k) {
+					echo "<option value=\"$k\" selected=\"selected\">".__('Per Page', 'wp-downloadmanager').": $k</option>\n";
 				} else {
-					echo "<option value=\"$i\">".__('Per Page', 'wp-downloadmanager').": $i</option>\n";
+					echo "<option value=\"$k\">".__('Per Page', 'wp-downloadmanager').": $k</option>\n";
 				}
 			}
 		?>
