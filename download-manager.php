@@ -311,15 +311,15 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td><strong><?php _e('File Size:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php echo format_filesize($file->file_size); ?><br /><input type="text" size="10" name="file_size" value="<?php echo $file->file_size; ?>" />&nbsp;<?php _e('bytes', 'wp-downloadmanager'); ?><br /><input type="checkbox" name="auto_filesize" value="1" checked="checked" />&nbsp;<?php _e('Auto Detection Of File Size', 'wp-downloadmanager') ?></td>
+						<td><?php echo format_filesize($file->file_size); ?><br /><input type="text" size="10" name="file_size" value="<?php echo $file->file_size; ?>" />&nbsp;<?php _e('bytes', 'wp-downloadmanager'); ?><br /><input type="checkbox" id="auto_filesize" name="auto_filesize" value="1" checked="checked" />&nbsp;<label for="auto_filesize"><?php _e('Auto Detection Of File Size', 'wp-downloadmanager') ?></label></td>
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Hits:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php echo number_format_i18n($file->file_hits); ?> <?php _e('hits', 'wp-downloadmanager') ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" name="reset_filehits" value="1" />&nbsp;<?php _e('Reset File Hits', 'wp-downloadmanager') ?></td>
+						<td><?php echo number_format_i18n($file->file_hits); ?> <?php _e('hits', 'wp-downloadmanager') ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" id="reset_filehits" name="reset_filehits" value="1" />&nbsp;<label for="reset_filehits"><?php _e('Reset File Hits', 'wp-downloadmanager') ?></label></td>
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Date:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php _e('Existing Timestamp:', 'wp-downloadmanager') ?> <?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_date)); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" id="edit_filetimestamp" name="edit_filetimestamp" value="1" />&nbsp;<?php _e('Edit Timestamp', 'wp-downloadmanager') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="edit_usetodaydate" value="1" onclick="file_usetodaydate();" />&nbsp;<?php _e('Use Today\'s Date', 'wp-downloadmanager') ?></td>
+						<td><?php _e('Existing Timestamp:', 'wp-downloadmanager') ?> <?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_date)); ?><br /><?php file_timestamp($file->file_date); ?><br /><input type="checkbox" id="edit_filetimestamp" name="edit_filetimestamp" value="1" />&nbsp;<label for="edit_filetimestamp"><?php _e('Edit Timestamp', 'wp-downloadmanager') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="edit_usetodaydate" value="1" onclick="file_usetodaydate();" />&nbsp;<label for="edit_usetodaydate"><?php _e('Use Today\'s Date', 'wp-downloadmanager') ?></label></td>
 					</tr>	
 					<tr>
 						<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
