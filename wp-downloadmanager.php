@@ -424,8 +424,21 @@ function downloads_page() {
 		$i = 1;
 		$k = 1;
 		$temp_cat_id = -1;
+		$need_footer = 0;
 		foreach($files as $file) {
 			$cat_id = intval($file->file_category);
+			// Print Out Category Footer
+			if($need_footer && $temp_cat_id != $cat_id && $file_sort['group'] == 1) {
+				// Get Download Category Footer
+				$template_download_category_footer = stripslashes(get_option('download_template_category_footer'));
+				$template_download_category_footer = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_footer);
+				$template_download_category_footer = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_footer);
+				$template_download_category_footer = str_replace("%CATEGORY_FILES_COUNT%", number_format_i18n($category_stats[$cat_id]['files']), $template_download_category_footer);
+				$template_download_category_footer = str_replace("%CATEGORY_HITS%", number_format_i18n($category_stats[$cat_id]['hits']), $template_download_category_footer);
+				$template_download_category_footer = str_replace("%CATEGORY_SIZE%", format_filesize($category_stats[$cat_id]['size']), $template_download_category_footer);
+				$output .= $template_download_category_footer;
+				$need_footer = 0;
+			}
 			// Print Out Category Header
 			if($temp_cat_id != $cat_id && $file_sort['group'] == 1) {
 				// Get Download Category Header
@@ -437,6 +450,7 @@ function downloads_page() {
 				$template_download_category_header = str_replace("%CATEGORY_SIZE%", format_filesize($category_stats[$cat_id]['size']), $template_download_category_header);
 				$output .= $template_download_category_header;
 				$i = 1;
+				$need_footer = 1;
 			}
 			// Get Download Listing
 			$template_download_listing = get_option('download_template_listing');
@@ -456,22 +470,23 @@ function downloads_page() {
 			$template_download_listing = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_listing);
 			$output .= $template_download_listing;
-			// Print Out Category Footer
-			if(($i == $category_stats[$cat_id]['files'] || $k == sizeof($files)) && $file_sort['group'] == 1) {
-				// Get Download Category Footer
-				$template_download_category_footer = stripslashes(get_option('download_template_category_footer'));
-				$template_download_category_footer = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_footer);
-				$template_download_category_footer = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_footer);
-				$template_download_category_footer = str_replace("%CATEGORY_FILES_COUNT%", number_format_i18n($category_stats[$cat_id]['files']), $template_download_category_footer);
-				$template_download_category_footer = str_replace("%CATEGORY_HITS%", number_format_i18n($category_stats[$cat_id]['hits']), $template_download_category_footer);
-				$template_download_category_footer = str_replace("%CATEGORY_SIZE%", format_filesize($category_stats[$cat_id]['size']), $template_download_category_footer);
-				$output .= $template_download_category_footer;
-			}
 			// Assign Cat ID To Temp Cat ID
 			$temp_cat_id = $cat_id;
 			// Count Files
 			$i++;
 			$k++;
+		}
+		// Print Out Category Footer
+		if($need_footer) {
+			// Get Download Category Footer
+			$template_download_category_footer = stripslashes(get_option('download_template_category_footer'));
+			$template_download_category_footer = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_footer);
+			$template_download_category_footer = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_footer);
+			$template_download_category_footer = str_replace("%CATEGORY_FILES_COUNT%", number_format_i18n($category_stats[$cat_id]['files']), $template_download_category_footer);
+			$template_download_category_footer = str_replace("%CATEGORY_HITS%", number_format_i18n($category_stats[$cat_id]['hits']), $template_download_category_footer);
+			$template_download_category_footer = str_replace("%CATEGORY_SIZE%", format_filesize($category_stats[$cat_id]['size']), $template_download_category_footer);
+			$output .= $template_download_category_footer;
+			$need_footer = 0;
 		}
 		// Get Download Page Footer
 		$template_download_footer = stripslashes(get_option('download_template_footer'));
