@@ -1,4 +1,4 @@
-tinyMCE.importPluginLanguagePack('downloads');
+tinyMCE.importPluginLanguagePack('wp-downloadmanager');
 var TinyMCE_DownloadsPlugin = {
 	getInfo : function() {
 		return {
@@ -25,4 +25,4 @@ var TinyMCE_DownloadsPlugin = {
 		return false;
 	}
 };
-tinyMCE.addPlugin("downloads", TinyMCE_DownloadsPlugin);
+tinyMCE.addPlugin("wp-downloadmanager", TinyMCE_DownloadsPlugin);

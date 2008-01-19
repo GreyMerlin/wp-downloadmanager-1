@@ -94,7 +94,7 @@ function downloads_footer_admin() {
 ### Function: Add Quick Tag For Downloads In TinyMCE, Coutesy Of An-Archos (http://an-archos.com/anarchy-media-player)
 add_filter('mce_plugins', 'download_mce_plugins', 5);
 function download_mce_plugins($plugins) {    
-	array_push($plugins, '-wp-downloadmanager', 'bold');    
+	array_push($plugins, '-wp-downloadmanager');    
 	return $plugins;
 }
 add_filter('mce_buttons', 'download_mce_buttons', 5);
@@ -104,7 +104,7 @@ function download_mce_buttons($buttons) {
 }
 add_action('tinymce_before_init','download_external_plugins');
 function download_external_plugins() {	
-	echo 'tinyMCE.loadPlugin("downloads", "'.get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/tinymce/plugins/wp-downloadmanager/");' . "\n"; 
+	echo 'tinyMCE.loadPlugin("wp-downloadmanager", "'.get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/tinymce/plugins/wp-downloadmanager/");' . "\n"; 
 	return;
 }
 
@@ -247,23 +247,15 @@ function is_remote_file($file_name) {
 
 
 ### Function: Snippet Text
-if(!function_exists('snippet_chars')) {
-	function snippet_chars($text, $length = 0) {
-		$text = htmlspecialchars_decode($text);
+if(!function_exists('snippet_text')) {
+	function snippet_text($text, $length = 0) {
+		$text = html_entity_decode($text, ENT_QUOTES);
 		 if (strlen($text) > $length){       
-			return htmlspecialchars(substr($text,0,$length)).'...';             
+			return substr($text,0,$length).'...';             
 		 } else {
-			return htmlspecialchars($text);
+			return $text;
 		 }
 	}
-}
-
-
-### Function: HTML Special Chars Decode
-if (!function_exists('htmlspecialchars_decode')) {
-   function htmlspecialchars_decode($text) {
-       return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
-   }
 }
 
 
@@ -752,7 +744,7 @@ if(!function_exists('get_most_downloaded')) {
 					$template_download_most = stripslashes($template_download_most[1]);
 				}
 				if($chars > 0) {
-					$file_name = snippet_chars(stripslashes($file->file_name), $chars);
+					$file_name = snippet_text(stripslashes($file->file_name), $chars);
 				} else {
 					$file_name = stripslashes($file->file_name);
 				}
@@ -796,7 +788,7 @@ if(!function_exists('get_recent_downloads')) {
 					$template_download_most = stripslashes($template_download_most[1]);
 				}
 				if($chars > 0) {
-					$file_name = snippet_chars(stripslashes($file->file_name), $chars);
+					$file_name = snippet_text(stripslashes($file->file_name), $chars);
 				} else {
 					$file_name = stripslashes($file->file_name);
 				}
@@ -841,7 +833,7 @@ if(!function_exists('get_downloads_category')) {
 					$template_download_most = stripslashes($template_download_most[1]);
 				}
 				if($chars > 0) {
-					$file_name = snippet_chars(stripslashes($file->file_name), $chars);
+					$file_name = snippet_text(stripslashes($file->file_name), $chars);
 				} else {
 					$file_name = stripslashes($file->file_name);
 				}
