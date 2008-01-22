@@ -493,7 +493,7 @@ switch($mode) {
 						}
 						echo "<tr $style>\n";
 						echo "<td valign=\"top\">$file_id</td>\n";
-						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i>".snippet_chars($file_name, 45)."</i></td>\n";
+						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i>".snippet_text($file_name, 45)."</i></td>\n";
 						echo '<td style="text-align: center;">'.format_filesize($file_size).'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_hits.'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_permission.'</td>'."\n";
