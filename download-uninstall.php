@@ -99,7 +99,7 @@ switch($mode) {
 		<?php _e('Deactivating WP-DownloadManager plugin does not remove any data that may have been created, such as the download options and the download data. To completely remove this plugin, you can uninstall it here.', 'wp-downloadmanager'); ?>
 	</p>
 	<p style="text-align: left; color: red">
-		<strong><?php _e('NOTE:', 'wp-dbmanager'); ?></strong><br />
+		<strong><?php _e('NOTE:', 'wp-downloadmanager'); ?></strong><br />
 		<?php _e('The download files uploaded by WP-DownloadManager <strong>WILL NOT</strong> be deleted. You will have to delete it manually.', 'wp-downloadmanager'); ?><br />
 		<?php printf(__('The path to the downloads folder is <strong>\'%s\'</strong>.', 'wp-downloadmanager'), $download_path); ?>
 	</p>
