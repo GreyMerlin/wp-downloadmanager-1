@@ -94,17 +94,17 @@ function downloads_footer_admin() {
 ### Function: Add Quick Tag For Downloads In TinyMCE, Coutesy Of An-Archos (http://an-archos.com/anarchy-media-player)
 add_filter('mce_plugins', 'download_mce_plugins', 5);
 function download_mce_plugins($plugins) {    
-	array_push($plugins, '-wp-downloadmanager');    
+	array_push($plugins, '-downloadmanager');    
 	return $plugins;
 }
 add_filter('mce_buttons', 'download_mce_buttons', 5);
 function download_mce_buttons($buttons) {
-	array_push($buttons, 'separator', 'wp-downloadmanager');
+	array_push($buttons, 'separator', 'downloadmanager');
 	return $buttons;
 }
 add_action('tinymce_before_init','download_external_plugins');
 function download_external_plugins() {	
-	echo 'tinyMCE.loadPlugin("wp-downloadmanager", "'.get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/tinymce/plugins/wp-downloadmanager/");' . "\n"; 
+	echo 'tinyMCE.loadPlugin("downloadmanager", "'.get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/tinymce/plugins/downloadmanager/");' . "\n"; 
 	return;
 }
 

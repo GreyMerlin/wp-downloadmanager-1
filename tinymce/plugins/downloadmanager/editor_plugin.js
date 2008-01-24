@@ -1,4 +1,4 @@
-tinyMCE.importPluginLanguagePack('wp-downloadmanager');
+tinyMCE.importPluginLanguagePack('downloadmanager', 'en');
 var TinyMCE_DownloadsPlugin = {
 	getInfo : function() {
 		return {
@@ -11,8 +11,8 @@ var TinyMCE_DownloadsPlugin = {
 	},
 	getControlHTML : function(cn) {
 		switch (cn) {
-			case "wp-downloadmanager":
-				return tinyMCE.getButtonHTML(cn, 'lang_downloads_insert', '{$pluginurl}/images/download.gif', 'mceDownloadInsert');
+			case "downloadmanager":
+				return tinyMCE.getButtonHTML(cn, 'lang_downloadmanager_insert', '{$pluginurl}/images/download.gif', 'mceDownloadInsert');
 		}
 		return "";
 	},
@@ -25,4 +25,4 @@ var TinyMCE_DownloadsPlugin = {
 		return false;
 	}
 };
-tinyMCE.addPlugin("wp-downloadmanager", TinyMCE_DownloadsPlugin);
+tinyMCE.addPlugin("downloadmanager", TinyMCE_DownloadsPlugin);
