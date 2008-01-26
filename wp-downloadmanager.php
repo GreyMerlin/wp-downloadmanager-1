@@ -203,18 +203,18 @@ if(!function_exists('remote_filesize')) {
 }
 
 
-### Function: Format Bytes Into TB/GB/MB/KB/Bytes
+### Function: Format Bytes Into TiB/GiB/MiB/KiB/Bytes
 function format_filesize($rawSize) {
 	if($rawSize / 1099511627776 > 1) {
-		return round($rawSize/1099511627776, 1) . ' TB';
+		return round($rawSize/1099511627776, 1).' '.__('TiB', 'wp-downloadmanager');
 	} elseif($rawSize / 1073741824 > 1) {
-		return round($rawSize/1073741824, 1) . ' GB';
+		return round($rawSize/1073741824, 1).' '.__('GiB', 'wp-downloadmanager');
 	} elseif($rawSize / 1048576 > 1) {
-		return round($rawSize/1048576, 1) . ' MB';
+		return round($rawSize/1048576, 1).' '.__('MiB', 'wp-downloadmanager');
 	} elseif($rawSize / 1024 > 1) {
-		return round($rawSize/1024, 1) . ' KB';
+		return round($rawSize/1024, 1).' '.__('KiB', 'wp-downloadmanager');
 	} elseif($rawSize > 1) {
-		return round($rawSize, 1) . ' bytes';
+		return round($rawSize, 1).' '.__('bytes', 'wp-downloadmanager');
 	} else {
 		return __('unknown', 'wp-downloadmanager');
 	}
