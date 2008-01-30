@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-01-26 14:04+0800\n"
+"PO-Revision-Date: 2008-01-31 01:43+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -847,12 +847,14 @@ msgstr ""
 
 #: download-templates.php:373
 #: download-templates.php:402
-msgid "Newest Downloads"
+#: wp-downloadmanager-widget.php:95
+#: wp-downloadmanager.php:935
+msgid "Recent Downloads"
 msgstr ""
 
 #: download-templates.php:374
 #: download-templates.php:403
-msgid "Displayed when listing newest downloads."
+msgid "Displayed when listing recent downloads."
 msgstr ""
 
 #: download-templates.php:375
@@ -977,11 +979,6 @@ msgstr ""
 #: wp-downloadmanager-widget.php:86
 #: wp-downloadmanager-widget.php:112
 msgid "(<strong>0</strong> to disable)"
-msgstr ""
-
-#: wp-downloadmanager-widget.php:95
-#: wp-downloadmanager.php:935
-msgid "Recent Downloads"
 msgstr ""
 
 #: wp-downloadmanager.php:46

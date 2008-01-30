@@ -370,8 +370,8 @@ $download_template_most = get_option('download_template_most');
 					<td width="30%" align="left">
 						<strong><?php _e('Most Downloaded', 'wp-downloadmanager'); ?></strong><br />
 						<?php _e('Displayed when listing most downloaded files.', 'wp-downloadmanager'); ?><br />
-						<strong><?php _e('Newest Downloads', 'wp-downloadmanager'); ?></strong><br />
-						<?php _e('Displayed when listing newest downloads.', 'wp-downloadmanager'); ?><br />
+						<strong><?php _e('Recent Downloads', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when listing recent downloads.', 'wp-downloadmanager'); ?><br />
 						<strong><?php _e('Downloads By Category', 'wp-downloadmanager'); ?></strong><br />
 						<?php _e('Displayed when listing downloads by category.', 'wp-downloadmanager'); ?><br /><br />
 						<?php _e('Displayed when users have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
@@ -399,8 +399,8 @@ $download_template_most = get_option('download_template_most');
 					<td width="30%" align="left">						
 						<strong><?php _e('Most Downloaded', 'wp-downloadmanager'); ?></strong><br />
 						<?php _e('Displayed when listing most downloaded files.', 'wp-downloadmanager'); ?><br />
-						<strong><?php _e('Newest Downloads', 'wp-downloadmanager'); ?></strong><br />
-						<?php _e('Displayed when listing newest downloads.', 'wp-downloadmanager'); ?><br />
+						<strong><?php _e('Recent Downloads', 'wp-downloadmanager'); ?></strong><br />
+						<?php _e('Displayed when listing recent downloads.', 'wp-downloadmanager'); ?><br />
 						<strong><?php _e('Downloads By Category', 'wp-downloadmanager'); ?></strong><br />
 						<?php _e('Displayed when listing downloads by category.', 'wp-downloadmanager'); ?><br /><br />
 						<?php _e('Displayed when users <strong>DO NOT</strong> have permission to download the file.', 'wp-downloadmanager'); ?><br /><br />
