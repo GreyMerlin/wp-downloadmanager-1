@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.00\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-03-11 21:50+0800\n"
+"PO-Revision-Date: 2008-03-30 11:19+0800\n"
 "Last-Translator: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: download-add.php:38
 #: download-add.php:178
-#: wp-downloadmanager.php:50
+#: wp-downloadmanager.php:51
 msgid "Add File"
 msgstr ""
 
@@ -116,7 +116,7 @@ msgstr ""
 
 #: download-add.php:157
 #: download-manager.php:314
-#: wp-downloadmanager.php:217
+#: wp-downloadmanager.php:218
 msgid "bytes"
 msgstr ""
 
@@ -290,9 +290,9 @@ msgstr ""
 #: download-templates.php:109
 #: download-templates.php:112
 #: download-templates.php:115
-#: wp-downloadmanager.php:1001
 #: wp-downloadmanager.php:1002
 #: wp-downloadmanager.php:1003
+#: wp-downloadmanager.php:1004
 msgid "hits"
 msgstr ""
 
@@ -321,7 +321,7 @@ msgid "Delete File From Server?"
 msgstr ""
 
 #: download-manager.php:446
-#: wp-downloadmanager.php:49
+#: wp-downloadmanager.php:50
 msgid "Manage Downloads"
 msgstr ""
 
@@ -368,9 +368,9 @@ msgid "Registered"
 msgstr ""
 
 #: download-manager.php:486
-#: wp-downloadmanager.php:175
-#: wp-downloadmanager.php:200
-#: wp-downloadmanager.php:219
+#: wp-downloadmanager.php:176
+#: wp-downloadmanager.php:201
+#: wp-downloadmanager.php:220
 msgid "unknown"
 msgstr ""
 
@@ -387,49 +387,49 @@ msgid "No Files Found"
 msgstr ""
 
 #: download-manager.php:522
-#: wp-downloadmanager.php:470
+#: wp-downloadmanager.php:471
 msgid "Previous Page"
 msgstr ""
 
 #: download-manager.php:531
-#: wp-downloadmanager.php:478
+#: wp-downloadmanager.php:479
 msgid "Next Page"
 msgstr ""
 
 #: download-manager.php:540
-#: wp-downloadmanager.php:487
+#: wp-downloadmanager.php:488
 msgid "Pages"
 msgstr ""
 
 #: download-manager.php:543
-#: wp-downloadmanager.php:489
+#: wp-downloadmanager.php:490
 msgid "Go to First Page"
 msgstr ""
 
 #: download-manager.php:543
-#: wp-downloadmanager.php:489
+#: wp-downloadmanager.php:490
 msgid "First"
 msgstr ""
 
 #: download-manager.php:546
 #: download-manager.php:558
-#: wp-downloadmanager.php:492
-#: wp-downloadmanager.php:504
+#: wp-downloadmanager.php:493
+#: wp-downloadmanager.php:505
 msgid "Go to Page"
 msgstr ""
 
 #: download-manager.php:553
-#: wp-downloadmanager.php:499
+#: wp-downloadmanager.php:500
 msgid "Page"
 msgstr ""
 
 #: download-manager.php:561
-#: wp-downloadmanager.php:507
+#: wp-downloadmanager.php:508
 msgid "Go to Last Page"
 msgstr ""
 
 #: download-manager.php:561
-#: wp-downloadmanager.php:507
+#: wp-downloadmanager.php:508
 msgid "Last"
 msgstr ""
 
@@ -502,7 +502,7 @@ msgstr ""
 
 #: download-options.php:100
 #: download-options.php:106
-#: wp-downloadmanager.php:51
+#: wp-downloadmanager.php:52
 msgid "Download Options"
 msgstr ""
 
@@ -628,36 +628,36 @@ msgid "Most Downloaded Template"
 msgstr ""
 
 #: download-templates.php:88
-#: wp-downloadmanager.php:997
+#: wp-downloadmanager.php:998
 msgid "There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files."
 msgstr ""
 
 #: download-templates.php:94
-#: wp-downloadmanager.php:999
+#: wp-downloadmanager.php:1000
 msgid "View all downloads in %FILE_CATEGORY_NAME%"
 msgstr ""
 
 #: download-templates.php:100
 #: download-templates.php:103
 #: download-templates.php:112
-#: wp-downloadmanager.php:1001
 #: wp-downloadmanager.php:1002
 #: wp-downloadmanager.php:1003
+#: wp-downloadmanager.php:1004
 msgid "Download: %FILE_NAME%"
 msgstr ""
 
 #: download-templates.php:106
 #: download-templates.php:109
 #: download-templates.php:115
-#: wp-downloadmanager.php:185
-#: wp-downloadmanager.php:1001
+#: wp-downloadmanager.php:186
 #: wp-downloadmanager.php:1002
 #: wp-downloadmanager.php:1003
+#: wp-downloadmanager.php:1004
 msgid "You need to be a registered user to download this file."
 msgstr ""
 
 #: download-templates.php:123
-#: wp-downloadmanager.php:52
+#: wp-downloadmanager.php:53
 msgid "Download Templates"
 msgstr ""
 
@@ -848,7 +848,7 @@ msgstr ""
 #: download-templates.php:373
 #: download-templates.php:402
 #: wp-downloadmanager-widget.php:95
-#: wp-downloadmanager.php:943
+#: wp-downloadmanager.php:944
 msgid "Recent Downloads"
 msgstr ""
 
@@ -912,7 +912,7 @@ msgstr ""
 
 #: download-uninstall.php:87
 #: download-uninstall.php:97
-#: wp-downloadmanager.php:53
+#: wp-downloadmanager.php:54
 msgid "Uninstall WP-DownloadManager"
 msgstr ""
 
@@ -981,95 +981,95 @@ msgstr ""
 msgid "(<strong>0</strong> to disable)"
 msgstr ""
 
-#: wp-downloadmanager.php:46
+#: wp-downloadmanager.php:47
 msgid "Downloads"
 msgstr ""
 
-#: wp-downloadmanager.php:64
+#: wp-downloadmanager.php:65
 msgid "Enter File ID"
 msgstr ""
 
-#: wp-downloadmanager.php:66
+#: wp-downloadmanager.php:67
 msgid "Error: File ID must be numeric"
 msgstr ""
 
-#: wp-downloadmanager.php:66
+#: wp-downloadmanager.php:67
 msgid "Please enter File ID again"
 msgstr ""
 
-#: wp-downloadmanager.php:78
-#: wp-downloadmanager.php:84
+#: wp-downloadmanager.php:79
+#: wp-downloadmanager.php:85
 msgid "Download"
 msgstr ""
 
-#: wp-downloadmanager.php:85
+#: wp-downloadmanager.php:86
 msgid "Insert File Download"
 msgstr ""
 
-#: wp-downloadmanager.php:139
+#: wp-downloadmanager.php:140
 msgid "Invalid File ID."
 msgstr ""
 
-#: wp-downloadmanager.php:147
+#: wp-downloadmanager.php:148
 msgid "File does not exist."
 msgstr ""
 
-#: wp-downloadmanager.php:209
+#: wp-downloadmanager.php:210
 msgid "TiB"
 msgstr ""
 
-#: wp-downloadmanager.php:211
+#: wp-downloadmanager.php:212
 msgid "GiB"
 msgstr ""
 
-#: wp-downloadmanager.php:213
+#: wp-downloadmanager.php:214
 msgid "MiB"
 msgstr ""
 
-#: wp-downloadmanager.php:215
+#: wp-downloadmanager.php:216
 msgid "KiB"
 msgstr ""
 
-#: wp-downloadmanager.php:309
+#: wp-downloadmanager.php:310
 msgid "Note: There is a file embedded within this post, please visit this post to download the file."
 msgstr ""
 
-#: wp-downloadmanager.php:330
+#: wp-downloadmanager.php:331
 msgid "total"
 msgstr ""
 
-#: wp-downloadmanager.php:768
-#: wp-downloadmanager.php:814
-#: wp-downloadmanager.php:861
+#: wp-downloadmanager.php:769
+#: wp-downloadmanager.php:815
+#: wp-downloadmanager.php:862
 msgid "N/A"
 msgstr ""
 
-#: wp-downloadmanager.php:887
-#: wp-downloadmanager.php:889
-#: wp-downloadmanager.php:927
+#: wp-downloadmanager.php:888
+#: wp-downloadmanager.php:890
+#: wp-downloadmanager.php:928
 msgid "WP-DownloadManager"
 msgstr ""
 
-#: wp-downloadmanager.php:900
-#: wp-downloadmanager.php:902
+#: wp-downloadmanager.php:901
+#: wp-downloadmanager.php:903
 msgid "Most Recent Downloads"
 msgstr ""
 
-#: wp-downloadmanager.php:913
-#: wp-downloadmanager.php:915
-#: wp-downloadmanager.php:957
+#: wp-downloadmanager.php:914
+#: wp-downloadmanager.php:916
+#: wp-downloadmanager.php:958
 msgid "Most Downloaded Files"
 msgstr ""
 
-#: wp-downloadmanager.php:929
+#: wp-downloadmanager.php:930
 msgid "files were added."
 msgstr ""
 
-#: wp-downloadmanager.php:930
+#: wp-downloadmanager.php:931
 msgid "worth of files."
 msgstr ""
 
-#: wp-downloadmanager.php:931
+#: wp-downloadmanager.php:932
 msgid "hits were generated."
 msgstr ""
 

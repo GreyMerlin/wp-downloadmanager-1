@@ -10,7 +10,7 @@ Author URI: http://lesterchan.net
 
 
 /*  
-	Copyright 2007  Lester Chan  (email : gamerz84@hotmail.com)
+	Copyright 2008  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,7 +36,8 @@ function downloadmanager_textdomain() {
 
 
 ### Downloads Table Name
-$wpdb->downloads				= $table_prefix . 'downloads';
+global $wpdb;
+$wpdb->downloads = $wpdb->prefix.'downloads';
 
 
 ### Function: Downloads Administration Menu
