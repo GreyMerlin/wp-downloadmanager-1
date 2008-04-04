@@ -62,16 +62,11 @@ function downloads_footer_admin() {
 	// Javascript Code Courtesy Of WP-AddQuicktag (http://bueltge.de/wp-addquicktags-de-plugin/120/)
 	echo '<script type="text/javascript">'."\n";
 	echo "\t".'function insertDownload(where, myField) {'."\n";
-	echo "\t\t".'var download_id = prompt("'.__('Enter File ID', 'wp-downloadmanager').'");'."\n";
-	echo "\t\t".'while(isNaN(download_id)) {'."\n";
-	echo "\t\t\t".'download_id = prompt("'.__('Error: File ID must be numeric', 'wp-downloadmanager').'\n\n'.__('Please enter File ID again', 'wp-downloadmanager').'");'."\n";
-	echo "\t\t".'}'."\n";
-	echo "\t\t".'if (download_id > 0) {'."\n";
-	echo "\t\t\t".'if(where == "code") {'."\n";
-	echo "\t\t\t\t".'edInsertContent(myField, "[download=" + download_id + "]");'."\n";
-	echo "\t\t\t".'} else {'."\n";
-	echo "\t\t\t\t".'return "[download=" + download_id + "]";'."\n";
-	echo "\t\t\t".'}'."\n";
+	echo "\t\t".'var download_id = prompt("'.__('Enter File ID (Separate Multiple IDs By A Comma)', 'wp-downloadmanager').'");'."\n";
+	echo "\t\t".'if(where == "code") {'."\n";
+	echo "\t\t\t".'edInsertContent(myField, "[download id=\"" + download_id + "\"]");'."\n";
+	echo "\t\t".'} else {'."\n";
+	echo "\t\t\t".'return "[download id=\"" + download_id + "\"]";'."\n";
 	echo "\t\t".'}'."\n";
 	echo "\t".'}'."\n";
 	echo "\t".'if(document.getElementById("ed_toolbar")){'."\n";
@@ -92,21 +87,24 @@ function downloads_footer_admin() {
 }
 
 
-### Function: Add Quick Tag For Downloads In TinyMCE, Coutesy Of An-Archos (http://an-archos.com/anarchy-media-player)
-add_filter('mce_plugins', 'download_mce_plugins', 5);
-function download_mce_plugins($plugins) {    
-	array_push($plugins, '-downloadmanager');    
-	return $plugins;
+### Function: Add Quick Tag For Poll In TinyMCE >= WordPress 2.5
+add_action('init', 'download_tinymce_addbuttons');
+function download_tinymce_addbuttons() {
+	if(!current_user_can('edit_posts') && ! current_user_can('edit_pages')) {
+		return;
+	}
+	if(get_user_option('rich_editing') == 'true') {
+		add_filter("mce_external_plugins", "download_tinymce_addplugin");
+		add_filter('mce_buttons', 'download_tinymce_registerbutton');
+	}
 }
-add_filter('mce_buttons', 'download_mce_buttons', 5);
-function download_mce_buttons($buttons) {
+function download_tinymce_registerbutton($buttons) {
 	array_push($buttons, 'separator', 'downloadmanager');
 	return $buttons;
 }
-add_action('tinymce_before_init','download_external_plugins');
-function download_external_plugins() {	
-	echo 'tinyMCE.loadPlugin("downloadmanager", "'.get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/tinymce/plugins/downloadmanager/");' . "\n"; 
-	return;
+function download_tinymce_addplugin($plugin_array) {
+	$plugin_array['downloadmanager'] = get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/tinymce/plugins/downloadmanager/editor_plugin.js';
+	return $plugin_array;
 }
 
 
@@ -300,24 +298,28 @@ function download_page_link($page) {
 }
 
 
-### Function: Place Download In Content
-add_filter('the_content', 'place_download', '7');
-add_filter('the_excerpt', 'place_download', '7');
-function place_download($content){
-	if(!is_feed()) {
-		$content = preg_replace("/\[download=(\d+)\]/ise", "download_embedded('\\1')", $content);
-	} else {
-		$content = preg_replace("/\[download=(\d+)\]/i", __('Note: There is a file embedded within this post, please visit this post to download the file.', 'wp-downloadmanager'), $content);
-	}
-    return $content;
+### Function: Short Code For Inserting Downloads Page Into Page
+add_shortcode('page_download', 'download_page_shortcode');
+add_shortcode('page_downloads', 'download_page_shortcode');
+function download_page_shortcode($atts) {
+	return downloads_page();
 }
 
 
-### Function: Place Download Page In Content
-add_filter('the_content', 'place_downloadpage', '7');
-function place_downloadpage($content){
-	$content =preg_replace("/\[page_downloads\]/ise", "downloads_page()", $content); 
-    return $content;
+### Function: Short Code For Inserting Files Download Into Posts
+add_shortcode('download', 'download_shortcode');
+function download_shortcode($atts) {
+	extract(shortcode_atts(array('id' => '0', 'display' => 'both'), $atts));
+	if(!is_feed()) {
+		$ids = explode(',', $id);
+		if(is_array($ids)) {
+			return download_embedded($ids, $display);
+		} else {
+			return download_embedded($id, $display);
+		}
+	} else {
+		return __('Note: There is a file embedded within this post, please visit this post to download the file.', 'wp-downloadmanager');
+	}
 }
 
 
@@ -703,30 +705,45 @@ function get_download_hits($display = true) {
 
 
 ### Function: Download Embedded
-function download_embedded($file_id) {
+function download_embedded($file_id, $display = 'both') {
 	global $wpdb, $user_ID;
-	$file = $wpdb->get_row("SELECT * FROM $wpdb->downloads WHERE file_id = ".intval($file_id).' AND file_permission != -1');
-	if($file) {
-		// Cet Download Categories
+	$output = '';
+	$file_id_string = '';
+	if(is_array($file_id)) {
+		$file_id_string = 'file_id IN ('.implode(',', $file_id).')';
+	} else {
+		$file_id_string = "file_id = $file_id";
+	}
+	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE $file_id_string AND file_permission != -1");
+	if($files) {
+		// Get Download Categories
 		$download_categories = get_option('download_categories');
 		// Get Embedded
-		$template_download_embedded = get_option('download_template_embedded');
-		if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
-			$template_download_embedded = stripslashes($template_download_embedded[0]);
-		} else {
-			$template_download_embedded = stripslashes($template_download_embedded[1]);
+		$template_download_embedded_temp = get_option('download_template_embedded');
+		foreach($files as $file) {
+			$template_download_embedded = $template_download_embedded_temp;
+			if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
+				$template_download_embedded = stripslashes($template_download_embedded[0]);
+			} else {
+				$template_download_embedded = stripslashes($template_download_embedded[1]);
+			}
+			$template_download_embedded = str_replace("%FILE_ID%", $file->file_id, $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE%", stripslashes($file->file), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_NAME%", stripslashes($file->file_name), $template_download_embedded);
+			if($display == 'both') {
+				$template_download_embedded = str_replace("%FILE_DESCRIPTION%",  stripslashes($file->file_des), $template_download_embedded);
+			} else {
+				$template_download_embedded = str_replace("%FILE_DESCRIPTION%",  '', $template_download_embedded);
+			}
+			$template_download_embedded = str_replace("%FILE_SIZE%",  format_filesize($file->file_size), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_embedded);	
+			$output .= $template_download_embedded; 
 		}
-		$template_download_embedded = str_replace("%FILE_ID%", $file->file_id, $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE%", stripslashes($file->file), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_NAME%", stripslashes($file->file_name), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_DESCRIPTION%",  stripslashes($file->file_des), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_SIZE%",  format_filesize($file->file_size), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_embedded);
-		$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_embedded);
-		return $template_download_embedded;
+		return $output;
 	}
 }
 

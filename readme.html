@@ -281,6 +281,11 @@
 					<ul>
 						<li>NEW: Works For WordPress 2.5 Only</li>
 						<li>NEW: Use KiB/MiB/GiB/TiB Instead Of KB/MB/GB/TB</li>
+						<li>NEW: Updated WP-DownloadManager TinyMCE Plugin To Work With TinyMCE 3.0</li>
+						<li>NEW: Uses Shortcode API</li>
+						<li>NEW: Changed [page_downloads] to <strong>[page_download]</strong> For Consistency</li>
+						<li>NEW: You Can Now Embed Multiple File Download IDs By Doing This: [download id="1,2,3"], Where 1,2,3 Are Your File Download IDs</li>
+						<li>NEW: When Inserting File Download Into Post, It is Now [download id="1"], Where 1 Is Your File Download ID</li>
 						<li>NEW: Ability To Input File Size Manually Because Remote File Size Does Not Always Work</li>
 						<li>NEW: Added New File Permission, 'Hidden'</li>
 						<li>NEW: Uses /wp-downloadmanager/ Folder Instead Of /downloadmanager/</li>
@@ -367,7 +372,13 @@
 			<div class="SubSubTitle">General Usage</div>
 			<ol>
 				<li>
-					To embed a specific file to be downloaded into a post/page, use [download=<strong>2</strong>] where <strong>2</strong> is your file id.
+					To embed a specific file to be downloaded into a post/page, use [download id"=<strong>2</strong>"] where <strong>2</strong> is your file id.
+				</li>
+				<li>
+					To embed multiple files to be downloaded into a post/page, use [download id"=<strong>1,2,3</strong>"] where <strong>1,2,3</strong> are your file ids.
+				</li>
+				<li>
+					To choose what to display within the embedded file, use [download id"=<strong>1</strong>" display="<strong>both</strong>"] where <strong>1</strong> is your file id and <strong>both</strong> will display both the file name and file desccription, whereas <strong>name</strong> will only display the filename.<br /><br />Note that this will overwrite the "Download Embedded File" template you have in your Download Templates.
 				</li>
 				<li>
 					If you are using <strong>Default Permalinks</strong>, the file direct download link will be '<strong>http://yoursite.com/index.php?dl_id=2</strong>'. If you are using <strong>Nice Permalinks</strong>, the file direct download link will be '<strong>http://yoursite.com/download/2/</strong>', where <strong>yoursite.com</strong> is your WordPress URL and <strong>2</strong> is your file id.
@@ -394,7 +405,7 @@
 					Type any title you like in the post's title area
 				</li>
 				<li>
-					Type '<strong>[page_downloads]</strong>' in the post's content area (without the quotes)
+					Type '<strong>[page_download]</strong>' in the post's content area (without the quotes)
 				</li>
 				<li>
 					Type '<strong>downloads</strong>' in the post's slug area (without the quotes)

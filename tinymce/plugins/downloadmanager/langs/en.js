@@ -1,3 +1,3 @@
-tinyMCE.addToLang('downloadmanager',{
-insert : 'Insert File Download'
+tinyMCE.addI18n("en.downloadmanager", {
+	insert_download : 'Insert File Download'
 });
