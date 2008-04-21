@@ -39,7 +39,8 @@ if(!empty($_POST['do'])) {
 			$file_type = intval($_POST['file_type']);
 			switch($file_type) {
 				case 0:
-					$file = addslashes(trim($_POST['file']));
+					$file = addslashes(trim($_POST['file']));					
+					$file = download_rename_file($file_path, $file);
 					$file_size = filesize($file_path.$file);
 					break;
 				case 1:
@@ -55,7 +56,8 @@ if(!empty($_POST['do'])) {
 							}
 							if(move_uploaded_file($_FILES['file_upload']['tmp_name'], $file_path.$file_upload_to.basename($_FILES['file_upload']['name']))) {
 								$file = $file_upload_to.basename($_FILES['file_upload']['name']);
-								$file_size = filesize($file_path.$file);
+								$file = download_rename_file($file_path, $file);
+								$file_size = filesize($file_path.$file);	
 							} else {
 								$text = '<font color="red">'.__('Error In Uploading File', 'wp-downloadmanager').'</font>';
 								break;

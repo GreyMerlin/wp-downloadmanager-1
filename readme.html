@@ -281,6 +281,9 @@
 					<ul>
 						<li>NEW: Works For WordPress 2.5 Only</li>
 						<li>NEW: Use KiB/MiB/GiB/TiB Instead Of KB/MB/GB/TB</li>
+						<li>NEW: Added Paging Header And Footer Template For Downloads Page</li>
+						<li>NEW: Uses WP-PageNavi Style Paging For Downloads Page</li>
+						<li>NEW: Additional %CATEGORY_ID% Variable In Category Header And Footer Template</li>
 						<li>NEW: Updated WP-DownloadManager TinyMCE Plugin To Work With TinyMCE 3.0</li>
 						<li>NEW: Uses Shortcode API</li>
 						<li>NEW: Changed [page_downloads] to <strong>[page_download]</strong> For Consistency</li>
@@ -405,10 +408,13 @@
 					Type any title you like in the post's title area
 				</li>
 				<li>
-					Type '<strong>[page_download]</strong>' in the post's content area (without the quotes)
+					After typing the title, WordPress will generate the permalink to the page. You will see an 'Edit' link just beside the permalink.
 				</li>
 				<li>
-					Type '<strong>downloads</strong>' in the post's slug area (without the quotes)
+					Click 'Edit' and type in '<strong>downloads</strong>' in the text field (without the quotes) and click 'Save'.
+				</li>
+				<li>
+					Type '<strong>[page_download]</strong>' in the post's content area (without the quotes)
 				</li>
 				<li>
 					Click 'Publish'
@@ -420,28 +426,28 @@
 					<strong>Activate</strong> WP-DownloadManager Widget Plugin
 				</li>
 				<li>
-					Go to '<strong>WP-Admin -> Presentation -> Widgets</strong>'
+					Go to '<strong>WP-Admin -> Design -> Widgets</strong>'
 				</li>
 				<li>
 					To Display <strong>Most Downloaded</strong>
 				</li>
 				<li>
-					<strong>Drag</strong> the Most Downloaded Widget to your sidebar
+					You can <strong>add</strong> the Most Downloaded Widget Widget by clicking on the 'Add' link besides it.
 				</li>
 				<li>
-					You can <strong>configure</strong> the Most Downloaded Widget by clicking on the configure icon
+					After adding, you can <strong>configure</strong> the Downloaded Widget Widget by clicking on the 'Edit' link besides it.
 				</li>
 				<li>
 					To Display <strong>Newest Downloads</strong>
 				</li>
 				<li>
-					<strong>Drag</strong> the Newest Downloads Widget to your sidebar
+					You can <strong>add</strong> the Newest Downloads Widget Widget by clicking on the 'Add' link besides it.
 				</li>
 				<li>
-					You can <strong>configure</strong> the Newest Downloads Widget by clicking on the configure icon
+					After adding, you can <strong>configure</strong> the Newest Downloads Widget Widget by clicking on the 'Edit' link besides it.
 				</li>
 				<li>
-					Click 'Save changes'
+					Click 'Save Changes'
 				</li>
 			</ol>	
 			<div class="SubSubTitle">Download Stats (Outside WP Loop)</div>
