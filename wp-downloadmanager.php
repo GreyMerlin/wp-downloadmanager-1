@@ -152,6 +152,7 @@ function download_file() {
 		}
 		if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
 			$update_hits = $wpdb->query("UPDATE $wpdb->downloads SET file_hits = file_hits + 1 WHERE file_id = $id AND file_permission != -1");
+			$update_last_downloaded_date = $wpdb->query("UPDATE $wpdb->downloads SET file_last_downloaded_date = '".current_time('timestamp')."' WHERE file_id = $id AND file_permission != -1");
 			$file_name = stripslashes($file->file);
 			if(!is_remote_file($file_name)) {
 				if(!is_file($file_path.$file_name)) {
@@ -520,6 +521,8 @@ function downloads_page($category_id = 0) {
 			$template_download_listing = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_listing);
+			$template_download_listing = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_listing);
+			$template_download_listing = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_listing);
 			$output .= $template_download_listing;
@@ -835,6 +838,8 @@ function download_embedded($file_id, $display = 'both') {
 			$template_download_embedded = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_embedded);	
 			$output .= $template_download_embedded; 
@@ -876,6 +881,8 @@ if(!function_exists('get_most_downloaded')) {
 				$template_download_most = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_most);
 				$template_download_most = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
+				$template_download_most = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
+				$template_download_most = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_most);
 				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_most);
 				$output .= $template_download_most;
@@ -924,6 +931,8 @@ if(!function_exists('get_recent_downloads')) {
 				$template_download_most = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_most);
 				$template_download_most = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
+				$template_download_most = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
+				$template_download_most = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_most);
 				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_most);
 				$output .= $template_download_most;
@@ -973,6 +982,8 @@ if(!function_exists('get_downloads_category')) {
 				$template_download_most = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_most);
 				$template_download_most = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
+				$template_download_most = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
+				$template_download_most = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_most);
 				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_most);
 				$output .= $template_download_most;
@@ -1104,6 +1115,7 @@ function create_download_table() {
 							"file_category int(2) NOT NULL default '0',".
 							"file_date varchar(20) NOT NULL default '',".
 							"file_updated_date varchar(20) NOT NULL default '',".
+							"file_last_downloaded_date varchar(20) NOT NULL default '',".
 							"file_hits int(10) NOT NULL default '0',".
 							"file_permission TINYINT(2) NOT NULL default '0',".
 							"PRIMARY KEY  (file_id));";
@@ -1123,11 +1135,17 @@ function create_download_table() {
 	add_option('download_template_embedded', array('<p><img src="'.get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/images/%FILE_ICON%" alt="'.__('Download: %FILE_NAME%', 'wp-downloadmanager').'" title="'.__('Download: %FILE_NAME%', 'wp-downloadmanager').'" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%" title="'.__('Download: %FILE_NAME%', 'wp-downloadmanager').'">%FILE_NAME%</a></strong> (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</p>', '<p><img src="'.get_option('siteurl').'/wp-content/plugins/wp-downloadmanager/images/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></p>'), 'Download Embedded Template');
 	add_option('download_template_most', array('<li><a href="%FILE_DOWNLOAD_URL%" title="'.__('Download: %FILE_NAME%', 'wp-downloadmanager').'">%FILE_NAME%</a> (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</li>', '<li>%FILE_NAME% (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></li>'), 'Most Download Template');
 	// Database Upgrade For WP-Download 1.30
+	$check_for_130 = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'download_nice_permalink'");
+	if(!$check_for_130) {
+		maybe_add_column($wpdb->downloads, 'file_updated_date', "ALTER TABLE $wpdb->downloads ADD file_updated_date VARCHAR(20) NOT NULL AFTER file_date;");
+		$wpdb->query("UPDATE $wpdb->downloads SET file_updated_date = file_date;");
+		maybe_add_column($wpdb->downloads, 'file_last_downloaded_date', "ALTER TABLE $wpdb->downloads ADD file_last_downloaded_date VARCHAR(20) NOT NULL AFTER file_updated_date;");
+		$wpdb->query("UPDATE $wpdb->downloads SET file_last_downloaded_date = file_date;");
+	}
 	add_option('download_template_pagingheader', '', 'Displayed Before Paging In The Downloads Page');
 	add_option('download_template_pagingfooter', '', 'Displayed After Paging In The Downloads Page');
 	add_option('download_nice_permalink', 1, 'Use Download Nice Permalink');
 	add_option('download_template_download_page_link', '<p><a href="%DOWNLOAD_PAGE_URL%" title="'.__('Downloads Page', 'wp-downloadmanager').'">'.__('Downloads Page', 'wp-downloadmanager').'</a></p>', 'Use Download Nice Permalink');
-	maybe_add_column($wpdb->downloads, 'file_updated_date', "ALTER TABLE $wpdb->downloads ADD file_updated_date VARCHAR(20) NOT NULL AFTER file_date;");
 	// Create Files Folder
 	if(!is_dir(ABSPATH.'/wp-content/files')) {
 		mkdir(ABSPATH.'/wp-content/files');

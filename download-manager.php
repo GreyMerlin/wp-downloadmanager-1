@@ -85,6 +85,10 @@ switch($file_sortby) {
 		$file_sortby = 'file_updated_date';
 		$file_sortby_text = __('File Updated Date', 'wp-downloadmanager');
 		break;
+	case 'last_downloaded_date':
+		$file_sortby = 'file_last_downloaded_date';
+		$file_sortby_text = __('File Last Downloaded Date', 'wp-downloadmanager');
+		break;
 	case 'name':
 	default:
 		$file_sortby = 'file_name';
@@ -339,6 +343,10 @@ switch($mode) {
 					<tr>
 						<td valign="top"><strong><?php _e('File Updated Date:', 'wp-downloadmanager') ?></strong></td>
 						<td><?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_updated_date)); ?></td>
+					</tr>
+					<tr>
+						<td><strong><?php _e('File Last Downloaded Date:', 'wp-downloadmanager') ?></strong></td>
+						<td><?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date)); ?></td>
 					</tr>	
 					<tr>
 						<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
@@ -405,6 +413,10 @@ switch($mode) {
 						<td><?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_updated_date)); ?></td>
 					</tr>	
 					<tr>
+						<td><strong><?php _e('File Last Downloaded Date:', 'wp-downloadmanager') ?></strong></td>
+						<td><?php echo mysql2date(sprintf('%s @ %s', get_option('date_format'), get_option('time_format')), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date)); ?></td>
+					</tr>	
+					<tr class="alternate">
 						<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 						<td>
 							<?php
@@ -419,11 +431,11 @@ switch($mode) {
 						</td>
 					</tr>
 					<?php if(!is_remote_file(stripslashes($file->file))): ?>
-					<tr class="alternate">
+					<tr>
 						<td colspan="2" align="center"><input type="checkbox" id="unlinkfile" name="unlinkfile" value="1" />&nbsp;<label for="unlinkfile"><?php _e('Delete File From Server?', 'wp-downloadmanager'); ?></label></td>
 					</tr>
 					<?php endif; ?>
-					<tr>
+					<tr class="alternate">
 						<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Delete File', 'wp-downloadmanager'); ?>" class="button"  onclick="return confirm('You Are About To The Delete This File \'<?php echo stripslashes(strip_tags($file->file_name)); ?> (<?php echo stripslashes($file->file); ?>)\'.\nThis Action Is Not Reversible.\n\n Choose \'Cancel\' to stop, \'OK\' to delete.')"/>&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-downloadmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 					</tr>
 				</table>
@@ -479,8 +491,7 @@ switch($mode) {
 						<th><?php _e('Hits', 'wp-downloadmanager'); ?></th>
 						<th><?php _e('Permission', 'wp-downloadmanager'); ?></th>
 						<th><?php _e('Category', 'wp-downloadmanager'); ?></th>
-						<th><?php _e('Date Added', 'wp-downloadmanager'); ?></th>
-						<th><?php _e('Date Updated', 'wp-downloadmanager'); ?></th>
+						<th><?php _e('Date/Time Added', 'wp-downloadmanager'); ?></th>
 						<th colspan="2"><?php _e('Action', 'wp-downloadmanager'); ?></th>
 					</tr>
 				</thead>
@@ -499,6 +510,10 @@ switch($mode) {
 						$file_cat = intval($file->file_category);
 						$file_date = mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date));
 						$file_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date));
+						$file_updated_date = mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date));
+						$file_updated_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date));
+						$file_last_downloaded_date = mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date));
+						$file_last_downloaded_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date));
 						$file_hits = number_format_i18n(intval($file->file_hits));
 						if($file->file_permission == '-1') {
 							$file_permission = __('Hidden', 'wp-downloadmanager');
@@ -520,13 +535,12 @@ switch($mode) {
 						}
 						echo "<tr$style>\n";
 						echo "<td valign=\"top\">$file_id</td>\n";
-						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i>".snippet_text($file_name, 45)."</i></td>\n";
+						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i>".snippet_text($file_name, 45)."</i><br /><br /><i>".sprintf(__('Last Updated: %s, %s', 'wp-downloadmanager'), $file_updated_time, $file_updated_date)."</i><br /><i>".sprintf(__('Last Downloaded: %s, %s', 'wp-downloadmanager'), $file_last_downloaded_time, $file_last_downloaded_date)."</i></td>\n";
 						echo '<td style="text-align: center;">'.format_filesize($file_size).'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_hits.'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_permission.'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_categories[$file_cat].'</td>'."\n";						
-						echo "<td>$file_time<br />$file_date</td>\n";
-						echo "<td>$file_time<br />$file_date</td>\n";
+						echo "<td>$file_time, $file_date</td>\n";
 						echo "<td style=\"text-align: center;\"><a href=\"$base_page&amp;mode=edit&amp;id=$file_id\" class=\"edit\">".__('Edit', 'wp-downloadmanager')."</a></td>\n";
 						echo "<td style=\"text-align: center;\"><a href=\"$base_page&amp;mode=delete&amp;id=$file_id\" class=\"delete\">".__('Delete', 'wp-downloadmanager')."</a></td>\n";
 						echo '</tr>';
@@ -609,6 +623,7 @@ switch($mode) {
 						<option value="name"<?php if($file_sortby == 'file_name') { echo ' selected="selected"'; }?>><?php _e('File Name', 'wp-downloadmanager'); ?></option>
 						<option value="date"<?php if($file_sortby == 'file_date') { echo ' selected="selected"'; }?>><?php _e('File Date', 'wp-downloadmanager'); ?></option>
 						<option value="updated_date"<?php if($file_sortby == 'updated_date') { echo ' selected="selected"'; }?>><?php _e('File Updated Date', 'wp-downloadmanager'); ?></option>
+						<option value="last_downloaded_date"<?php if($file_sortby == 'last_downloaded_date') { echo ' selected="selected"'; }?>><?php _e('File Last Downloaded Date', 'wp-downloadmanager'); ?></option>
 						<option value="size"<?php if($file_sortby == '(file_size+0.00)') { echo ' selected="selected"'; }?>><?php _e('File Size', 'wp-downloadmanager'); ?></option>
 						<option value="category"<?php if($file_sortby == 'file_category') { echo ' selected="selected"'; }?>><?php _e('File Category', 'wp-downloadmanager'); ?></option>
 						<option value="hits"<?php if($file_sortby == 'file_hits') { echo ' selected="selected"'; }?>><?php _e('File Hits', 'wp-downloadmanager'); ?></option>

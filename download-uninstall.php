@@ -28,7 +28,7 @@ $base_name = plugin_basename('wp-downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $mode = trim($_GET['mode']);
 $downloads_tables = array($wpdb->downloads);
-$downloads_settings = array('download_path', 'download_path_url', 'download_page_url', 'download_method', 'download_categories', 'download_sort', 'download_template_header', 'download_template_footer', 'download_template_category_header', 'download_template_category_footer', 'download_template_listing', 'download_template_embedded', 'download_template_most', 'download_template_pagingheader', 'download_template_pagingfooter', 'download_nice_permalink', 'widget_download_most_downloaded', 'widget_download_recent_downloads');
+$downloads_settings = array('download_path', 'download_path_url', 'download_page_url', 'download_method', 'download_categories', 'download_sort', 'download_template_header', 'download_template_footer', 'download_template_category_header', 'download_template_category_footer', 'download_template_listing', 'download_template_embedded', 'download_template_most', 'download_template_pagingheader', 'download_template_pagingfooter', 'download_nice_permalink', 'download_template_download_page_link', 'widget_download_most_downloaded', 'widget_download_recent_downloads');
 $download_path = get_option('download_path');
 
 

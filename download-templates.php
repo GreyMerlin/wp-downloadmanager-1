@@ -239,8 +239,14 @@ $download_template_most = get_option('download_template_most');
 				<strong>%DOWNLOAD_PAGE_URL%</strong><br />
 				<?php _e('Displays the URL to the download page.', 'wp-downloadmanager'); ?>
 			</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>
+				<strong>%FILE_UPDATED_DATE%</strong><br />
+				<?php _e('Displays the file\'s last updated date.', 'wp-downloadmanager'); ?>
+			</td>
+			<td>
+				<strong>%FILE_UPDATED_TIME%</strong><br />
+				<?php _e('Displays the file\'s last updated time.', 'wp-downloadmanager'); ?>
+			</td>
 			<td>&nbsp;</td>
 		</tr>
 	</table>
@@ -338,6 +344,8 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />
+				- %FILE_UPDATED_DATE%<br />
+				- %FILE_UPDATED_TIME%<br />
 				- %FILE_HITS%<br />
 				- %FILE_DOWNLOAD_URL%<br /><br />
 				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('listing');" class="button" />
@@ -357,7 +365,9 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_SIZE%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
-				- %FILE_DATE%<br />
+				- %FILE_TIME%<br />
+				- %FILE_UPDATED_DATE%<br />
+				- %FILE_UPDATED_TIME%<br />
 				- %FILE_HITS%<br />
 				- %FILE_DOWNLOAD_URL%<br /><br />
 				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('embedded');" class="button" />
@@ -381,6 +391,8 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />
+				- %FILE_UPDATED_DATE%<br />
+				- %FILE_UPDATED_TIME%<br />
 				- %FILE_HITS%<br />
 				- %FILE_DOWNLOAD_URL%<br /><br />
 				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('listing_2');" class="button" />
@@ -400,7 +412,9 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_SIZE%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
-				- %FILE_DATE%<br />
+				- %FILE_TIME%<br />
+				- %FILE_UPDATED_DATE%<br />
+				- %FILE_UPDATED_TIME%<br />
 				- %FILE_HITS%<br />
 				- %FILE_DOWNLOAD_URL%<br /><br />
 				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('embedded_2');" class="button" />
@@ -440,7 +454,9 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_SIZE%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
-				- %FILE_DATE%<br />
+				- %FILE_TIME%<br />
+				- %FILE_UPDATED_DATE%<br />
+				- %FILE_UPDATED_TIME%<br />
 				- %FILE_HITS%<br />
 				- %FILE_DOWNLOAD_URL%<br /><br />
 				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('most');" class="button" />
@@ -468,7 +484,9 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_SIZE%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
-				- %FILE_DATE%<br />
+				- %FILE_TIME%<br />
+				- %FILE_UPDATED_DATE%<br />
+				- %FILE_UPDATED_TIME%<br />
 				- %FILE_HITS%<br />
 				- %FILE_DOWNLOAD_URL%<br /><br />
 				<input type="button" name="RestoreDefault" value="<?php _e('Restore Default Template', 'wp-downloadmanager'); ?>" onclick="download_default_templates('most_2');" class="button" />
