@@ -258,6 +258,12 @@
 				<strong>&raquo;</strong> <a href="http://forums.lesterchan.net/index.php?board=12.0" title="http://forums.lesterchan.net/index.php?board=12.0">http://forums.lesterchan.net/index.php?board=12.0</a>
 			</p>
 			<p>
+				<strong>Credits:</strong><br />
+				<strong>&raquo;</strong> Icons courtesy of <a href="http://www.famfamfam.com/">FamFamFam</a>.<br />
+				<strong>&raquo;</strong> Download Icon by <a href="http://www.imvain.com/">Ryan Zimmerman</a>.<br />
+				<strong>&raquo;</strong> Page Download Category by <a href="http://www.creativenotice.com/">Ryan Mueller</a>.<br />
+			</p>
+			<p>
 				<strong>Note:</strong><br />
 				<strong>&raquo;</strong> The <strong>Changelog</strong>, <strong>Installation</strong>, <strong>Upgrade</strong>, <strong>Usage</strong> Tab at the top of the page.<br />
 			</p>
@@ -280,6 +286,7 @@
 					<strong>Version 1.30 (01-06-2008)</strong>
 					<ul>
 						<li>NEW: Works For WordPress 2.5 Only</li>
+						<li>NEW: [page_download category="1"] Will Display Downloads In Category ID 1 Only</li>
 						<li>NEW: Use KiB/MiB/GiB/TiB Instead Of KB/MB/GB/TB</li>
 						<li>NEW: Added Paging Header And Footer Template For Downloads Page</li>
 						<li>NEW: Uses WP-PageNavi Style Paging For Downloads Page</li>
@@ -295,6 +302,13 @@
 						<li>NEW: Uses wp-downloadmanager.php Instead Of downloadmanager.php</li>
 						<li>NEW: Uses wp-downloadmanager-widget.php Instead Of download-widget.php</li>
 						<li>NEW: Use number_format_i18n() Instead</li>
+						<li>NEW: Able To Choose Download Nice Permalink In 'WP-Admin -> Downloads -> Download Options'</li>
+						<li>NEW: Added File Extension Icons</li>
+						<li>NEW: Added File Last Updated Date Column</li>
+						<li>NEW: Added Download Page Link Template</li>
+						<li>NEW: Option To Display Download Page Link In Most Downloaded Widget And Recent Downloads Widget</li>
+						<li>FIXED: "Current File" Will Mess Up With The File Size</li>
+						<li>FIXED: If SubFolders Do Not Exists, It Will Display PHP Error Message</li>
 						<li>FIXED: Replaced get_newest_downloads() With get_recent_downloads()</li>						
 						<li>FIXED: Recent Downloads Widget Not Working</li>
 						<li>FIXED: Conflict Permalink Structure With /%postname%/%post_id/</li>
@@ -328,7 +342,7 @@
 					<strong>Activate</strong> WP-DownloadManager Plugin
 				</li>
 				<li>
-					You Need To Re-Generate The Permalink (<strong>WP-Admin -> Options -> Permalinks -> Update Permalink Structure</strong>)
+					You Need To Re-Generate The Permalink (<strong>WP-Admin -> Settings -> Permalinks -> Save Changes</strong>)
 				</li>
 				<li>
 					Refer To <strong>Usage</strong> For Further Instructions
@@ -361,7 +375,10 @@
 					<strong>Activate</strong> WP-DownloadManager Plugin
 				</li>
 				<li>
-					You Need To Re-Generate The Permalink (<strong>WP-Admin -> Options -> Permalinks -> Update Permalink Structure</strong>)
+					Go to '<strong>WP-Admin -> Downloads -> Download Options</strong>' and restore all the template variables to <strong>Default</strong>
+				</li>
+				<li>
+					You Need To Re-Generate The Permalink (<strong>WP-Admin -> Settings -> Permalinks -> Save Changes</strong>)
 				</li>
 				<li>
 					Refer To <strong>Usage</strong> For Further Instructions
@@ -375,13 +392,13 @@
 			<div class="SubSubTitle">General Usage</div>
 			<ol>
 				<li>
-					To embed a specific file to be downloaded into a post/page, use [download id"=<strong>2</strong>"] where <strong>2</strong> is your file id.
+					To embed a specific file to be downloaded into a post/page, use [download id="<strong>2</strong>"] where <strong>2</strong> is your file id.
 				</li>
 				<li>
-					To embed multiple files to be downloaded into a post/page, use [download id"=<strong>1,2,3</strong>"] where <strong>1,2,3</strong> are your file ids.
+					To embed multiple files to be downloaded into a post/page, use [download id="<strong>1,2,3</strong>"] where <strong>1,2,3</strong> are your file ids.
 				</li>
 				<li>
-					To choose what to display within the embedded file, use [download id"=<strong>1</strong>" display="<strong>both</strong>"] where <strong>1</strong> is your file id and <strong>both</strong> will display both the file name and file desccription, whereas <strong>name</strong> will only display the filename.<br /><br />Note that this will overwrite the "Download Embedded File" template you have in your Download Templates.
+					To choose what to display within the embedded file, use [download id="<strong>1</strong>" display="<strong>both</strong>"] where <strong>1</strong> is your file id and <strong>both</strong> will display both the file name and file desccription, whereas <strong>name</strong> will only display the filename.<br /><br />Note that this will overwrite the "Download Embedded File" template you have in your Download Templates.
 				</li>
 				<li>
 					If you are using <strong>Default Permalinks</strong>, the file direct download link will be '<strong>http://yoursite.com/index.php?dl_id=2</strong>'. If you are using <strong>Nice Permalinks</strong>, the file direct download link will be '<strong>http://yoursite.com/download/2/</strong>', where <strong>yoursite.com</strong> is your WordPress URL and <strong>2</strong> is your file id.
@@ -414,7 +431,8 @@
 					Click 'Edit' and type in '<strong>downloads</strong>' in the text field (without the quotes) and click 'Save'.
 				</li>
 				<li>
-					Type '<strong>[page_download]</strong>' in the post's content area (without the quotes)
+					Type '<strong>[page_download]</strong>' in the post's content area (without the quotes)<br />
+					You can also use <strong>[page_download category="1"]</strong>, this will display all downloads in Category ID 1.
 				</li>
 				<li>
 					Click 'Publish'

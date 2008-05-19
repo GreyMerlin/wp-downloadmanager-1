@@ -44,6 +44,11 @@ function widget_download_init() {
 			echo '<ul>'."\n";
 			get_most_downloaded($options['limit'], $options['chars']);
 			echo '</ul>'."\n";
+			if(intval($options['link']) == 1) {
+				$download_template_download_page_link = stripslashes(get_option('download_template_download_page_link'));
+				$download_template_download_page_link = str_replace('%DOWNLOAD_PAGE_URL%', get_option('download_page_url'), $download_template_download_page_link);
+				echo $download_template_download_page_link;
+			}
 			echo $after_widget;
 		}		
 	}
@@ -58,6 +63,11 @@ function widget_download_init() {
 			echo '<ul>'."\n";
 			get_recent_downloads($options['limit'], $options['chars']);
 			echo '</ul>'."\n";
+			if(intval($options['link']) == 1) {
+				$download_template_download_page_link = stripslashes(get_option('download_template_download_page_link'));
+				$download_template_download_page_link = str_replace('%DOWNLOAD_PAGE_URL%', get_option('download_page_url'), $download_template_download_page_link);
+				echo $download_template_download_page_link;
+			}
 			echo $after_widget;
 		}		
 	}
@@ -66,12 +76,13 @@ function widget_download_init() {
 	function widget_download_most_downloaded_options() {
 		$options = get_option('widget_download_most_downloaded');
 		if (!is_array($options)) {
-			$options = array('title' => __('Most Downloaded', 'wp-downloadmanager'), 'limit' => 10, 'chars' => 200);
+			$options = array('title' => __('Most Downloaded', 'wp-downloadmanager'), 'limit' => 10, 'chars' => 0, 'link' => 0);
 		}
 		if ($_POST['most_downloaded-submit']) {
 			$options['title'] = strip_tags(addslashes($_POST['most_downloaded-title']));
 			$options['limit'] = intval($_POST['most_downloaded-limit']);
 			$options['chars'] = intval($_POST['most_downloaded-chars']);
+			$options['link'] = intval($_POST['most_downloaded-link']);
 			update_option('widget_download_most_downloaded', $options);
 		}
 		echo '<p style="text-align: left;"><label for="most_downloaded-title">';
@@ -85,6 +96,20 @@ function widget_download_init() {
 		echo ': </label><input type="text" id="most_downloaded-chars" name="most_downloaded-chars" value="'.intval($options['chars']).'" size="5" />&nbsp;&nbsp;'."\n";
 		_e('(<strong>0</strong> to disable)', 'wp-downloadmanager');
 		echo '</p>'."\n";
+		echo '<p style="text-align: left;"><label for="most_downloaded-link">';
+		_e('Display Link To Download Page?', 'wp-downloadmanager');
+		echo '</label><select id="most_downloaded-link" name="most_downloaded-link" size="1">'."\n";
+		echo '<option value="0"';
+		selected('0', $options['link']);
+		echo '>';
+		_e('No', 'wp-downloadmanager');
+		echo '</option>'."\n";
+		echo '<option value="1"';
+		selected('1', $options['link']);
+		echo '>';
+		_e('Yes', 'wp-downloadmanager');
+		echo '</option>'."\n";
+		echo '</select></p>'."\n";
 		echo '<input type="hidden" id="most_downloaded-submit" name="most_downloaded-submit" value="1" />'."\n";
 	}
 
@@ -92,12 +117,13 @@ function widget_download_init() {
 	function widget_download_recent_downloads_options() {
 		$options = get_option('widget_download_recent_downloads');
 		if (!is_array($options)) {
-			$options = array('title' => __('Recent Downloads', 'wp-downloadmanager'), 'limit' => 10, 'chars' => 200);
+			$options = array('title' => __('Recent Downloads', 'wp-downloadmanager'), 'limit' => 10, 'chars' => 0, 'link' => 0);
 		}
 		if ($_POST['recent_downloads-submit']) {
 			$options['title'] = strip_tags(addslashes($_POST['recent_downloads-title']));
 			$options['limit'] = intval($_POST['recent_downloads-limit']);
 			$options['chars'] = intval($_POST['recent_downloads-chars']);
+			$options['link'] = intval($_POST['recent_downloads-link']);
 			update_option('widget_download_recent_downloads', $options);
 		}
 		echo '<p style="text-align: left;"><label for="recent_downloads-title">';
@@ -111,6 +137,20 @@ function widget_download_init() {
 		echo ': </label><input type="text" id="recent_downloads-chars" name="recent_downloads-chars" value="'.intval($options['chars']).'" size="5" />&nbsp;&nbsp;'."\n";
 		_e('(<strong>0</strong> to disable)', 'wp-downloadmanager');
 		echo '</p>'."\n";
+		echo '<p style="text-align: left;"><label for="recent_downloads-link">';
+		_e('Display Link To Download Page?', 'wp-downloadmanager');
+		echo '</label><select id="recent_downloads-link" name="recent_downloads-link" size="1">'."\n";
+		echo '<option value="0"';
+		selected('0', $options['link']);
+		echo '>';
+		_e('No', 'wp-downloadmanager');
+		echo '</option>'."\n";
+		echo '<option value="1"';
+		selected('1', $options['link']);
+		echo '>';
+		_e('Yes', 'wp-downloadmanager');
+		echo '</option>'."\n";
+		echo '</select></p>'."\n";
 		echo '<input type="hidden" id="recent_downloads-submit" name="recent_downloads-submit" value="1" />'."\n";
 	}
 	// Register Widgets

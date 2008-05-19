@@ -28,7 +28,7 @@ $base_name = plugin_basename('wp-downloadmanager/download-manager.php');
 $base_page = 'admin.php?page='.$base_name;
 $mode = trim($_GET['mode']);
 $downloads_tables = array($wpdb->downloads);
-$downloads_settings = array('download_path', 'download_path_url', 'download_page_url', 'download_method', 'download_categories', 'download_sort', 'download_template_header', 'download_template_footer', 'download_template_category_header', 'download_template_category_footer', 'download_template_listing', 'download_template_embedded', 'download_template_most', 'widget_download_most_downloaded', 'widget_download_recent_downloads');
+$downloads_settings = array('download_path', 'download_path_url', 'download_page_url', 'download_method', 'download_categories', 'download_sort', 'download_template_header', 'download_template_footer', 'download_template_category_header', 'download_template_category_footer', 'download_template_listing', 'download_template_embedded', 'download_template_most', 'download_template_pagingheader', 'download_template_pagingfooter', 'download_nice_permalink', 'widget_download_most_downloaded', 'widget_download_recent_downloads');
 $download_path = get_option('download_path');
 
 
@@ -110,13 +110,15 @@ switch($mode) {
 	<p style="text-align: left; color: red">
 		<strong><?php _e('The following WordPress Options/Tables will be DELETED:', 'wp-downloadmanager'); ?></strong><br />
 	</p>
-	<table width="50%"  border="0" cellspacing="3" cellpadding="3">
-		<tr class="thead">
-			<td align="center"><strong><?php _e('WordPress Options', 'wp-downloadmanager'); ?></strong></td>
-			<td align="center"><strong><?php _e('WordPress Tables', 'wp-downloadmanager'); ?></strong></td>
-		</tr>
+	<table class="widefat">
+		<thead>
+			<tr>
+				<th><?php _e('WordPress Options', 'wp-downloadmanager'); ?></th>
+				<th><strong><?php _e('WordPress Tables', 'wp-downloadmanager'); ?></th>
+			</tr>
+		</thead>
 		<tr>
-			<td valign="top" style="background-color: #eee;">
+			<td valign="top">
 				<ol>
 				<?php
 					foreach($downloads_settings as $settings) {
@@ -125,7 +127,7 @@ switch($mode) {
 				?>
 				</ol>
 			</td>
-			<td valign="top" style="background-color: #eee;">
+			<td valign="top" class="alternate">
 				<ol>
 				<?php
 					foreach($downloads_tables as $tables) {

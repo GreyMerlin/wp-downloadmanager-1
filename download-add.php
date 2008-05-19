@@ -91,7 +91,7 @@ if(!empty($_POST['do'])) {
 			$file_timestamp_second = intval($_POST['file_timestamp_second']);
 			$file_date = gmmktime($file_timestamp_hour, $file_timestamp_minute, $file_timestamp_second, $file_timestamp_month, $file_timestamp_day, $file_timestamp_year);
 			$file_permission = intval($_POST['file_permission']);
-			$addfile = $wpdb->query("INSERT INTO $wpdb->downloads VALUES (0, '$file', '$file_name', '$file_des', '$file_size', $file_category, '$file_date', $file_hits, $file_permission)");
+			$addfile = $wpdb->query("INSERT INTO $wpdb->downloads VALUES (0, '$file', '$file_name', '$file_des', '$file_size', $file_category, '$file_date', '$file_date', $file_hits, $file_permission)");
 			if(!$addfile) {
 				$text = '<font color="red">'.sprintf(__('Error In Adding File \'%s (%s)\'', 'wp-downloadmanager'), $file_name, $file).'</font>';
 			} else {
@@ -103,11 +103,11 @@ if(!empty($_POST['do'])) {
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 <!-- Add A File -->
-<div class="wrap">
-	<h2><?php _e('Add A File', 'wp-downloadmanager'); ?></h2>
-	<form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_max_upload_size(); ?>" />
-		<table width="100%"  border="0" cellspacing="3" cellpadding="3">
+<form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_max_upload_size(); ?>" />
+	<div class="wrap">
+		<h2><?php _e('Add A File', 'wp-downloadmanager'); ?></h2>
+		<table class="form-table">
 			<tr>
 				<td valign="top"><strong><?php _e('File:', 'wp-downloadmanager') ?></strong></td>
 				<td>
@@ -180,5 +180,5 @@ if(!empty($_POST['do'])) {
 				<td colspan="2" align="center"><input type="submit" name="do" value="<?php _e('Add File', 'wp-downloadmanager'); ?>"  class="button" />&nbsp;&nbsp;<input type="button" name="cancel" value="<?php _e('Cancel', 'wp-downloadmanager'); ?>" class="button" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 		</table>
-	</form>
-</div>
+	</div>
+</form>
