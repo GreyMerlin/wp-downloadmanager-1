@@ -657,6 +657,7 @@ switch($mode) {
 <!-- Download Stats -->
 <div class="wrap">
 	<h2><?php _e('Download Stats', 'wp-downloadmanager'); ?></h2>
+	<br style="clear" />
 	<table class="widefat">
 		<tr>
 			<th><?php _e('Total Files:', 'wp-downloadmanager'); ?></th>
