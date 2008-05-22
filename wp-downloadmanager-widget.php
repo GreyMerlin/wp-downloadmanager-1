@@ -38,7 +38,7 @@ function widget_download_init() {
 	function widget_download_most_downloaded($args) {
 		extract($args);
 		$options = get_option('widget_download_most_downloaded');
-		$title = htmlspecialchars($options['title']);		
+		$title = htmlspecialchars(stripslashes($options['title']));		
 		if (function_exists('get_most_downloaded')) {
 			echo $before_widget.$before_title.$title.$after_title;
 			echo '<ul>'."\n";
@@ -57,7 +57,7 @@ function widget_download_init() {
 	function widget_download_recent_downloads($args) {
 		extract($args);
 		$options = get_option('widget_download_recent_downloads');
-		$title = htmlspecialchars($options['title']);		
+		$title = htmlspecialchars(stripslashes($options['title']));		
 		if (function_exists('get_recent_downloads')) {
 			echo $before_widget.$before_title.$title.$after_title;
 			echo '<ul>'."\n";
@@ -79,7 +79,7 @@ function widget_download_init() {
 			$options = array('title' => __('Most Downloaded', 'wp-downloadmanager'), 'limit' => 10, 'chars' => 0, 'link' => 0);
 		}
 		if ($_POST['most_downloaded-submit']) {
-			$options['title'] = strip_tags(addslashes($_POST['most_downloaded-title']));
+			$options['title'] = strip_tags($_POST['most_downloaded-title']);
 			$options['limit'] = intval($_POST['most_downloaded-limit']);
 			$options['chars'] = intval($_POST['most_downloaded-chars']);
 			$options['link'] = intval($_POST['most_downloaded-link']);
@@ -120,7 +120,7 @@ function widget_download_init() {
 			$options = array('title' => __('Recent Downloads', 'wp-downloadmanager'), 'limit' => 10, 'chars' => 0, 'link' => 0);
 		}
 		if ($_POST['recent_downloads-submit']) {
-			$options['title'] = strip_tags(addslashes($_POST['recent_downloads-title']));
+			$options['title'] = strip_tags($_POST['recent_downloads-title']);
 			$options['limit'] = intval($_POST['recent_downloads-limit']);
 			$options['chars'] = intval($_POST['recent_downloads-chars']);
 			$options['link'] = intval($_POST['recent_downloads-link']);
