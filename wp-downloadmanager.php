@@ -714,7 +714,7 @@ function print_list_folders($dir, $orginal_dir) {
 function download_rename_file($file_path, $file) {
 	$file_old = $file;
 	$file = str_replace(' ', '_', $file);
-	$file = preg_replace('/[^A-Za-z0-9._\/]/', '', $file);
+	$file = preg_replace('/[^A-Za-z0-9\-._\/]/', '', $file);
 	$rename = rename($file_path.$file_old, $file_path.$file);
 	if($rename) {
 		return $file;
