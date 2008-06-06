@@ -702,10 +702,12 @@ function print_list_files($dir, $orginal_dir, $selected = '') {
 function print_list_folders($dir, $orginal_dir) {
 	global $download_folders;
 	list_folders($dir, $orginal_dir);
-	natcasesort($download_folders);
-	echo '<option value="/">/</option>'."\n";	
-	foreach($download_folders as $download_folder) {
-		echo '<option value="'.$download_folder.'">'.$download_folder.'</option>'."\n";	
+	if($download_folders) {
+		natcasesort($download_folders);
+		echo '<option value="/">/</option>'."\n";	
+		foreach($download_folders as $download_folder) {
+			echo '<option value="'.$download_folder.'">'.$download_folder.'</option>'."\n";	
+		}
 	}
 }
 
