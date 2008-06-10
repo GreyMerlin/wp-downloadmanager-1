@@ -3,7 +3,7 @@
 Plugin Name: WP-DownloadManager
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Adds a simple download manager to your WordPress blog.
-Version: 1.30
+Version: 1.31
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
@@ -1138,6 +1138,15 @@ function create_download_table() {
 	} else {
 		die('We have problem finding your \'/wp-admin/upgrade-functions.php\' and \'/wp-admin/includes/upgrade.php\'');
 	}
+	$charset_collate = '';
+	if($wpdb->supports_collation()) {
+		if(!empty($wpdb->charset)) {
+			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		}
+		if(!empty($wpdb->collate)) {
+			$charset_collate .= " COLLATE $wpdb->collate";
+		}
+	}
 	// Create WP-Downloads Table
 	$create_table = "CREATE TABLE $wpdb->downloads (".
 							"file_id int(10) NOT NULL auto_increment,".
@@ -1151,7 +1160,7 @@ function create_download_table() {
 							"file_last_downloaded_date varchar(20) NOT NULL default '',".
 							"file_hits int(10) NOT NULL default '0',".
 							"file_permission TINYINT(2) NOT NULL default '0',".
-							"PRIMARY KEY  (file_id));";
+							"PRIMARY KEY (file_id)) $charset_collate;";
 	maybe_create_table($wpdb->downloads, $create_table);
 	// WP-Downloads Options
 	add_option('download_path', ABSPATH.'wp-content/files', 'Download Path');

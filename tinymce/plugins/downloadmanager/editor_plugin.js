@@ -23,8 +23,8 @@
 				longname : 'WP-DownloadManager',
 				author : 'Lester Chan',
 				authorurl : 'http://lesterchan.net',
-				infourl : 'http://lesterchan.net/portfolio/programming.php',
-				version : "1.30"
+				infourl : 'http://lesterchan.net/portfolio/programming/php/',
+				version : "1.31"
 			};
 		}
 	});
