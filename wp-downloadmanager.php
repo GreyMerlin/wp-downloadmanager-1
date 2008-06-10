@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP-DownloadManager
-Plugin URI: http://lesterchan.net/portfolio/programming.php
+Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Adds a simple download manager to your WordPress blog.
 Version: 1.30
 Author: Lester 'GaMerZ' Chan
