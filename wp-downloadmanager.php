@@ -622,14 +622,14 @@ function downloads_page($category_id = 0) {
 
 
 ### Function: List Out All Files In Downloads Directory
-function list_files($dir, $orginal_dir) {
+function list_downloads_files($dir, $orginal_dir) {
 	global $download_files, $download_files_subfolder;
 	if (is_dir($dir)) {
 	   if ($dh = opendir($dir)) {
 		   while (($file = readdir($dh)) !== false) {
 				if($file != '.' && $file != '..')	{
 					if(is_dir($dir.'/'.$file)) {						
-						list_files($dir.'/'.$file, $orginal_dir);
+						list_downloads_files($dir.'/'.$file, $orginal_dir);
 					} else {
 						$folder_file =str_replace($orginal_dir, '', $dir.'/'.$file);
 						$sub_dir = explode('/', $folder_file);
@@ -648,7 +648,7 @@ function list_files($dir, $orginal_dir) {
 
 
 ### Function: List Out All Files In Downloads Directory
-function list_folders($dir, $orginal_dir) {
+function list_downloads_folders($dir, $orginal_dir) {
 	global $download_folders;
 	if (is_dir($dir)) {
 	   if ($dh = opendir($dir)) {
@@ -657,7 +657,7 @@ function list_folders($dir, $orginal_dir) {
 					if(is_dir($dir.'/'.$file)) {
 						$folder =str_replace($orginal_dir, '', $dir.'/'.$file);
 						$download_folders[] = $folder;
-						list_files($dir.'/'.$file, $orginal_dir);
+						list_downloads_files($dir.'/'.$file, $orginal_dir);
 					}
 				}
 		   }
@@ -670,7 +670,7 @@ function list_folders($dir, $orginal_dir) {
 ### Function: Print Listing Of Files In Alphabetical Order
 function print_list_files($dir, $orginal_dir, $selected = '') {
 	global $download_files, $download_files_subfolder;
-	list_files($dir, $orginal_dir);
+	list_downloads_files($dir, $orginal_dir);
 	if($download_files) {
 		natcasesort($download_files);
 	}
@@ -701,7 +701,7 @@ function print_list_files($dir, $orginal_dir, $selected = '') {
 ### Function: Print Listing Of Folders In Alphabetical Order
 function print_list_folders($dir, $orginal_dir) {
 	global $download_folders;
-	list_folders($dir, $orginal_dir);
+	list_downloads_folders($dir, $orginal_dir);
 	if($download_folders) {
 		natcasesort($download_folders);
 		echo '<option value="/">/</option>'."\n";	
