@@ -1123,7 +1123,7 @@ function downloadmanager_page_recent_stats($content) {
 	$stats_display = get_option('stats_display');
 	$stats_mostlimit = intval(get_option('stats_mostlimit'));
 	if($stats_display['recent_downloads'] == 1) {
-		$content .= '<p><strong>'.$stats_mostlimit.' '.__('Recent Downloads', 'wp-downloadmanager').'</strong></p>'."\n";
+		$content .= '<p><strong>'.$stats_mostlimit.' '.__('Most Recent Downloads', 'wp-downloadmanager').'</strong></p>'."\n";
 		$content .= '<ul>'."\n";
 		$content .= get_recent_downloads($stats_mostlimit, 0, false);
 		$content .= '</ul>'."\n";
