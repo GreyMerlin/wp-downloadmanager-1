@@ -447,6 +447,9 @@ switch($mode) {
 	default:
 		### Get Total Files
 		$total_file = $wpdb->get_var("SELECT COUNT(file_id) FROM $wpdb->downloads");
+		$total_bandwidth = $wpdb->get_var("SELECT SUM(file_hits*file_size) AS total_bandwidth FROM $wpdb->downloads WHERE file_size != '".__('unknown', 'wp-downloadmanager')."'");
+		$total_filesize = $wpdb->get_var("SELECT SUM(file_size) AS total_filesize FROM $wpdb->downloads WHERE file_size != '".__('unknown', 'wp-downloadmanager')."'");
+		$total_filehits = $wpdb->get_var("SELECT SUM(file_hits) AS total_filehits FROM $wpdb->downloads");
 
 		### Checking $file_page and $offset
 		if(empty($file_page) || $file_page == 0) { $file_page = 1; }
@@ -496,10 +499,7 @@ switch($mode) {
 					</tr>
 				</thead>
 			<?php
-				if($files) {
-					$total_filesize = 0;
-					$total_filehits = 0;
-					$total_bandwidth = 0;
+				if($files) {;
 					$i = 0;
 					foreach($files as $file) {
 						$file_id = intval($file->file_id);
@@ -523,11 +523,6 @@ switch($mode) {
 							$file_permission = __('Registered', 'wp-downloadmanager');
 						}
 						$file_name_actual = basename($file_name);
-						$total_filesize += $file_size;
-						$total_filehits += $file_hits;
-						if($file_size != __('unknown', 'wp-downloadmanager')) {
-							$total_bandwidth += $file_size*$file_hits;
-						}
 						if($i%2 == 0) {
 							$style = '';
 						}  else {
