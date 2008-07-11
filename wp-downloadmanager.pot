@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.31\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-11 15:37+0800\n"
-"PO-Revision-Date: 2008-07-11 15:37+0800\n"
+"POT-Creation-Date: 2008-07-11 22:33+0800\n"
+"PO-Revision-Date: 2008-07-11 22:33+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: SINGAPORE\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -1183,24 +1183,39 @@ msgstr ""
 #: wp-downloadmanager.php:1083
 #: wp-downloadmanager.php:1085
 #: wp-downloadmanager.php:1126
-msgid "Most Recent Downloads"
-msgstr ""
+#, php-format
+msgid "%s Most Recent Download"
+msgid_plural "%s Most Recent Downloads"
+msgstr[0] ""
+msgstr[1] ""
 
 #: wp-downloadmanager.php:1096
 #: wp-downloadmanager.php:1098
 #: wp-downloadmanager.php:1140
-msgid "Most Downloaded Files"
-msgstr ""
+#, php-format
+msgid "%s Most Downloaded File"
+msgid_plural "%s Most Downloaded Files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: wp-downloadmanager.php:1112
-msgid "files were added."
-msgstr ""
+#, php-format
+msgid "<strong>%s</strong> file was added."
+msgid_plural "<strong>%s</strong> files were added."
+msgstr[0] ""
+msgstr[1] ""
 
 #: wp-downloadmanager.php:1113
-msgid "worth of files."
-msgstr ""
+#, php-format
+msgid "<strong>%s</strong> worth of files."
+msgid_plural "<strong>%s</strong> worth of files."
+msgstr[0] ""
+msgstr[1] ""
 
 #: wp-downloadmanager.php:1114
-msgid "hits were generated."
-msgstr ""
+#, php-format
+msgid "<strong>%s</strong> hit was generated."
+msgid_plural "<strong>%s</strong> hits were generated."
+msgstr[0] ""
+msgstr[1] ""
 
