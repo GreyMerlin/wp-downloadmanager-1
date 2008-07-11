@@ -661,7 +661,7 @@ switch($mode) {
 	<table class="widefat">
 		<tr>
 			<th><?php _e('Total Files:', 'wp-downloadmanager'); ?></th>
-			<td><?php echo $i; ?></td>
+			<td><?php echo number_format_i18n($total_file); ?></td>
 		</tr>
 		<tr class="alternate">
 			<th><?php _e('Total Size:', 'wp-downloadmanager'); ?></th>
