@@ -514,7 +514,7 @@ switch($mode) {
 						$file_updated_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date));
 						$file_last_downloaded_date = mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date));
 						$file_last_downloaded_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date));
-						$file_hits = number_format_i18n(intval($file->file_hits));
+						$file_hits = intval($file->file_hits);
 						if($file->file_permission == '-1') {
 							$file_permission = __('Hidden', 'wp-downloadmanager');
 						} else if($file->file_permission == 0) {
@@ -537,7 +537,7 @@ switch($mode) {
 						echo "<td valign=\"top\">$file_id</td>\n";
 						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i>".snippet_text($file_name, 45)."</i><br /><br /><i>".sprintf(__('Last Updated: %s, %s', 'wp-downloadmanager'), $file_updated_time, $file_updated_date)."</i><br /><i>".sprintf(__('Last Downloaded: %s, %s', 'wp-downloadmanager'), $file_last_downloaded_time, $file_last_downloaded_date)."</i></td>\n";
 						echo '<td style="text-align: center;">'.format_filesize($file_size).'</td>'."\n";
-						echo '<td style="text-align: center;">'.$file_hits.'</td>'."\n";
+						echo '<td style="text-align: center;">'.number_format_i18n($file_hits).'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_permission.'</td>'."\n";
 						echo '<td style="text-align: center;">'.$file_categories[$file_cat].'</td>'."\n";						
 						echo "<td>$file_time, $file_date</td>\n";
