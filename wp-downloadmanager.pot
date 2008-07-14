@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-DownloadManager 1.31\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-11 22:33+0800\n"
-"PO-Revision-Date: 2008-07-11 22:33+0800\n"
+"POT-Creation-Date: 2008-07-15 01:57+0800\n"
+"PO-Revision-Date: 2008-07-15 01:57+0800\n"
 "Last-Translator: Lester Chan <lesterchan@gmail.com>\n"
 "Language-Team: Lester 'GaMerZ' Chan <gamerz84@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -356,7 +356,7 @@ msgstr ""
 
 #: download-manager.php:486
 #, php-format
-msgid "Dispaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files"
+msgid "Displaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files"
 msgstr ""
 
 #: download-manager.php:487

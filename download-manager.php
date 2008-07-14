@@ -483,7 +483,7 @@ switch($mode) {
 		<!-- Manage Downloads -->
 		<div class="wrap">
 			<h2><?php _e('Manage Downloads', 'wp-downloadmanager'); ?></h2>
-			<p><?php printf(__('Dispaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), $display_on_page, $max_on_page, $total_file); ?></p>
+			<p><?php printf(__('Displaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), $display_on_page, $max_on_page, $total_file); ?></p>
 			<p><?php printf(__('Sorted By <strong>%s</strong> In <strong>%s</strong> Order', 'wp-downloadmanager'), $file_sortby_text, $file_sortorder_text); ?></p>
 			<table class="widefat">
 				<thead>
