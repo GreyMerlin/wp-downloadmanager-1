@@ -377,13 +377,10 @@ function download_page_link($page) {
 ### Function Highlight Download Search
 function download_search_highlight($search_word, $search_text) {
 	if(!empty($search_word)) {
-		$regex_chars = '\.+?(){}[]^$';
-		for ($i = 0; $i < strlen($regex_chars); $i++) {
-			$char = substr($regex_chars, $i, 1);
-			$search_word = str_replace($char, '\\'.$char, $search_word);
+		$search_words_array = explode(' ', $search_word);
+		foreach($search_words_array as $search_word_array) {
+			$search_text = eregi_replace('('.quotemeta($search_word_array).')', '<span class="download-search-highlight">\\1</span>', $search_text);
 		}
-		$search_word = '(.*)('.$search_word.')(.*)';
-		return eregi_replace($search_word, '\1<span class="download-search-highlight">\2</span>\3', $search_text);
 	}
 	return $search_text;
 }
@@ -422,8 +419,9 @@ function downloads_page($category_id = 0) {
 	$category_id = intval($category_id);
 	$category = intval($_GET['dl_cat']);
 	$page = intval($_GET['dl_page']);
-	$search_word = urlencode(strip_tags(addslashes(trim($_GET['dl_search']))));
-	$search = stripslashes(urldecode($search_word));	
+	$search_word = strip_tags(addslashes(trim($_GET['dl_search'])));
+	$search_words_array = array();
+	$search = stripslashes($search_word);	
 	$download_categories = get_option('download_categories');
 	$download_categories[0] = __('total', 'wp-downloadmanager');
 	$category_stats = array();
@@ -441,7 +439,10 @@ function downloads_page($category_id = 0) {
 	// If There Is A Search Term
 	$search_sql = '';
 	if(!empty($search)) {
-		$search_sql = " AND (file_name LIKE('%$search_word%') OR file_des LIKE ('%$search_word%'))";
+		$search_words_array = explode(' ', $search_word);
+		foreach($search_words_array as $search_word_array) {
+			$search_sql .= " AND ((file_name LIKE('%$search_word_array%') OR file_des LIKE ('%$search_word_array%')))";
+		}
 	}
 	// Calculate Categories And Total Stats
 	$categories = $wpdb->get_results("SELECT file_category, COUNT(file_id) as category_files, SUM(file_size) category_size, SUM(file_hits) as category_hits FROM $wpdb->downloads WHERE 1=1 $category_sql $search_sql AND file_permission != -1 GROUP BY file_category");
