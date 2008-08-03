@@ -677,7 +677,7 @@ function list_downloads_folders($dir, $orginal_dir) {
 					if(is_dir($dir.'/'.$file)) {
 						$folder =str_replace($orginal_dir, '', $dir.'/'.$file);
 						$download_folders[] = $folder;
-						list_downloads_files($dir.'/'.$file, $orginal_dir);
+						list_downloads_folders($dir.'/'.$file, $orginal_dir);
 					}
 				}
 		   }
