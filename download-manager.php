@@ -334,7 +334,7 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Hits:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php echo number_format_i18n($file->file_hits); ?> <?php _e('hits', 'wp-downloadmanager') ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" id="reset_filehits" name="reset_filehits" value="1" />&nbsp;<label for="reset_filehits"><?php _e('Reset File Hits', 'wp-downloadmanager') ?></label></td>
+						<td><?php printf(__ngettext('%s hit', '%s hits', number_format_i18n($file->file_hits),'wp-downloadmanager'), number_format_i18n($file->file_hits)) ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" id="reset_filehits" name="reset_filehits" value="1" />&nbsp;<label for="reset_filehits"><?php _e('Reset File Hits', 'wp-downloadmanager') ?></label></td>
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Date:', 'wp-downloadmanager') ?></strong></td>
