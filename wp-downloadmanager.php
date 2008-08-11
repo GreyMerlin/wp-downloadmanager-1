@@ -1095,9 +1095,9 @@ function downloadmanager_page_general_stats($content) {
 		$download_stats = $wpdb->get_row("SELECT COUNT(file_id) as total_files, SUM(file_size) total_size, SUM(file_hits) as total_hits FROM $wpdb->downloads");
 		$content .= '<p><strong>'.__('WP-DownloadManager', 'wp-downloadmanager').'</strong></p>'."\n";
 		$content .= '<ul>'."\n";
-		$content .= '<li>'.sprintf(__ngettext('<strong>%s</strong> file was added.', '<strong>%s</strong> files were added.', number_format_i18n($download_stats->total_files), 'wp-downloadmanager'), number_format_i18n($download_stats->total_files)).'</li>'."\n";
-		$content .= '<li>'.sprintf(__ngettext('<strong>%s</strong> worth of files.', '<strong>%s</strong> worth of files.', format_filesize($download_stats->total_size), 'wp-downloadmanager'), format_filesize($download_stats->total_size)).'</li>'."\n";
-		$content .= '<li>'.sprintf(__ngettext('<strong>%s</strong> hit was generated.', '<strong>%s</strong> hits were generated.', number_format_i18n($download_stats->total_hits), 'wp-downloadmanager'), number_format_i18n($download_stats->total_hits)).'</li>'."\n";
+		$content .= '<li>'.sprintf(__ngettext('<strong>%s</strong> file was added.', '<strong>%s</strong> files were added.', $download_stats->total_files, 'wp-downloadmanager'), number_format_i18n($download_stats->total_files)).'</li>'."\n";
+		$content .= '<li>'.sprintf(__ngettext('<strong>%s</strong> worth of files.', '<strong>%s</strong> worth of files.', $download_stats->total_size, 'wp-downloadmanager'), format_filesize($download_stats->total_size)).'</li>'."\n";
+		$content .= '<li>'.sprintf(__ngettext('<strong>%s</strong> hit was generated.', '<strong>%s</strong> hits were generated.', $download_stats->total_hits, 'wp-downloadmanager'), number_format_i18n($download_stats->total_hits)).'</li>'."\n";
 		$content .= '</ul>'."\n";
 	}
 	return $content;
