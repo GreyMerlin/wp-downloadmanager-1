@@ -85,18 +85,18 @@ function widget_download_init() {
 			$options['link'] = intval($_POST['most_downloaded-link']);
 			update_option('widget_download_most_downloaded', $options);
 		}
-		echo '<p style="text-align: left;"><label for="most_downloaded-title">';
+		echo '<p><label for="most_downloaded-title">';
 		_e('Title', 'wp-downloadmanager');
 		echo ': </label><input type="text" id="most_downloaded-title" name="most_downloaded-title" value="'.htmlspecialchars(stripslashes($options['title'])).'" /></p>'."\n";
-		echo '<p style="text-align: left;"><label for="most_downloaded-limit">';
+		echo '<p><label for="most_downloaded-limit">';
 		_e('Limit', 'wp-downloadmanager');
 		echo ': </label><input type="text" id="most_downloaded-limit" name="most_downloaded-limit" value="'.intval($options['limit']).'" size="3" /></p>'."\n";
-		echo '<p style="text-align: left;"><label for="most_downloaded-chars">';
+		echo '<p><label for="most_downloaded-chars">';
 		_e('Post Title Length (Characters)', 'wp-downloadmanager');
 		echo ': </label><input type="text" id="most_downloaded-chars" name="most_downloaded-chars" value="'.intval($options['chars']).'" size="5" />&nbsp;&nbsp;'."\n";
 		_e('(<strong>0</strong> to disable)', 'wp-downloadmanager');
 		echo '</p>'."\n";
-		echo '<p style="text-align: left;"><label for="most_downloaded-link">';
+		echo '<p><label for="most_downloaded-link">';
 		_e('Display Link To Download Page?', 'wp-downloadmanager');
 		echo '</label><select id="most_downloaded-link" name="most_downloaded-link" size="1">'."\n";
 		echo '<option value="0"';
@@ -126,18 +126,18 @@ function widget_download_init() {
 			$options['link'] = intval($_POST['recent_downloads-link']);
 			update_option('widget_download_recent_downloads', $options);
 		}
-		echo '<p style="text-align: left;"><label for="recent_downloads-title">';
+		echo '<p><label for="recent_downloads-title">';
 		_e('Title', 'wp-downloadmanager');
 		echo ': </label><input type="text" id="recent_downloads-title" name="recent_downloads-title" value="'.htmlspecialchars(stripslashes($options['title'])).'" /></p>'."\n";
-		echo '<p style="text-align: left;"><label for="recent_downloads-limit">';
+		echo '<p><label for="recent_downloads-limit">';
 		_e('Limit', 'wp-downloadmanager');
 		echo ': </label><input type="text" id="recent_downloads-limit" name="recent_downloads-limit" value="'.intval($options['limit']).'" size="3" /></p>'."\n";
-		echo '<p style="text-align: left;"><label for="recent_downloads-chars">';
+		echo '<p><label for="recent_downloads-chars">';
 		_e('Post Title Length (Characters)', 'wp-downloadmanager');
 		echo ': </label><input type="text" id="recent_downloads-chars" name="recent_downloads-chars" value="'.intval($options['chars']).'" size="5" />&nbsp;&nbsp;'."\n";
 		_e('(<strong>0</strong> to disable)', 'wp-downloadmanager');
 		echo '</p>'."\n";
-		echo '<p style="text-align: left;"><label for="recent_downloads-link">';
+		echo '<p><label for="recent_downloads-link">';
 		_e('Display Link To Download Page?', 'wp-downloadmanager');
 		echo '</label><select id="recent_downloads-link" name="recent_downloads-link" size="1">'."\n";
 		echo '<option value="0"';

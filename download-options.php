@@ -106,22 +106,22 @@ $download_method = intval(get_option('download_method'));
 		<table class="form-table">
 			 <tr valign="top">
 				<th><?php _e('Download Path:', 'wp-downloadmanager'); ?></th>
-				<td><input type="text" name="download_path" value="<?php echo stripslashes(get_option('download_path')); ?>" size="50" /><br /><?php _e('The absolute path to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
+				<td><input type="text" name="download_path" value="<?php echo stripslashes(get_option('download_path')); ?>" size="50" dir="ltr" /><br /><?php _e('The absolute path to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
 			</tr>
 			 <tr valign="top">
 				<th><?php _e('Download Path URL:', 'wp-downloadmanager'); ?></th>
-				<td><input type="text" name="download_path_url" value="<?php echo stripslashes(get_option('download_path_url')); ?>" size="50" /><br /><?php _e('The url to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
+				<td><input type="text" name="download_path_url" value="<?php echo stripslashes(get_option('download_path_url')); ?>" size="50" dir="ltr" /><br /><?php _e('The url to the directory where all the files are stored (without trailing slash).', 'wp-downloadmanager'); ?></td>
 			</tr>
 			<tr valign="top">
 				<th><?php _e('Download Page URL:', 'wp-downloadmanager'); ?></th>
-				<td><input type="text" name="download_page_url" value="<?php echo stripslashes(get_option('download_page_url')); ?>" size="50" /><br /><?php _e('The url to the downloads page (without trailing slash).', 'wp-downloadmanager'); ?></td>
+				<td><input type="text" name="download_page_url" value="<?php echo stripslashes(get_option('download_page_url')); ?>" size="50" dir="ltr" /><br /><?php _e('The url to the downloads page (without trailing slash).', 'wp-downloadmanager'); ?></td>
 			</tr>
 			<tr valign="top">
 				<th><?php _e('Download Nice Permalink:', 'wp-downloadmanager'); ?></th>
 				<td>
-					<input type="radio" id="download_nice_permalink-1" name="download_nice_permalink" value="1"<?php checked('1', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-1"><?php _e('Yes', 'wp-downloadmanager'); ?>&nbsp;-&nbsp;<?php echo get_option('home'); ?>/download/1/</label>
+					<input type="radio" id="download_nice_permalink-1" name="download_nice_permalink" value="1"<?php checked('1', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-1"><?php _e('Yes', 'wp-downloadmanager'); ?>&nbsp;-&nbsp;<span dir="ltr"><?php echo get_option('home'); ?>/download/1/</span></label>
 					<br />
-					<input type="radio" id="download_nice_permalink-0" name="download_nice_permalink" value="0"<?php checked('0', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-0"><?php _e('No', 'wp-downloadmanager'); ?>&nbsp;-&nbsp;<?php echo get_option('home'); ?>/?dl_id=1</label>
+					<input type="radio" id="download_nice_permalink-0" name="download_nice_permalink" value="0"<?php checked('0', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-0"><?php _e('No', 'wp-downloadmanager'); ?>&nbsp;-&nbsp;<span dir="ltr"><?php echo get_option('home'); ?>/?dl_id=1</span></label>
 					<br />
 					<?php _e('Change it to <strong>No</strong> when you encounter 404 error.', 'wp-downloadmanager'); ?>
 				</td>

@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.6 Plugin: WP-DownloadManager 1.40						|
+|	WordPress 2.5 Plugin: WP-DownloadManager 1.31						|
 |	Copyright (c) 2008 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -113,22 +113,22 @@ if(!empty($_POST['do'])) {
 				<td>
 					<!-- Browse File -->
 					<input type="radio" id="file_type_0" name="file_type" value="0" checked="checked" />&nbsp;&nbsp;<label for="file_type_0"><?php _e('Browse File:', 'wp-downloadmanager'); ?></label>&nbsp;
-					<select name="file" size="1" onclick="document.getElementById('file_type_0').checked = true;">
+					<select name="file" size="1" onclick="document.getElementById('file_type_0').checked = true;" dir="ltr">
 						<?php print_list_files($file_path, $file_path); ?>
 					</select>
 					<br /><small><?php printf(__('Please upload the file to \'%s\' directory first.', 'wp-downloadmanager'), $file_path); ?></small>
 					<br /><br />
 					<!-- Upload File -->
 					<input type="radio" id="file_type_1" name="file_type" value="1" />&nbsp;&nbsp;<label for="file_type_1"><?php _e('Upload File:', 'wp-downloadmanager'); ?></label>&nbsp;
-					<input type="file" name="file_upload" size="25" onclick="document.getElementById('file_type_1').checked = true;" />&nbsp;&nbsp;<?php _e('to', 'wp-downloadmanager'); ?>&nbsp;&nbsp;
-					<select name="file_upload_to" size="1" onclick="document.getElementById('file_type_1').checked = true;">
+					<input type="file" name="file_upload" size="25" onclick="document.getElementById('file_type_1').checked = true;" dir="ltr" />&nbsp;&nbsp;<?php _e('to', 'wp-downloadmanager'); ?>&nbsp;&nbsp;
+					<select name="file_upload_to" size="1" onclick="document.getElementById('file_type_1').checked = true;" dir="ltr">
 						<?php print_list_folders($file_path, $file_path); ?>
 					</select>
 					<br /><small><?php printf(__('Maximum file size is %s.', 'wp-downloadmanager'), format_filesize(get_max_upload_size())); ?></small>
 					<!-- Remote File -->
 					<br /><br />
 					<input type="radio" id="file_type_2" name="file_type" value="2" />&nbsp;&nbsp;<label for="file_type_2"><?php _e('Remote File:', 'wp-downloadmanager'); ?></label>&nbsp;
-					<input type="text" name="file_remote" size="50" maxlength="255" onclick="document.getElementById('file_type_2').checked = true;" value="http://" />
+					<input type="text" name="file_remote" size="50" maxlength="255" onclick="document.getElementById('file_type_2').checked = true;" value="http://" dir="ltr" />
 					<br /><small><?php _e('Please include http:// or ftp:// in front.', 'wp-downloadmanager'); ?></small>
 				</td>
 			</tr>

@@ -488,6 +488,9 @@ function downloads_page($category_id = 0) {
 	if($files) {
 		// Get Download Page Header
 		$template_download_header = stripslashes(get_option('download_template_header'));
+		if(get_option('download_nice_permalink') == '0' && preg_match('/[\?\&]page_id=(\d+)/i', get_option('download_page_url'), $matches)) {
+			$template_download_header = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$matches[1].'" />', $template_download_header);
+		}
 		$template_download_header = str_replace("%TOTAL_FILES_COUNT%", number_format_i18n($total_stats['files']), $template_download_header);
 		$template_download_header = str_replace("%TOTAL_HITS%", number_format_i18n($total_stats['hits']), $template_download_header);
 		$template_download_header = str_replace("%TOTAL_SIZE%", format_filesize($total_stats['size']), $template_download_header);
@@ -619,7 +622,7 @@ function downloads_page($category_id = 0) {
 		$output .= '</div>';
 		$output .= stripslashes(get_option('download_template_pagingfooter'));
 	}
-	return $output;
+	return apply_filters('downloads_page', $output);
 }
 
 
@@ -882,7 +885,7 @@ function download_embedded($file_id, $display = 'both') {
 			$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_embedded);	
 			$output .= $template_download_embedded; 
 		}
-		return $output;
+		return apply_filters('download_embedded', $output);
 	}
 }
 
@@ -1136,6 +1139,7 @@ function downloadmanager_page_most_stats($content) {
 add_action('activate_wp-downloadmanager/wp-downloadmanager.php', 'create_download_table');
 function create_download_table() {
 	global $wpdb;
+  downloadmanager_textdomain();
 	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {
 		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
 	} elseif(@is_file(ABSPATH.'/wp-admin/includes/upgrade.php')) {
@@ -1179,8 +1183,8 @@ function create_download_table() {
 	add_option('download_template_category_header', '<h2 id="downloadcat-%CATEGORY_ID%"><a href="%CATEGORY_URL%" title="'.__('View all downloads in %FILE_CATEGORY_NAME%', 'wp-downloadmanager').'">%FILE_CATEGORY_NAME%</a></h2>', 'Download Category Header Template');
 	add_option('download_template_category_footer', '', 'Download Category Footer Template');
 	add_option('download_template_listing', array('<p><img src="'.plugins_url('wp-downloadmanager/images').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i><br />%FILE_DESCRIPTION%</p>'), 'Download Listing Template');
-	add_option('download_template_embedded', array('<p><img src="'.plugins_url('wp-downloadmanager/images').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong> (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></p>'), 'Download Embedded Template');
-	add_option('download_template_most', array('<li><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a> (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</li>', '<li>%FILE_NAME% (%FILE_SIZE%, %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></li>'), 'Most Download Template');
+	add_option('download_template_embedded', array('<p><img src="'.plugins_url('wp-downloadmanager/images').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></p>'), 'Download Embedded Template');
+	add_option('download_template_most', array('<li><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</li>', '<li>%FILE_NAME% (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></li>'), 'Most Download Template');
 	// Database Upgrade For WP-Download 1.30
 	$check_for_130 = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'download_nice_permalink'");
 	if(!$check_for_130) {
