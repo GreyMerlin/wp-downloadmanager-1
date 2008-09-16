@@ -393,15 +393,6 @@ function download_shortcode($atts) {
 	}
 }
 
-###Function: Adds page_id hidden parameter to templates with form
-function fix_form_template($template)
-{
-  if('0' == get_option('download_nice_permalink') && preg_match('/[\?\&]page_id=(\d+)/i', get_option('download_page_url'), $matches)) {
-    $page_id = $matches[1];
-    $template = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$page_id.'" />', $template);
-  }
-  return $template;
-}
 
 ### Function: Downloads Page
 function downloads_page($category_id = 0) {
@@ -496,7 +487,10 @@ function downloads_page($category_id = 0) {
 	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE 1=1 $category_sql $search_sql AND file_permission != -1 ORDER BY $group_sql {$file_sort['by']} {$file_sort['order']} LIMIT $offset, {$file_sort['perpage']}");
 	if($files) {
 		// Get Download Page Header
-		$template_download_header = fix_form_template(stripslashes(get_option('download_template_header')));
+		$template_download_header = stripslashes(get_option('download_template_header'));
+		if(get_option('download_nice_permalink') == '0' && preg_match('/[\?\&]page_id=(\d+)/i', get_option('download_page_url'), $matches)) {
+			$template = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$matches[1].'" />', $template_download_header);
+		}
 		$template_download_header = str_replace("%TOTAL_FILES_COUNT%", number_format_i18n($total_stats['files']), $template_download_header);
 		$template_download_header = str_replace("%TOTAL_HITS%", number_format_i18n($total_stats['hits']), $template_download_header);
 		$template_download_header = str_replace("%TOTAL_SIZE%", format_filesize($total_stats['size']), $template_download_header);
@@ -517,7 +511,7 @@ function downloads_page($category_id = 0) {
 			// Print Out Category Footer
 			if($need_footer && $temp_cat_id != $cat_id && $file_sort['group'] == 1) {
 				// Get Download Category Footer
-				$template_download_category_footer = fix_form_template(stripslashes(get_option('download_template_category_footer')));
+				$template_download_category_footer = stripslashes(get_option('download_template_category_footer'));
 				$template_download_category_footer = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_footer);
 				$template_download_category_footer = str_replace("%CATEGORY_ID%", $cat_id, $template_download_category_footer);
 				$template_download_category_footer = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_footer);
@@ -530,7 +524,7 @@ function downloads_page($category_id = 0) {
 			// Print Out Category Header
 			if($temp_cat_id != $cat_id && $file_sort['group'] == 1) {
 				// Get Download Category Header
-				$template_download_category_header = fix_form_template(stripslashes(get_option('download_template_category_header')));
+				$template_download_category_header = stripslashes(get_option('download_template_category_header'));
 				$template_download_category_header = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_header);
 				$template_download_category_header = str_replace("%CATEGORY_ID%", $cat_id, $template_download_category_header);
 				$template_download_category_header = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_header);
@@ -571,7 +565,7 @@ function downloads_page($category_id = 0) {
 		// Print Out Category Footer
 		if($need_footer) {
 			// Get Download Category Footer
-			$template_download_category_footer = fix_form_template(stripslashes(get_option('download_template_category_footer')));
+			$template_download_category_footer = stripslashes(get_option('download_template_category_footer'));
 			$template_download_category_footer = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_footer);
 			$template_download_category_footer = str_replace("%CATEGORY_ID%", $cat_id, $template_download_category_footer);
 			$template_download_category_footer = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_footer);
@@ -582,7 +576,7 @@ function downloads_page($category_id = 0) {
 			$need_footer = 0;
 		}
 		// Get Download Page Footer
-		$template_download_footer = fix_form_template(stripslashes(get_option('download_template_footer')));
+		$template_download_footer = stripslashes(get_option('download_template_footer'));
 		$template_download_footer = str_replace("%TOTAL_FILES_COUNT%", number_format_i18n($total_stats['files']), $template_download_footer);
 		$template_download_footer = str_replace("%TOTAL_HITS%", number_format_i18n($total_stats['hits']), $template_download_footer);
 		$template_download_footer = str_replace("%TOTAL_SIZE%", format_filesize($total_stats['size']), $template_download_footer);
@@ -597,7 +591,7 @@ function downloads_page($category_id = 0) {
 	}
 	// Download Paging
 	if($max_page > 1) {
-		$output .= fix_form_template(stripslashes(get_option('download_template_pagingheader')));
+		$output .= stripslashes(get_option('download_template_pagingheader'));
 		if(function_exists('wp_pagenavi')) {
 			$output .= '<div class="wp-pagenavi">'."\n";
 		} else {
@@ -626,7 +620,7 @@ function downloads_page($category_id = 0) {
 			$output .= '<a href="'.download_page_link($max_page).'" title="'.__('Last &raquo;', 'wp-downloadmanager').'">'.__('Last &raquo;', 'wp-downloadmanager').'</a>';
 		}
 		$output .= '</div>';
-		$output .= fix_form_template(stripslashes(get_option('download_template_pagingfooter')));
+		$output .= stripslashes(get_option('download_template_pagingfooter'));
 	}
 	return apply_filters('downloads_page', $output);
 }
