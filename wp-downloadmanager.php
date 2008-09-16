@@ -262,15 +262,15 @@ if(!function_exists('remote_filesize')) {
 if(!function_exists('format_filesize')) {
 	function format_filesize($rawSize) {
 		if($rawSize / 1099511627776 > 1) {
-			return sprintf('%.1f', ($rawSize/1099511627776)).' '.__('TiB', 'wp-downloadmanager');
+			return number_format_i18n($rawSize/1099511627776, 1).' '.__('TiB', 'wp-downloadmanager');
 		} elseif($rawSize / 1073741824 > 1) {
-			return sprintf('%.1f', ($rawSize/1073741824)).' '.__('GiB', 'wp-downloadmanager');
+			return number_format_i18n($rawSize/1073741824, 1).' '.__('GiB', 'wp-downloadmanager');
 		} elseif($rawSize / 1048576 > 1) {
-			return sprintf('%.1f', ($rawSize/1048576)).' '.__('MiB', 'wp-downloadmanager');
+			return number_format_i18n($rawSize/1048576, 1).' '.__('MiB', 'wp-downloadmanager');
 		} elseif($rawSize / 1024 > 1) {
-			return sprintf('%.1f', ($rawSize/1024)).' '.__('KiB', 'wp-downloadmanager');
+			return number_format_i18n($rawSize/1024, 1).' '.__('KiB', 'wp-downloadmanager');
 		} elseif($rawSize > 1) {
-			return sprintf('%.1f', ($rawSize)).' '.__('bytes', 'wp-downloadmanager');
+			return number_format_i18n($rawSize, 0).' '.__('bytes', 'wp-downloadmanager');
 		} else {
 			return __('unknown', 'wp-downloadmanager');
 		}
@@ -393,6 +393,15 @@ function download_shortcode($atts) {
 	}
 }
 
+###Function: Adds page_id hidden parameter to templates with form
+function fix_form_template($template)
+{
+  if('0' == get_option('download_nice_permalink') && preg_match('/[\?\&]page_id=(\d+)/i', get_option('download_page_url'), $matches)) {
+    $page_id = $matches[1];
+    $template = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$page_id.'" />', $template);
+  }
+  return $template;
+}
 
 ### Function: Downloads Page
 function downloads_page($category_id = 0) {
@@ -487,10 +496,7 @@ function downloads_page($category_id = 0) {
 	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE 1=1 $category_sql $search_sql AND file_permission != -1 ORDER BY $group_sql {$file_sort['by']} {$file_sort['order']} LIMIT $offset, {$file_sort['perpage']}");
 	if($files) {
 		// Get Download Page Header
-		$template_download_header = stripslashes(get_option('download_template_header'));
-		if(get_option('download_nice_permalink') == '0' && preg_match('/[\?\&]page_id=(\d+)/i', get_option('download_page_url'), $matches)) {
-			$template_download_header = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$matches[1].'" />', $template_download_header);
-		}
+		$template_download_header = fix_form_template(stripslashes(get_option('download_template_header')));
 		$template_download_header = str_replace("%TOTAL_FILES_COUNT%", number_format_i18n($total_stats['files']), $template_download_header);
 		$template_download_header = str_replace("%TOTAL_HITS%", number_format_i18n($total_stats['hits']), $template_download_header);
 		$template_download_header = str_replace("%TOTAL_SIZE%", format_filesize($total_stats['size']), $template_download_header);
@@ -511,7 +517,7 @@ function downloads_page($category_id = 0) {
 			// Print Out Category Footer
 			if($need_footer && $temp_cat_id != $cat_id && $file_sort['group'] == 1) {
 				// Get Download Category Footer
-				$template_download_category_footer = stripslashes(get_option('download_template_category_footer'));
+				$template_download_category_footer = fix_form_template(stripslashes(get_option('download_template_category_footer')));
 				$template_download_category_footer = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_footer);
 				$template_download_category_footer = str_replace("%CATEGORY_ID%", $cat_id, $template_download_category_footer);
 				$template_download_category_footer = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_footer);
@@ -524,7 +530,7 @@ function downloads_page($category_id = 0) {
 			// Print Out Category Header
 			if($temp_cat_id != $cat_id && $file_sort['group'] == 1) {
 				// Get Download Category Header
-				$template_download_category_header = stripslashes(get_option('download_template_category_header'));
+				$template_download_category_header = fix_form_template(stripslashes(get_option('download_template_category_header')));
 				$template_download_category_header = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_header);
 				$template_download_category_header = str_replace("%CATEGORY_ID%", $cat_id, $template_download_category_header);
 				$template_download_category_header = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_header);
@@ -565,7 +571,7 @@ function downloads_page($category_id = 0) {
 		// Print Out Category Footer
 		if($need_footer) {
 			// Get Download Category Footer
-			$template_download_category_footer = stripslashes(get_option('download_template_category_footer'));
+			$template_download_category_footer = fix_form_template(stripslashes(get_option('download_template_category_footer')));
 			$template_download_category_footer = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_category_footer);
 			$template_download_category_footer = str_replace("%CATEGORY_ID%", $cat_id, $template_download_category_footer);
 			$template_download_category_footer = str_replace("%CATEGORY_URL%", download_category_url($cat_id), $template_download_category_footer);
@@ -576,7 +582,7 @@ function downloads_page($category_id = 0) {
 			$need_footer = 0;
 		}
 		// Get Download Page Footer
-		$template_download_footer = stripslashes(get_option('download_template_footer'));
+		$template_download_footer = fix_form_template(stripslashes(get_option('download_template_footer')));
 		$template_download_footer = str_replace("%TOTAL_FILES_COUNT%", number_format_i18n($total_stats['files']), $template_download_footer);
 		$template_download_footer = str_replace("%TOTAL_HITS%", number_format_i18n($total_stats['hits']), $template_download_footer);
 		$template_download_footer = str_replace("%TOTAL_SIZE%", format_filesize($total_stats['size']), $template_download_footer);
@@ -591,7 +597,7 @@ function downloads_page($category_id = 0) {
 	}
 	// Download Paging
 	if($max_page > 1) {
-		$output .= stripslashes(get_option('download_template_pagingheader'));
+		$output .= fix_form_template(stripslashes(get_option('download_template_pagingheader')));
 		if(function_exists('wp_pagenavi')) {
 			$output .= '<div class="wp-pagenavi">'."\n";
 		} else {
@@ -620,7 +626,7 @@ function downloads_page($category_id = 0) {
 			$output .= '<a href="'.download_page_link($max_page).'" title="'.__('Last &raquo;', 'wp-downloadmanager').'">'.__('Last &raquo;', 'wp-downloadmanager').'</a>';
 		}
 		$output .= '</div>';
-		$output .= stripslashes(get_option('download_template_pagingfooter'));
+		$output .= fix_form_template(stripslashes(get_option('download_template_pagingfooter')));
 	}
 	return apply_filters('downloads_page', $output);
 }
@@ -1069,9 +1075,9 @@ function downloadmanager_page_admin_recent_stats($content) {
 	$stats_display = get_option('stats_display');
 	$stats_mostlimit = intval(get_option('stats_mostlimit'));
 	if($stats_display['recent_downloads'] == 1) {
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_recent_downloads" value="recent_downloads" checked="checked" />&nbsp;&nbsp;<label for="wpstats_recent_downloads">'.sprintf(__ngettext('%s Most Recent Download', '%s Most Recent Downloads', $stats_mostlimit, 'wp-downloadmanager'), $stats_mostlimit).'</label><br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_recent_downloads" value="recent_downloads" checked="checked" />&nbsp;&nbsp;<label for="wpstats_recent_downloads">'.sprintf(__ngettext('%s Most Recent Download', '%s Most Recent Downloads', $stats_mostlimit, 'wp-downloadmanager'), number_format_i18n($stats_mostlimit)).'</label><br />'."\n";
 	} else {
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_recent_downloads" value="recent_downloads" />&nbsp;&nbsp;<label for="wpstats_recent_downloads">'.sprintf(__ngettext('%s Most Recent Download', '%s Most Recent Downloads', $stats_mostlimit, 'wp-downloadmanager'), $stats_mostlimit).'</label><br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_recent_downloads" value="recent_downloads" />&nbsp;&nbsp;<label for="wpstats_recent_downloads">'.sprintf(__ngettext('%s Most Recent Download', '%s Most Recent Downloads', $stats_mostlimit, 'wp-downloadmanager'), number_format_i18n($stats_mostlimit)).'</label><br />'."\n";
 	}
 	return $content;
 }
@@ -1082,9 +1088,9 @@ function downloadmanager_page_admin_most_stats($content) {
 	$stats_display = get_option('stats_display');
 	$stats_mostlimit = intval(get_option('stats_mostlimit'));
 	if($stats_display['downloaded_most'] == 1) {
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloaded_most" value="downloaded_most" checked="checked" />&nbsp;&nbsp;<label for="wpstats_downloaded_most">'.sprintf(__ngettext('%s Most Downloaded File', '%s Most Downloaded Files', $stats_mostlimit, 'wp-downloadmanager'), $stats_mostlimit).'</label><br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloaded_most" value="downloaded_most" checked="checked" />&nbsp;&nbsp;<label for="wpstats_downloaded_most">'.sprintf(__ngettext('%s Most Downloaded File', '%s Most Downloaded Files', $stats_mostlimit, 'wp-downloadmanager'), number_format_i18n($stats_mostlimit)).'</label><br />'."\n";
 	} else {
-		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloaded_most" value="downloaded_most" />&nbsp;&nbsp;<label for="wpstats_downloaded_most">'.sprintf(__ngettext('%s Most Downloaded File', '%s Most Downloaded Files', $stats_mostlimit, 'wp-downloadmanager'), $stats_mostlimit).'</label><br />'."\n";
+		$content .= '<input type="checkbox" name="stats_display[]" id="wpstats_downloaded_most" value="downloaded_most" />&nbsp;&nbsp;<label for="wpstats_downloaded_most">'.sprintf(__ngettext('%s Most Downloaded File', '%s Most Downloaded Files', $stats_mostlimit, 'wp-downloadmanager'), number_format_i18n($stats_mostlimit)).'</label><br />'."\n";
 	}
 	return $content;
 }
@@ -1112,7 +1118,7 @@ function downloadmanager_page_recent_stats($content) {
 	$stats_display = get_option('stats_display');
 	$stats_mostlimit = intval(get_option('stats_mostlimit'));
 	if($stats_display['recent_downloads'] == 1) {
-		$content .= '<p><strong>'.sprintf(__ngettext('%s Most Recent Download', '%s Most Recent Downloads', $stats_mostlimit, 'wp-downloadmanager'), $stats_mostlimit).'</strong></p>'."\n";
+		$content .= '<p><strong>'.sprintf(__ngettext('%s Most Recent Download', '%s Most Recent Downloads', $stats_mostlimit, 'wp-downloadmanager'), number_format_i18n($stats_mostlimit)).'</strong></p>'."\n";
 		$content .= '<ul>'."\n";
 		$content .= get_recent_downloads($stats_mostlimit, 0, false);
 		$content .= '</ul>'."\n";
@@ -1126,7 +1132,7 @@ function downloadmanager_page_most_stats($content) {
 	$stats_display = get_option('stats_display');
 	$stats_mostlimit = intval(get_option('stats_mostlimit'));
 	if($stats_display['downloaded_most'] == 1) {
-		$content .= '<p><strong>'.sprintf(__ngettext('%s Most Downloaded File', '%s Most Downloaded Files', $stats_mostlimit, 'wp-downloadmanager'), $stats_mostlimit).'</strong></p>'."\n";
+		$content .= '<p><strong>'.sprintf(__ngettext('%s Most Downloaded File', '%s Most Downloaded Files', $stats_mostlimit, 'wp-downloadmanager'), number_format_i18n($stats_mostlimit)).'</strong></p>'."\n";
 		$content .= '<ul>'."\n";
 		$content .= get_most_downloaded($stats_mostlimit, 0, false);
 		$content .= '</ul>'."\n";

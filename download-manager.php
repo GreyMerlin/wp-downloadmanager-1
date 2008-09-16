@@ -483,7 +483,7 @@ switch($mode) {
 		<!-- Manage Downloads -->
 		<div class="wrap">
 			<h2><?php _e('Manage Downloads', 'wp-downloadmanager'); ?></h2>
-			<p><?php printf(__('Displaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), $display_on_page, $max_on_page, $total_file); ?></p>
+			<p><?php printf(__('Displaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), number_format_i18n($display_on_page), number_format_i18n($max_on_page), number_format_i18n($total_file)); ?></p>
 			<p><?php printf(__('Sorted By <strong>%s</strong> In <strong>%s</strong> Order', 'wp-downloadmanager'), $file_sortby_text, $file_sortorder_text); ?></p>
 			<table class="widefat">
 				<thead>
@@ -529,7 +529,7 @@ switch($mode) {
 							$style = ' class="alternate"';
 						}
 						echo "<tr$style>\n";
-						echo "<td valign=\"top\">$file_id</td>\n";
+						echo '<td valign="top">'.number_format_i18n($file_id).'</td>'."\n";
 						echo "<td>$file_nicename<br /><strong>&raquo;</strong> <i dir=\"ltr\">".snippet_text($file_name, 45)."</i><br /><br /><i>".sprintf(__('Last Updated: %s, %s', 'wp-downloadmanager'), $file_updated_time, $file_updated_date)."</i><br /><i>".sprintf(__('Last Downloaded: %s, %s', 'wp-downloadmanager'), $file_last_downloaded_time, $file_last_downloaded_date)."</i></td>\n";
 						echo '<td style="text-align: center;">'.format_filesize($file_size).'</td>'."\n";
 						echo '<td style="text-align: center;">'.number_format_i18n($file_hits).'</td>'."\n";
@@ -634,9 +634,9 @@ switch($mode) {
 					<?php
 						for($k=10; $k <= 100; $k+=10) {
 							if($file_perpage == $k) {
-								echo "<option value=\"$k\" selected=\"selected\">".__('Per Page', 'wp-downloadmanager').": $k</option>\n";
+								echo "<option value=\"$k\" selected=\"selected\">".__('Per Page', 'wp-downloadmanager').": ".number_format_i18n($k)."</option>\n";
 							} else {
-								echo "<option value=\"$k\">".__('Per Page', 'wp-downloadmanager').": $k</option>\n";
+								echo "<option value=\"$k\">".__('Per Page', 'wp-downloadmanager').": ".number_format_i18n($k)."</option>\n";
 							}
 						}
 					?>
