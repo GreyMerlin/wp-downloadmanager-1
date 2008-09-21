@@ -553,7 +553,7 @@ switch($mode) {
 		<br />
 		<table class="widefat">
 			<tr>
-				<td width="50%">
+				<td align="<?php echo ('rtl' == $text_direction) ? 'right' : 'left'; ?>" width="50%">
 					<?php
 						if($file_page > 1 && ((($file_page*$file_perpage)-($file_perpage-1)) <= $total_file)) {
 							echo '<strong>&laquo;</strong> <a href="'.$base_page.'&amp;filepage='.($file_page-1).$file_sort_url.'" title="&laquo; '.__('Previous Page', 'wp-downloadmanager').'">'.__('Previous Page', 'wp-downloadmanager').'</a>';
@@ -562,7 +562,7 @@ switch($mode) {
 						}
 					?>
 				</td>
-				<td align="right" width="50%">
+				<td align="<?php echo ('rtl' == $text_direction) ? 'left' : 'right'; ?>" width="50%">
 					<?php
 						if($file_page >= 1 && ((($file_page*$file_perpage)+1) <=  $total_file)) {
 							echo '<a href="'.$base_page.'&amp;filepage='.($file_page+1).$file_sort_url.'" title="'.__('Next Page', 'wp-downloadmanager').' &raquo;">'.__('Next Page', 'wp-downloadmanager').'</a> <strong>&raquo;</strong>';
@@ -574,25 +574,25 @@ switch($mode) {
 			</tr>
 			<tr class="alternate">
 				<td colspan="2" align="center">
-					<?php _e('Pages', 'wp-downloadmanager'); ?> (<?php echo $total_pages; ?>):
+					<?php _e('Pages', 'wp-downloadmanager'); ?> (<?php echo number_format_i18n($total_pages); ?>):
 					<?php
 						if ($file_page >= 4) {
 							echo '<strong><a href="'.$base_page.'&amp;filepage=1'.$file_sort_url.'" title="'.__('Go to First Page', 'wp-downloadmanager').'">&laquo; '.__('First', 'wp-downloadmanager').'</a></strong> ... ';
 						}
 						if($file_page > 1) {
-							echo ' <strong><a href="'.$base_page.'&amp;filepage='.($file_page-1).$file_sort_url.'" title="&laquo; '.__('Go to Page', 'wp-downloadmanager').' '.($file_page-1).'">&laquo;</a></strong> ';
+							echo ' <strong><a href="'.$base_page.'&amp;filepage='.($file_page-1).$file_sort_url.'" title="&laquo; '.__('Go to Page', 'wp-downloadmanager').' '.number_format_i18n($file_page-1).'">&laquo;</a></strong> ';
 						}
 						for($i = $file_page - 2 ; $i  <= $file_page +2; $i++) {
 							if ($i >= 1 && $i <= $total_pages) {
 								if($i == $file_page) {
-									echo "<strong>[$i]</strong> ";
+									echo '<strong>['.number_format_i18n($i).']</strong> ';
 								} else {
-									echo '<a href="'.$base_page.'&amp;filepage='.($i).$file_sort_url.'" title="'.__('Page', 'wp-downloadmanager').' '.$i.'">'.$i.'</a> ';
+									echo '<a href="'.$base_page.'&amp;filepage='.($i).$file_sort_url.'" title="'.__('Page', 'wp-downloadmanager').' '.number_format_i18n($i).'">'.number_format_i18n($i).'</a> ';
 								}
 							}
 						}
 						if($file_page < $total_pages) {
-							echo ' <strong><a href="'.$base_page.'&amp;filepage='.($file_page+1).$file_sort_url.'" title="'.__('Go to Page', 'wp-downloadmanager').' '.($file_page+1).' &raquo;">&raquo;</a></strong> ';
+							echo ' <strong><a href="'.$base_page.'&amp;filepage='.($file_page+1).$file_sort_url.'" title="'.__('Go to Page', 'wp-downloadmanager').' '.number_format_i18n($file_page+1).' &raquo;">&raquo;</a></strong> ';
 						}
 						if (($file_page+2) < $total_pages) {
 							echo ' ... <strong><a href="'.$base_page.'&amp;filepage='.($total_pages).$file_sort_url.'" title="'.__('Go to Last Page', 'wp-downloadmanager'), 'wp-downloadmanager'.'">'.__('Last', 'wp-downloadmanager').' &raquo;</a></strong>';

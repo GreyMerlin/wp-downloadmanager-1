@@ -597,27 +597,27 @@ function downloads_page($category_id = 0) {
 		} else {
 			$output .= '<div class="wp-downloadmanager-paging">'."\n";
 		}
-		$output .= '<span class="pages">'.sprintf(__('Page %s of %s', 'wp-downloadmanager'), $page, $max_page).'</span>';			
+		$output .= '<span class="pages">&#8201;'.sprintf(__('Page %s of %s', 'wp-downloadmanager'), number_format_i18n($page), number_format_i18n($max_page)).'&#8201;</span>';			
 		if ($start_page >= 2 && $pages_to_show < $max_page) {
-			$output .= '<a href="'.download_page_link(1).'" title="'.__('&laquo; First', 'wp-downloadmanager').'">'.__('&laquo; First', 'wp-downloadmanager').'</a>';
+			$output .= '<a href="'.download_page_link(1).'" title="'.__('&laquo; First', 'wp-downloadmanager').'">&#8201;'.__('&laquo; First', 'wp-downloadmanager').'&#8201;</a>';
 			$output .= '<span class="extend">...</span>';
 		}
 		if($page > 1) {
-			$output .= '<a href="'.download_page_link(($page-1)).'" title="'.__('&laquo;', 'wp-downloadmanager').'">'.__('&laquo;', 'wp-downloadmanager').'</a>';
+			$output .= '<a href="'.download_page_link(($page-1)).'" title="'.__('&laquo;', 'wp-downloadmanager').'">&#8201;'.__('&laquo;', 'wp-downloadmanager').'&#8201;</a>';
 		}
 		for($i = $start_page; $i  <= $end_page; $i++) {						
 			if($i == $page) {
-				$output .= '<span class="current">'.$i.'</span>';
+				$output .= '<span class="current">&#8201;'.number_format_i18n($i).'&#8201;</span>';
 			} else {
-				$output .= '<a href="'.download_page_link($i).'" title="'.$i.'">'.$i.'</a>';
+				$output .= '<a href="'.download_page_link($i).'" title="'.number_format_i18n($i).'">&#8201;'.number_format_i18n($i).'&#8201;</a>';
 			}
 		}
 		if(empty($page) || ($page+1) <= $max_page) {
-			$output .= '<a href="'.download_page_link(($page+1)).'" title="'.__('&raquo;', 'wp-downloadmanager').'">'.__('&raquo;', 'wp-downloadmanager').'</a>';
+			$output .= '<a href="'.download_page_link(($page+1)).'" title="'.__('&raquo;', 'wp-downloadmanager').'">&#8201;'.__('&raquo;', 'wp-downloadmanager').'&#8201;</a>';
 		}
 		if ($end_page < $max_page) {
 			$output .= '<span class="extend">...</span>';
-			$output .= '<a href="'.download_page_link($max_page).'" title="'.__('Last &raquo;', 'wp-downloadmanager').'">'.__('Last &raquo;', 'wp-downloadmanager').'</a>';
+			$output .= '<a href="'.download_page_link($max_page).'" title="'.__('Last &raquo;', 'wp-downloadmanager').'">&#8201;'.__('Last &raquo;', 'wp-downloadmanager').'&#8201;</a>';
 		}
 		$output .= '</div>';
 		$output .= stripslashes(get_option('download_template_pagingfooter'));
