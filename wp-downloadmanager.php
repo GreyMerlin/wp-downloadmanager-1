@@ -306,12 +306,21 @@ function is_remote_file($file_name) {
 ### Function: Snippet Text
 if(!function_exists('snippet_text')) {
 	function snippet_text($text, $length = 0) {
-		$text = html_entity_decode($text, ENT_QUOTES, get_option('blog_charset'));
-		 if (strlen($text) > $length) {
-			return htmlentities(substr($text,0,$length), ENT_COMPAT, get_option('blog_charset')).'...';
-		 } else {
-			return htmlentities($text, ENT_COMPAT, get_option('blog_charset'));
-		 }
+		if (defined('MB_OVERLOAD_STRING')) {
+		  $text = @html_entity_decode($text, ENT_QUOTES, get_option('blog_charset'));
+		 	if (mb_strlen($text) > $length) {
+				return htmlentities(mb_substr($text,0,$length), ENT_COMPAT, get_option('blog_charset')).'...';
+		 	} else {
+				return htmlentities($text, ENT_COMPAT, get_option('blog_charset'));
+		 	}
+		} else {
+			$text = @html_entity_decode($text, ENT_QUOTES, get_option('blog_charset'));
+		 	if (strlen($text) > $length) {
+				return htmlentities(substr($text,0,$length), ENT_COMPAT, get_option('blog_charset')).'...';
+		 	} else {
+				return htmlentities($text, ENT_COMPAT, get_option('blog_charset'));
+		 	}
+		}
 	}
 }
 
@@ -632,7 +641,7 @@ function list_downloads_files($dir, $orginal_dir) {
 	if (is_dir($dir)) {
 	   if ($dh = opendir($dir)) {
 		   while (($file = readdir($dh)) !== false) {
-				if($file != '.' && $file != '..')	{
+				if($file != '.' && $file != '..' && $file != '.htaccess')	{
 					if(is_dir($dir.'/'.$file)) {						
 						list_downloads_files($dir.'/'.$file, $orginal_dir);
 					} else {
@@ -772,6 +781,7 @@ function file_timestamp($file_timestamp) {
 		}
 	}
 	echo '</select>&nbsp;@'."\n";
+  echo '<span dir="ltr">'."\n";
 	$hour = gmdate('H', $file_timestamp);
 	echo '<select id="file_timestamp_hour" name="file_timestamp_hour" size="1">'."\n";
 	for($i = 0; $i < 24; $i++) {
@@ -803,6 +813,7 @@ function file_timestamp($file_timestamp) {
 		}
 	}
 	echo '</select>'."\n";
+  echo '</span>'."\n";
 }
 
 
