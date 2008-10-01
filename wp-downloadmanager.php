@@ -498,7 +498,7 @@ function downloads_page($category_id = 0) {
 		// Get Download Page Header
 		$template_download_header = stripslashes(get_option('download_template_header'));
 		if(get_option('download_nice_permalink') == '0' && preg_match('/[\?\&]page_id=(\d+)/i', get_option('download_page_url'), $matches)) {
-			$template = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$matches[1].'" />', $template_download_header);
+			$template_download_header = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$matches[1].'" />', $template_download_header);
 		}
 		$template_download_header = str_replace("%TOTAL_FILES_COUNT%", number_format_i18n($total_stats['files']), $template_download_header);
 		$template_download_header = str_replace("%TOTAL_HITS%", number_format_i18n($total_stats['hits']), $template_download_header);
@@ -702,7 +702,7 @@ function print_list_files($dir, $orginal_dir, $selected = '') {
 	}
 	if($download_files_subfolder) {
 		foreach($download_files_subfolder as $download_file_subfolder) {
-			if($download_file == $selected) {
+			if($download_file_subfolder == $selected) {
 				echo '<option value="'.$download_file_subfolder.'" selected="selected">'.$download_file_subfolder.'</option>'."\n";	
 			} else {
 				echo '<option value="'.$download_file_subfolder.'">'.$download_file_subfolder.'</option>'."\n";	
