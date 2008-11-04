@@ -44,7 +44,7 @@ $wpdb->downloads = $wpdb->prefix.'downloads';
 add_action('admin_menu', 'downloads_menu');
 function downloads_menu() {
 	if (function_exists('add_menu_page')) {
-		add_menu_page(__('Downloads', 'wp-downloadmanager'), __('Downloads', 'wp-downloadmanager'), 'manage_downloads', 'wp-downloadmanager/download-manager.php');
+		add_menu_page(__('Downloads', 'wp-downloadmanager'), __('Downloads', 'wp-downloadmanager'), 'manage_downloads', 'wp-downloadmanager/download-manager.php', '', plugins_url('wp-downloadmanager/images/drive.png'));
 	}
 	if (function_exists('add_submenu_page')) {
 		add_submenu_page('wp-downloadmanager/download-manager.php', __('Manage Downloads', 'wp-downloadmanager'), __('Manage Downloads', 'wp-downloadmanager'), 'manage_downloads', 'wp-downloadmanager/download-manager.php');
