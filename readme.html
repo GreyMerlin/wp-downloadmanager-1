@@ -291,6 +291,7 @@
 					<ul>
 						<li>NEW: Works For WordPress 2.7 Only</li>
 						<li>NEW: Uses wp_register_style(), wp_print_styles(), plugins_url() And site_url()</li>
+						<li>NEW: Download ShortCode Now Support Category by <a href="http://persian-programming.com/" title="http://persian-programming.com/">Kambiz R. Khojasteh</a></li>
 						<li>NEW: Right To Left Language Support by <a href="http://persian-programming.com/" title="http://persian-programming.com/">Kambiz R. Khojasteh</a></li>
 						<li>NEW: Output Of downloads_page() And download_embedded() Respectively Applied To "downloads_page" And "download_embedded" Filters by <a href="http://persian-programming.com/" title="http://persian-programming.com/">Kambiz R. Khojasteh</a></li>
 						<li>NEW: Call downloadmanager_textdomain() Inside create_download_table() by <a href="http://persian-programming.com/" title="http://persian-programming.com/">Kambiz R. Khojasteh</a></li>
@@ -428,6 +429,9 @@
 				</li>
 				<li>
 					To choose what to display within the embedded file, use [download id="<strong>1</strong>" display="<strong>both</strong>"] where <strong>1</strong> is your file id and <strong>both</strong> will display both the file name and file desccription, whereas <strong>name</strong> will only display the filename.<br /><br />Note that this will overwrite the "Download Embedded File" template you have in your Download Templates.
+				</li>
+				<li>
+					To embed files as well as categories, use [download id="<strong>1,2,3</strong>" category="<strong>4,5,6</strong>"] where <strong>1,2,3</strong> are your file id and <strong>4,5,6</strong> are your category ids.
 				</li>
 				<li>
 					If you are using <strong>Default Permalinks</strong>, the file direct download link will be '<strong>http://yoursite.com/index.php?dl_id=2</strong>'. If you are using <strong>Nice Permalinks</strong>, the file direct download link will be '<strong>http://yoursite.com/download/2/</strong>', where <strong>yoursite.com</strong> is your WordPress URL and <strong>2</strong> is your file id.

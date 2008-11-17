@@ -389,13 +389,28 @@ function download_page_shortcode($atts) {
 ### Function: Short Code For Inserting Files Download Into Posts
 add_shortcode('download', 'download_shortcode');
 function download_shortcode($atts) {
-	extract(shortcode_atts(array('id' => '0', 'display' => 'both'), $atts));
+	extract(shortcode_atts(array('id' => '0', 'category' => '0', 'display' => 'both'), $atts));
 	if(!is_feed()) {
-		$ids = explode(',', $id);
-		if(is_array($ids)) {
-			return download_embedded($ids, $display);
-		} else {
-			return download_embedded($id, $display);
+		$conditions = array();
+		if($id != '0') {
+			if(strpos($id, ',') !== false) {
+				$conditions[] = "file_id IN ($id)";
+			} else {
+				$conditions[] = "file_id = $id";
+			}
+		}
+		if($category != '0') {
+			if(strpos($category, ',') !== false) {
+				$conditions[] = "file_category IN ($category)";
+			} else {
+				$conditions[] = "file_category = $category";
+			}
+		}
+		if($conditions) {
+			return download_embedded(implode(' AND ', $conditions), $display);
+		}
+		else {
+			return '';
 		}
 	} else {
 		return __('Note: There is a file embedded within this post, please visit this post to download the file.', 'wp-downloadmanager');
@@ -857,17 +872,14 @@ function get_download_hits($display = true) {
 
 
 ### Function: Download Embedded
-function download_embedded($file_id, $display = 'both') {
+function download_embedded($condition = '', $display = 'both') {
 	global $wpdb, $user_ID;
 	$output = '';
-	$file_id_string = '';
 	$file_extensions_images = file_extension_images();
-	if(is_array($file_id)) {
-		$file_id_string = 'file_id IN ('.implode(',', $file_id).')';
-	} else {
-		$file_id_string = "file_id = $file_id";
+	if($condition !== '') {
+		$condition .= ' AND ';
 	}
-	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE $file_id_string AND file_permission != -1");
+	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE $condition file_permission != -1");
 	if($files) {
 		// Get Download Categories
 		$download_categories = get_option('download_categories');
