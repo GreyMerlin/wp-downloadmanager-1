@@ -273,6 +273,7 @@ switch($mode) {
 			<input type="hidden" name="file_id" value="<?php echo intval($file->file_id); ?>" />
 			<input type="hidden" name="old_file" value="<?php echo stripslashes($file->file); ?>" />
 			<div class="wrap">
+				<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
 				<h2><?php _e('Edit A File', 'wp-downloadmanager'); ?></h2>
 				<table class="form-table">
 					<tr>
@@ -377,6 +378,7 @@ switch($mode) {
 			<input type="hidden" name="file" value="<?php echo stripslashes($file->file); ?>" />
 			<input type="hidden" name="file_name" value="<?php echo htmlspecialchars(stripslashes($file->file_name)); ?>" />
 			<div class="wrap">
+				<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
 				<h2><?php _e('Delete A File', 'wp-downloadmanager'); ?></h2>
 				<br style="clear" />
 				<table class="widefat">
@@ -482,7 +484,9 @@ switch($mode) {
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Manage Downloads -->
 		<div class="wrap">
+			<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
 			<h2><?php _e('Manage Downloads', 'wp-downloadmanager'); ?></h2>
+			<h3><?php _e('Downloads', 'wp-downloadmanager'); ?></h3>
 			<p><?php printf(__('Displaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), number_format_i18n($display_on_page), number_format_i18n($max_on_page), number_format_i18n($total_file)); ?></p>
 			<p><?php printf(__('Sorted By <strong>%s</strong> In <strong>%s</strong> Order', 'wp-downloadmanager'), $file_sortby_text, $file_sortorder_text); ?></p>
 			<table class="widefat">
@@ -651,7 +655,7 @@ switch($mode) {
 
 <!-- Download Stats -->
 <div class="wrap">
-	<h2><?php _e('Download Stats', 'wp-downloadmanager'); ?></h2>
+	<h3><?php _e('Download Stats', 'wp-downloadmanager'); ?></h3>
 	<br style="clear" />
 	<table class="widefat">
 		<tr>
