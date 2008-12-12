@@ -90,7 +90,7 @@ function downloads_footer_admin() {
 	// Javascript Code Courtesy Of WP-AddQuicktag (http://bueltge.de/wp-addquicktags-de-plugin/120/)
 	echo '<script type="text/javascript">'."\n";
 	echo "\t".'function insertDownload(where, myField) {'."\n";
-	echo "\t\t".'var download_id = prompt("'.__('Enter File ID (Separate Multiple IDs By A Comma)', 'wp-downloadmanager').'");'."\n";
+	echo "\t\t".'var download_id = prompt("'.js_escape(__('Enter File ID (Separate Multiple IDs By A Comma)', 'wp-downloadmanager')).'");'."\n";
 	echo "\t\t".'if(where == "code") {'."\n";
 	echo "\t\t\t".'edInsertContent(myField, "[download id=\"" + download_id + "\"]");'."\n";
 	echo "\t\t".'} else {'."\n";
@@ -99,14 +99,14 @@ function downloads_footer_admin() {
 	echo "\t".'}'."\n";
 	echo "\t".'if(document.getElementById("ed_toolbar")){'."\n";
 	echo "\t\t".'qt_toolbar = document.getElementById("ed_toolbar");'."\n";
-	echo "\t\t".'edButtons[edButtons.length] = new edButton("ed_downloadmanager","'.__('Download', 'wp-downloadmanager').'", "", "","");'."\n";
+	echo "\t\t".'edButtons[edButtons.length] = new edButton("ed_downloadmanager","'.js_escape(__('Download', 'wp-downloadmanager')).'", "", "","");'."\n";
 	echo "\t\t".'var qt_button = qt_toolbar.lastChild;'."\n";
 	echo "\t\t".'while (qt_button.nodeType != 1){'."\n";
 	echo "\t\t\t".'qt_button = qt_button.previousSibling;'."\n";
 	echo "\t\t".'}'."\n";
 	echo "\t\t".'qt_button = qt_button.cloneNode(true);'."\n";
-	echo "\t\t".'qt_button.value = "'.__('Download', 'wp-downloadmanager').'";'."\n";
-	echo "\t\t".'qt_button.title = "'.__('Insert File Download', 'wp-downloadmanager').'";'."\n";
+	echo "\t\t".'qt_button.value = "'.js_escape(__('Download', 'wp-downloadmanager')).'";'."\n";
+	echo "\t\t".'qt_button.title = "'.js_escape(__('Insert File Download', 'wp-downloadmanager')).'";'."\n";
 	echo "\t\t".'qt_button.onclick = function () { insertDownload(\'code\', edCanvas);}'."\n";
 	echo "\t\t".'qt_button.id = "ed_downloadmanager";'."\n";
 	echo "\t\t".'qt_toolbar.appendChild(qt_button);'."\n";
