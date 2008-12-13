@@ -152,7 +152,7 @@ function download_rewrite($wp_rewrite) {
 
 
 ### Function: Download File
-add_action('template_redirect', 'download_file');
+add_action('template_redirect', 'download_file', 5);
 function download_file() {
 	global $wpdb, $user_ID;
 	$id = intval(get_query_var('dl_id'));
