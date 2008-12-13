@@ -1212,7 +1212,7 @@ function create_download_table() {
 							"PRIMARY KEY (file_id)) $charset_collate;";
 	maybe_create_table($wpdb->downloads, $create_table);
 	// WP-Downloads Options
-	if (intval($blog_id) > 1) {
+	if (function_exists('is_site_admin')) {
 		add_option('download_path', WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files', 'Download Path');
 		add_option('download_path_url', WP_CONTENT_URL.'/blogs.dir/'. $blog_id.'/files', 'Download Path URL');
 	} else {
@@ -1244,7 +1244,7 @@ function create_download_table() {
 	add_option('download_template_download_page_link', '<p><a href="%DOWNLOAD_PAGE_URL%" title="'.__('Downloads Page', 'wp-downloadmanager').'">'.__('Downloads Page', 'wp-downloadmanager').'</a></p>', 'Template For Download Page Link');
 	add_option('download_template_none', '<p style="text-align: center;">'.__('No Files Found.', 'wp-downloadmanager').'</p>', 'Template For No Downloads Found');
 	// Create Files Folder
-	if (intval($blog_id) > 1) {
+	if (function_exists('is_site_admin')) {
 		if(!is_dir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/')) {
 			mkdir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/', 0777, true);
 		}
