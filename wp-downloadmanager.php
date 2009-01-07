@@ -3,14 +3,14 @@
 Plugin Name: WP-DownloadManager
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Adds a simple download manager to your WordPress blog.
-Version: 1.40
+Version: 1.41
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
 
 
 /*  
-	Copyright 2008  Lester Chan  (email : lesterchan@gmail.com)
+	Copyright 2009  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -586,6 +586,7 @@ function downloads_page($category_id = 0) {
 			$template_download_listing = str_replace("%FILE_ICON%", file_extension_image(stripslashes($file->file), $file_extensions_images), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_DESCRIPTION%", download_search_highlight($search, stripslashes($file->file_des)), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_SIZE%",  format_filesize($file->file_size), $template_download_listing);
+			$template_download_listing = str_replace("%FILE_CATEGORY_ID%", $cat_id, $template_download_listing);
 			$template_download_listing = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[$cat_id]), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_listing);
@@ -916,6 +917,7 @@ function download_embedded($condition = '', $display = 'both') {
 				$template_download_embedded = str_replace("%FILE_DESCRIPTION%",  '', $template_download_embedded);
 			}
 			$template_download_embedded = str_replace("%FILE_SIZE%",  format_filesize($file->file_size), $template_download_embedded);
+			$template_download_embedded = str_replace("%FILE_CATEGORY_ID%", intval($file->file_category), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_embedded);
@@ -959,6 +961,7 @@ if(!function_exists('get_most_downloaded')) {
 				$template_download_most = str_replace("%FILE_ICON%", file_extension_image(stripslashes($file->file), $file_extensions_images), $template_download_most);
 				$template_download_most = str_replace("%FILE_DESCRIPTION%",  stripslashes($file->file_des), $template_download_most);
 				$template_download_most = str_replace("%FILE_SIZE%",  format_filesize($file->file_size), $template_download_most);
+				$template_download_most = str_replace("%FILE_CATEGORY_ID%", intval($file->file_category), $template_download_most);
 				$template_download_most = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_most);
 				$template_download_most = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
@@ -1009,6 +1012,7 @@ if(!function_exists('get_recent_downloads')) {
 				$template_download_most = str_replace("%FILE_ICON%", file_extension_image(stripslashes($file->file), $file_extensions_images), $template_download_most);
 				$template_download_most = str_replace("%FILE_DESCRIPTION%",  stripslashes($file->file_des), $template_download_most);
 				$template_download_most = str_replace("%FILE_SIZE%",  format_filesize($file->file_size), $template_download_most);
+				$template_download_most = str_replace("%FILE_CATEGORY_ID%", intval($file->file_category), $template_download_most);
 				$template_download_most = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_most);
 				$template_download_most = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
@@ -1060,6 +1064,7 @@ if(!function_exists('get_downloads_category')) {
 				$template_download_most = str_replace("%FILE_ICON%", file_extension_image(stripslashes($file->file), $file_extensions_images), $template_download_most);
 				$template_download_most = str_replace("%FILE_DESCRIPTION%",  stripslashes($file->file_des), $template_download_most);
 				$template_download_most = str_replace("%FILE_SIZE%",  format_filesize($file->file_size), $template_download_most);
+				$template_download_most = str_replace("%FILE_CATEGORY_ID%", intval($file->file_category), $template_download_most);
 				$template_download_most = str_replace("%FILE_CATEGORY_NAME%", stripslashes($download_categories[intval($file->file_category)]), $template_download_most);
 				$template_download_most = str_replace("%FILE_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_date)), $template_download_most);

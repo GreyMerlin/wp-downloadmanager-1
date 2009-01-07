@@ -2,8 +2,8 @@
 /*
 +----------------------------------------------------------------------+
 |																									|
-|	WordPress 2.7 Plugin: WP-DownloadManager 1.40								|
-|	Copyright (c) 2008 Lester "GaMerZ" Chan											|
+|	WordPress 2.7 Plugin: WP-DownloadManager 1.41								|
+|	Copyright (c) 2009 Lester "GaMerZ" Chan											|
 |																									|
 |	File Written By:																			|
 |	- Lester "GaMerZ" Chan																	|
@@ -369,6 +369,7 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_NAME%<br />
 				- %FILE_DESCRIPTION%<br />
 				- %FILE_SIZE%<br />
+				- %FILE_CATEGORY_ID%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />
@@ -391,6 +392,7 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_NAME%<br />
 				- %FILE_DESCRIPTION%<br />
 				- %FILE_SIZE%<br />
+				- %FILE_CATEGORY_ID%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />
@@ -416,6 +418,7 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_NAME%<br />
 				- %FILE_DESCRIPTION%<br />
 				- %FILE_SIZE%<br />
+				- %FILE_CATEGORY_ID%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />
@@ -438,6 +441,7 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_NAME%<br />
 				- %FILE_DESCRIPTION%<br />
 				- %FILE_SIZE%<br />
+				- %FILE_CATEGORY_ID%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />
@@ -480,6 +484,7 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_NAME%<br />
 				- %FILE_DESCRIPTION%<br />
 				- %FILE_SIZE%<br />
+				- %FILE_CATEGORY_ID%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />
@@ -510,6 +515,7 @@ $download_template_most = get_option('download_template_most');
 				- %FILE_NAME%<br />
 				- %FILE_DESCRIPTION%<br />
 				- %FILE_SIZE%<br />
+				- %FILE_CATEGORY_ID%<br />
 				- %FILE_CATEGORY_NAME%<br />
 				- %FILE_DATE%<br />
 				- %FILE_TIME%<br />

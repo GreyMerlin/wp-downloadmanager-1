@@ -3,14 +3,14 @@
 Plugin Name: WP-DownloadManager Widget
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Adds a Download Widget to display most downloaded file and recent downloads on your sidebar. You will need to activate WP-DownloadManager first.
-Version: 1.40
+Version: 1.41
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
 
 
 /*  
-	Copyright 2008  Lester Chan  (email : lesterchan@gmail.com)
+	Copyright 2009  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
