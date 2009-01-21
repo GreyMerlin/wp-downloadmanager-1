@@ -34,6 +34,7 @@ if($_POST['Submit']) {
 	$download_path_url = trim($_POST['download_path_url']);
 	$download_page_url = trim($_POST['download_page_url']);
 	$download_nice_permalink = intval($_POST['download_nice_permalink']);
+	$download_options_use_filename =  intval($_POST['download_options_use_filename']);
 	$download_method = intval($_POST['download_method']);
 	$download_categories_post = explode("\n", trim($_POST['download_categories']));
 	$download_sort_by = strip_tags(trim($_POST['download_sort_by']));
@@ -50,12 +51,14 @@ if($_POST['Submit']) {
 			}
 		}
 	}
+	$download_options = array('use_filename' => $download_options_use_filename);
 	$update_download_queries = array();
 	$update_download_text = array();
 	$update_download_queries[] = update_option('download_path', $download_path);
 	$update_download_queries[] = update_option('download_path_url', $download_path_url);
 	$update_download_queries[] = update_option('download_page_url', $download_page_url);
 	$update_download_queries[] = update_option('download_nice_permalink', $download_nice_permalink);
+	$update_download_queries[] = update_option('download_options', $download_options);
 	$update_download_queries[] = update_option('download_method', $download_method);
 	$update_download_queries[] = update_option('download_categories', $download_categories);
 	$update_download_queries[] = update_option('download_sort', $download_sort);
@@ -63,6 +66,7 @@ if($_POST['Submit']) {
 	$update_download_text[] = __('Download Path URL', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Page URL', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Nice Permalink', 'wp-downloadmanager');
+	$update_download_text[] = __('Download Options', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Method', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Categories', 'wp-downloadmanager');
 	$update_download_text[] = __('Download Sorting', 'wp-downloadmanager');
@@ -97,6 +101,9 @@ $download_sort = get_option('download_sort');
 
 ### Get File Download Method
 $download_method = intval(get_option('download_method'));
+
+### Get Download Options
+$download_options = get_option('download_options');
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
@@ -120,11 +127,21 @@ $download_method = intval(get_option('download_method'));
 			<tr valign="top">
 				<th><?php _e('Download Nice Permalink:', 'wp-downloadmanager'); ?></th>
 				<td>
-					<input type="radio" id="download_nice_permalink-1" name="download_nice_permalink" value="1"<?php checked('1', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-1"><?php _e('Yes', 'wp-downloadmanager'); ?>&nbsp;-&nbsp;<span dir="ltr"><?php echo get_option('home'); ?>/download/1/</span></label>
+					<input type="radio" id="download_nice_permalink-1" name="download_nice_permalink" value="1"<?php checked('1', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-1"><?php _e('Yes', 'wp-downloadmanager'); ?><br /><span dir="ltr">- <?php echo get_option('home'); ?>/download/1/</span><br /><span dir="ltr">- <?php echo get_option('home'); ?>/download/filename.ext</span></label>
 					<br />
-					<input type="radio" id="download_nice_permalink-0" name="download_nice_permalink" value="0"<?php checked('0', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-0"><?php _e('No', 'wp-downloadmanager'); ?>&nbsp;-&nbsp;<span dir="ltr"><?php echo get_option('home'); ?>/?dl_id=1</span></label>
+					<input type="radio" id="download_nice_permalink-0" name="download_nice_permalink" value="0"<?php checked('0', get_option('download_nice_permalink')); ?>>&nbsp;<label for="download_nice_permalink-0"><?php _e('No', 'wp-downloadmanager'); ?><br /><span dir="ltr">- <?php echo get_option('home'); ?>/?dl_id=1</span><br /><span dir="ltr">- <?php echo get_option('home'); ?>/?dl_name=filename.ext</span></label>
 					<br />
 					<?php _e('Change it to <strong>No</strong> when you encounter 404 error.', 'wp-downloadmanager'); ?>
+				</td>
+			</tr>
+			<tr valign="top">
+				<th><?php _e('Use File Name Or File ID In Download URL?', 'wp-downloadmanager'); ?></th>
+				<td>
+					<input type="radio" id="download_options_use_filename-0" name="download_options_use_filename" value="0"<?php checked('0', $download_options['use_filename']); ?>>&nbsp;<label for="download_options_use_filename-0"><?php _e('File ID', 'wp-downloadmanager'); ?><br /><span dir="ltr">- <?php echo get_option('home'); ?>/download/1/</span><br /><span dir="ltr">- <?php echo get_option('home'); ?>/?dl_id=1</span></label>
+					<br />
+					<input type="radio" id="download_options_use_filename-1" name="download_options_use_filename" value="1"<?php checked('1', $download_options['use_filename']); ?>>&nbsp;<label for="download_options_use_filename-1"><?php _e('File Name', 'wp-downloadmanager'); ?><br /><span dir="ltr">- <?php echo get_option('home'); ?>/download/filename.ext</span><br /><span dir="ltr">- <?php echo get_option('home'); ?>/?dl_name=filename.ext</span></label>
+					<br />
+					<?php _e('Change it to <strong>File ID</strong> when you encounter 404 error.', 'wp-downloadmanager'); ?>
 				</td>
 			</tr>
 			<tr valign="top">

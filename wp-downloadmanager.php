@@ -144,6 +144,7 @@ function download_tinymce_addplugin($plugin_array) {
 add_filter('query_vars', 'download_query_vars');
 function download_query_vars($public_query_vars) {
 	$public_query_vars[] = "dl_id";
+	$public_query_vars[] = "dl_name";
 	return $public_query_vars;
 }
 
@@ -151,7 +152,7 @@ function download_query_vars($public_query_vars) {
 ### Function: Download htaccess ReWrite Rules   
 add_filter('generate_rewrite_rules', 'download_rewrite');
 function download_rewrite($wp_rewrite) {
-	$wp_rewrite->rules = array_merge(array('download/([0-9]{1,})/?$' => 'index.php?dl_id=$matches[1]'), $wp_rewrite->rules);
+	$wp_rewrite->rules = array_merge(array('download/([0-9]{1,})/?$' => 'index.php?dl_id=$matches[1]', 'download/(.*)$' => 'index.php?dl_name=$matches[1]'), $wp_rewrite->rules);
 }
 
 
@@ -159,20 +160,27 @@ function download_rewrite($wp_rewrite) {
 add_action('template_redirect', 'download_file', 5);
 function download_file() {
 	global $wpdb, $user_ID;
-	$id = intval(get_query_var('dl_id'));
-	if($id > 0) {
+	$dl_id = intval(get_query_var('dl_id'));
+	$dl_name = addslashes(get_query_var('dl_name'));
+	$download_options = get_option('download_options');
+	if($dl_id > 0 || !empty($dl_name)) {
+		if($dl_id > 0 && $download_options['use_filename'] == 0) {
+			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file_id = $dl_id AND file_permission != -1");
+		} elseif(!empty($dl_name) && $download_options['use_filename'] == 1) {
+			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file = \"/$dl_name\" AND file_permission != -1");
+		}
+		if(!$file) {
+			header('HTTP/1.0 404 Not Found');
+			die(__('Invalid File ID or File Name.', 'wp-downloadmanager'));
+		}
 		$file_path = stripslashes(get_option('download_path'));
 		$file_url = stripslashes(get_option('download_path_url'));
 		$download_method = intval(get_option('download_method'));
-		$file = $wpdb->get_row("SELECT file, file_permission FROM $wpdb->downloads WHERE file_id = $id AND file_permission != -1");
-		if(!$file) {
-			header('HTTP/1.0 404 Not Found');
-			die(__('Invalid File ID.', 'wp-downloadmanager'));
-		}
-		if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
-			$update_hits = $wpdb->query("UPDATE $wpdb->downloads SET file_hits = file_hits + 1 WHERE file_id = $id AND file_permission != -1");
-			$update_last_downloaded_date = $wpdb->query("UPDATE $wpdb->downloads SET file_last_downloaded_date = '".current_time('timestamp')."' WHERE file_id = $id AND file_permission != -1");
-			$file_name = stripslashes($file->file);
+		$file_id = intval($file->file_id);
+		$file_name = stripslashes($file->file);
+		$file_permission = intval($file->file_permission);
+		if(($file_permission == 1 && intval($user_ID) > 0) || $file_permission == 0) {
+			$update_hits = $wpdb->query("UPDATE $wpdb->downloads SET file_hits = (file_hits + 1), file_last_downloaded_date = '".current_time('timestamp')."' WHERE file_id = $file_id AND file_permission != -1");
 			if(!is_remote_file($file_name)) {
 				if(!is_file($file_path.$file_name)) {
 					header('HTTP/1.0 404 Not Found');
@@ -344,12 +352,25 @@ if(!function_exists('snippet_text')) {
 
 
 ### Function: Download URL
-function download_file_url($file_id) {
+function download_file_url($file_id, $file_name) {
 	$file_id = intval($file_id);
-	if(intval(get_option('download_nice_permalink')) == 1) {
-		$download_file_url = get_option('home').'/download/'.$file_id.'/';
+	$file_name = substr(stripslashes($file_name), 1);
+	$download_options = get_option('download_options');
+	$download_use_filename = intval($download_options['use_filename']);
+	$download_nice_permalink = intval(get_option('download_nice_permalink'));
+	if($download_nice_permalink == 1) {
+		if($download_use_filename == 1) {
+			$download_file_url = get_option('home').'/download/'.$file_name;
+		} else {
+			$download_file_url = get_option('home').'/download/'.$file_id.'/';
+		}
 	} else {
-		$download_file_url =  get_option('home').'/?dl_id='.$file_id;
+		if($download_use_filename == 1) {
+			
+			$download_file_url =  get_option('home').'/?dl_name='.$file_name;
+		} else {
+			$download_file_url =  get_option('home').'/?dl_id='.$file_id;
+		}
 	}
 	return $download_file_url;
 }
@@ -597,7 +618,7 @@ function downloads_page($category_id = 0) {
 			$template_download_listing = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_listing);
 			$template_download_listing = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_listing);
-			$template_download_listing = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_listing);
+			$template_download_listing = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id, $file->file), $template_download_listing);
 			$output .= $template_download_listing;
 			// Assign Cat ID To Temp Cat ID
 			$temp_cat_id = $cat_id;
@@ -928,7 +949,7 @@ function download_embedded($condition = '', $display = 'both') {
 			$template_download_embedded = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_embedded);
-			$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_embedded);	
+			$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id, $file->file), $template_download_embedded);	
 			$output .= $template_download_embedded; 
 		}
 		return apply_filters('download_embedded', $output);
@@ -972,7 +993,7 @@ if(!function_exists('get_most_downloaded')) {
 				$template_download_most = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_most);
-				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_most);
+				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id, $file->file), $template_download_most);
 				$output .= $template_download_most;
 			}
 		} else {
@@ -1023,7 +1044,7 @@ if(!function_exists('get_recent_downloads')) {
 				$template_download_most = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_most);
-				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_most);
+				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id, $file->file), $template_download_most);
 				$output .= $template_download_most;
 			}
 		} else {
@@ -1075,7 +1096,7 @@ if(!function_exists('get_downloads_category')) {
 				$template_download_most = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_most);
 				$template_download_most = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_most);
-				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id), $template_download_most);
+				$template_download_most = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id, $file->file), $template_download_most);
 				$output .= $template_download_most;
 			}
 		} else {
@@ -1239,7 +1260,7 @@ function create_download_table() {
 	add_option('download_template_listing', array('<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i><br />%FILE_DESCRIPTION%</p>'), 'Download Listing Template');
 	add_option('download_template_embedded', array('<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></p>'), 'Download Embedded Template');
 	add_option('download_template_most', array('<li><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</li>', '<li>%FILE_NAME% (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></li>'), 'Most Download Template');
-	// Database Upgrade For WP-Download 1.30
+	// Database Upgrade For WP-DownloadManager 1.30
 	$check_for_130 = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'download_nice_permalink'");
 	if(!$check_for_130) {
 		maybe_add_column($wpdb->downloads, 'file_updated_date', "ALTER TABLE $wpdb->downloads ADD file_updated_date VARCHAR(20) NOT NULL AFTER file_date;");
@@ -1252,6 +1273,8 @@ function create_download_table() {
 	add_option('download_nice_permalink', 1, 'Use Download Nice Permalink');
 	add_option('download_template_download_page_link', '<p><a href="%DOWNLOAD_PAGE_URL%" title="'.__('Downloads Page', 'wp-downloadmanager').'">'.__('Downloads Page', 'wp-downloadmanager').'</a></p>', 'Template For Download Page Link');
 	add_option('download_template_none', '<p style="text-align: center;">'.__('No Files Found.', 'wp-downloadmanager').'</p>', 'Template For No Downloads Found');
+	// Database Upgrade For WP-DownloadManager 1.50
+	add_option('download_options', array('use_filename' => 0), 'Download Options');
 	// Create Files Folder
 	if (function_exists('is_site_admin')) {
 		if(!is_dir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/')) {
