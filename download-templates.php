@@ -124,10 +124,10 @@ $download_template_most = get_option('download_template_most');
 				default_template = "<p><img src=\"<?php echo plugins_url('wp-downloadmanager/images/ext'); ?>/%FILE_ICON%\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong><a href=\"%FILE_DOWNLOAD_URL%\">%FILE_NAME%</a></strong> (%FILE_SIZE%<?php _e(',', 'wp-downloadmanager'); ?> %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)</p>";
 				break;
 			case "listing_2":
-				default_template = "<p><img src=\"<?php echo plugins_url('wp-downloadmanager/images/ext'); ?>/%FILE_ICON%\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?> - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>";
+				default_template = "<p><img src=\"<?php echo plugins_url('wp-downloadmanager/images/ext'); ?>/%FILE_ICON%\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><i><?php _e('You do not have permission to download this file.', 'wp-downloadmanager'); ?></i><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?> - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>";
 				break;
 			case "embedded_2":
-				default_template = "<p><img src=\"<?php echo plugins_url('wp-downloadmanager/images/ext'); ?>/%FILE_ICON%\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%<?php _e(',', 'wp-downloadmanager'); ?> %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i></p>";
+				default_template = "<p><img src=\"<?php echo plugins_url('wp-downloadmanager/images/ext'); ?>/%FILE_ICON%\" alt=\"\" title=\"\" style=\"vertical-align: middle;\" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%<?php _e(',', 'wp-downloadmanager'); ?> %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You do not have permission to download this file.', 'wp-downloadmanager'); ?></i></p>";
 				break;
 			case 'download_page_link':
 				default_template = "<p><a href=\"%DOWNLOAD_PAGE_URL%\" title=\"<?php _e('Downloads Page', 'wp-downloadmanager'); ?>\"><?php _e('Downloads Page', 'wp-downloadmanager'); ?></a></p>";
@@ -136,7 +136,7 @@ $download_template_most = get_option('download_template_most');
 				default_template = "<li><a href=\"%FILE_DOWNLOAD_URL%\">%FILE_NAME%</a> (%FILE_SIZE%<?php _e(',', 'wp-downloadmanager'); ?> %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)</li>";
 				break;
 			case 'most_2':
-				default_template = "<li>%FILE_NAME% (%FILE_SIZE%<?php _e(',', 'wp-downloadmanager'); ?> %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You need to be a registered user to download this file.', 'wp-downloadmanager'); ?></i></li>";
+				default_template = "<li>%FILE_NAME% (%FILE_SIZE%<?php _e(',', 'wp-downloadmanager'); ?> %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You do not have permission to download this file.', 'wp-downloadmanager'); ?></i></li>";
 				break;
 		}
 		document.getElementById("download_template_" + template).value = default_template;

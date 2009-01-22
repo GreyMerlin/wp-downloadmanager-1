@@ -184,9 +184,9 @@ function download_file() {
 	}
 	if($dl_id > 0 || !empty($dl_name)) {
 		if($dl_id > 0 && $download_options['use_filename'] == 0) {
-			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file_id = $dl_id AND file_permission != -1");
+			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file_id = $dl_id AND file_permission != -2");
 		} elseif(!empty($dl_name) && $download_options['use_filename'] == 1) {
-			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file = \"/$dl_name\" AND file_permission != -1");
+			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file = \"/$dl_name\" AND file_permission != -2");
 		}
 		if(!$file) {
 			header('HTTP/1.0 404 Not Found');
@@ -198,8 +198,9 @@ function download_file() {
 		$file_id = intval($file->file_id);
 		$file_name = stripslashes($file->file);
 		$file_permission = intval($file->file_permission);
-		if(($file_permission == 1 && intval($user_ID) > 0) || $file_permission == 0) {
-			$update_hits = $wpdb->query("UPDATE $wpdb->downloads SET file_hits = (file_hits + 1), file_last_downloaded_date = '".current_time('timestamp')."' WHERE file_id = $file_id AND file_permission != -1");
+		$current_user = wp_get_current_user();
+		if(($file_permission > 0 && intval($current_user->wp_user_level) >= $file_permission && intval($user_ID) > 0) || ($file_permission == 0 && intval($user_ID) > 0) || $file_permission == -1) {
+			$update_hits = $wpdb->query("UPDATE $wpdb->downloads SET file_hits = (file_hits + 1), file_last_downloaded_date = '".current_time('timestamp')."' WHERE file_id = $file_id AND file_permission != -2");
 			if(!is_remote_file($file_name)) {
 				if(!is_file($file_path.$file_name)) {
 					header('HTTP/1.0 404 Not Found');
@@ -241,7 +242,7 @@ function download_file() {
 				exit();
 			}
 		} else {
-			_e('You need to be a registered user to download this file.', 'wp-downloadmanager');
+			_e('You do not have permission to download this file.', 'wp-downloadmanager');
 			exit();
 		}
 	}
@@ -491,6 +492,7 @@ function downloads_page($category_id = 0) {
 	$total_stats = array('files' => 0, 'size' => 0, 'hits' => 0);
 	$file_sort = get_option('download_sort');
 	$file_extensions_images = file_extension_images();
+	$current_user = wp_get_current_user();
 	// If There Is Category Set
 	$category_sql = '';
 	if($category ==  0 && $category_id > 0) {
@@ -508,7 +510,7 @@ function downloads_page($category_id = 0) {
 		}
 	}
 	// Calculate Categories And Total Stats
-	$categories = $wpdb->get_results("SELECT file_category, COUNT(file_id) as category_files, SUM(file_size) category_size, SUM(file_hits) as category_hits FROM $wpdb->downloads WHERE 1=1 $category_sql $search_sql AND file_permission != -1 GROUP BY file_category");
+	$categories = $wpdb->get_results("SELECT file_category, COUNT(file_id) as category_files, SUM(file_size) category_size, SUM(file_hits) as category_hits FROM $wpdb->downloads WHERE 1=1 $category_sql $search_sql AND file_permission != -2 GROUP BY file_category");
 	if($categories) {
 		foreach($categories as $cat) {
 			$cat_id = intval($cat->file_category);
@@ -565,7 +567,7 @@ function downloads_page($category_id = 0) {
 		$group_sql = 'file_category ASC,';
 	}
 	// Get Files
-	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE 1=1 $category_sql $search_sql AND file_permission != -1 ORDER BY $group_sql {$file_sort['by']} {$file_sort['order']} LIMIT $offset, {$file_sort['perpage']}");
+	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE 1=1 $category_sql $search_sql AND file_permission != -2 ORDER BY $group_sql {$file_sort['by']} {$file_sort['order']} LIMIT $offset, {$file_sort['perpage']}");
 	if($files) {
 		// Get Download Page Header
 		$template_download_header = stripslashes(get_option('download_template_header'));
@@ -617,8 +619,9 @@ function downloads_page($category_id = 0) {
 				$need_footer = 1;
 			}
 			// Get Download Listing
+			$file_permission = intval($file->file_permission);
 			$template_download_listing = get_option('download_template_listing');
-			if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
+			if(($file_permission > 0 && intval($current_user->wp_user_level) >= $file_permission && intval($user_ID) > 0) || ($file_permission == 0 && intval($user_ID) > 0) || $file_permission == -1) {
 				$template_download_listing = stripslashes($template_download_listing[0]);
 			} else {
 				$template_download_listing = stripslashes($template_download_listing[1]);
@@ -893,6 +896,36 @@ function file_timestamp($file_timestamp) {
 }
 
 
+### Function: File Permission
+function file_permission($file_permission) {
+	$file_permission_name = '';
+	switch(intval($file_permission)) {
+		case -2:
+			$file_permission_name = __('Hidden', 'wp-downloadmanager');
+			break;
+		case -1:
+			$file_permission_name = __('Everyone', 'wp-downloadmanager');
+			break;
+		case 0:
+			$file_permission_name = __('Registered Users Only', 'wp-downloadmanager');
+			break;
+		case 1:
+			$file_permission_name = __('At Least Contributor Role', 'wp-downloadmanager');
+			break;
+		case 2:
+			$file_permission_name = __('At Least Author Role', 'wp-downloadmanager');
+			break;
+		case 7:
+			$file_permission_name = __('At Least Editor Role', 'wp-downloadmanager');
+			break;
+		case 10:
+			$file_permission_name = __('At Least Administrator Role', 'wp-downloadmanager');
+			break;
+	}
+	return $file_permission_name;
+}
+
+
 ### Function: Get Total Download Files
 function get_download_files($display = true) {
 	global $wpdb;
@@ -933,19 +966,19 @@ function get_download_hits($display = true) {
 function download_embedded($condition = '', $display = 'both') {
 	global $wpdb, $user_ID;
 	$output = '';
-	$file_extensions_images = file_extension_images();
 	if($condition !== '') {
 		$condition .= ' AND ';
 	}
-	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE $condition file_permission != -1");
+	$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE $condition file_permission != -2");
 	if($files) {
-		// Get Download Categories
+		$current_user = wp_get_current_user();
+		$file_extensions_images = file_extension_images();
 		$download_categories = get_option('download_categories');
-		// Get Embedded
 		$template_download_embedded_temp = get_option('download_template_embedded');
 		foreach($files as $file) {
+			$file_permission = intval($file->file_permission);
 			$template_download_embedded = $template_download_embedded_temp;
-			if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
+			if(($file_permission > 0 && intval($current_user->wp_user_level) >= $file_permission && intval($user_ID) > 0) || ($file_permission == 0 && intval($user_ID) > 0) || $file_permission == -1) {
 				$template_download_embedded = stripslashes($template_download_embedded[0]);
 			} else {
 				$template_download_embedded = stripslashes($template_download_embedded[1]);
@@ -980,15 +1013,16 @@ if(!function_exists('get_most_downloaded')) {
 	function get_most_downloaded($limit = 10, $chars = 0, $display = true) {
 		global $wpdb, $user_ID;
 		$output = '';
-		$file_extensions_images = file_extension_images();
-		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_permission != -1 ORDER BY file_hits DESC LIMIT $limit");
+		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_permission != -2 ORDER BY file_hits DESC LIMIT $limit");
 		if($files) {
+			$current_user = wp_get_current_user();
+			$file_extensions_images = file_extension_images();
+			$download_categories = get_option('download_categories');
+			$template_download_most_temp = get_option('download_template_most');
 			foreach($files as $file) {
-				// Cet Download Categories
-				$download_categories = get_option('download_categories');
-				// Get Most Downloaded
-				$template_download_most = get_option('download_template_most');
-				if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
+				$file_permission = intval($file->file_permission);
+				$template_download_most = $template_download_most_temp;
+				if(($file_permission > 0 && intval($current_user->wp_user_level) >= $file_permission && intval($user_ID) > 0) || ($file_permission == 0 && intval($user_ID) > 0) || $file_permission == -1) {
 					$template_download_most = stripslashes($template_download_most[0]);
 				} else {
 					$template_download_most = stripslashes($template_download_most[1]);
@@ -1031,15 +1065,16 @@ if(!function_exists('get_recent_downloads')) {
 	function get_recent_downloads($limit = 10, $chars = 0, $display = true) {
 		global $wpdb, $user_ID;
 		$output = '';
-		$file_extensions_images = file_extension_images();
-		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_permission != -1 ORDER BY file_date DESC LIMIT $limit");
+		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_permission != -2 ORDER BY file_date DESC LIMIT $limit");
 		if($files) {
+			$current_user = wp_get_current_user();
+			$file_extensions_images = file_extension_images();
+			$download_categories = get_option('download_categories');
+			$template_download_most_temp = get_option('download_template_most');
 			foreach($files as $file) {
-				// Cet Download Categories
-				$download_categories = get_option('download_categories');
-				// Get Newest Downloads
-				$template_download_most = get_option('download_template_most');
-				if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
+				$file_permission = intval($file->file_permission);
+				$template_download_most = $template_download_most_temp;
+				if(($file_permission > 0 && intval($current_user->wp_user_level) >= $file_permission && intval($user_ID) > 0) || ($file_permission == 0 && intval($user_ID) > 0) || $file_permission == -1) {
 					$template_download_most = stripslashes($template_download_most[0]);
 				} else {
 					$template_download_most = stripslashes($template_download_most[1]);
@@ -1082,16 +1117,17 @@ if(!function_exists('get_downloads_category')) {
 	function get_downloads_category($cat_id = 1, $limit = 10, $chars = 0, $display = true) {
 		global $wpdb, $user_ID;
 		$cat_id = intval($cat_id);
-		$output = '';
-		$file_extensions_images = file_extension_images();
-		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_category = $cat_id AND file_permission != -1 ORDER BY file_date DESC LIMIT $limit");
+		$output = '';		
+		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_category = $cat_id AND file_permission != -2 ORDER BY file_date DESC LIMIT $limit");
 		if($files) {
+			$current_user = wp_get_current_user();
+			$file_extensions_images = file_extension_images();
+			$download_categories = get_option('download_categories');
+			$template_download_most_temp = get_option('download_template_most');
 			foreach($files as $file) {
-				// Cet Download Categories
-				$download_categories = get_option('download_categories');
-				// Get Downloads By Category ID
-				$template_download_most = get_option('download_template_most');
-				if(($file->file_permission == 1 && intval($user_ID) > 0) || $file->file_permission == 0) {
+				$file_permission = intval($file->file_permission);
+				$template_download_most = $template_download_most_temp;
+				if(($file_permission > 0 && intval($current_user->wp_user_level) >= $file_permission && intval($user_ID) > 0) || ($file_permission == 0 && intval($user_ID) > 0) || $file_permission == -1) {
 					$template_download_most = stripslashes($template_download_most[0]);
 				} else {
 					$template_download_most = stripslashes($template_download_most[1]);
@@ -1275,9 +1311,9 @@ function create_download_table() {
 	add_option('download_template_footer', '<form action="%DOWNLOAD_PAGE_URL%" method="get"><p><input type="hidden" name="dl_cat" value="%CATEGORY_ID%" /><input type="text" name="dl_search" value="%FILE_SEARCH_WORD%" />&nbsp;&nbsp;&nbsp;<input type="submit" value="'.__('Search', 'wp-downloadmanager').'" /></p></form>', 'Download Page Footer Template');
 	add_option('download_template_category_header', '<h2 id="downloadcat-%CATEGORY_ID%"><a href="%CATEGORY_URL%" title="'.__('View all downloads in %FILE_CATEGORY_NAME%', 'wp-downloadmanager').'">%FILE_CATEGORY_NAME%</a></h2>', 'Download Category Header Template');
 	add_option('download_template_category_footer', '', 'Download Category Footer Template');
-	add_option('download_template_listing', array('<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i><br />%FILE_DESCRIPTION%</p>'), 'Download Listing Template');
-	add_option('download_template_embedded', array('<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></p>'), 'Download Embedded Template');
-	add_option('download_template_most', array('<li><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</li>', '<li>%FILE_NAME% (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You need to be a registered user to download this file.', 'wp-downloadmanager').'</i></li>'), 'Most Download Template');
+	add_option('download_template_listing', array('<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br />%FILE_DESCRIPTION%</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong><br /><strong>&raquo; %FILE_SIZE% - %FILE_HITS% '.__('hits', 'wp-downloadmanager').' - %FILE_DATE%</strong><br /><i>'.__('You do not have permission to download this file.', 'wp-downloadmanager').'</i><br />%FILE_DESCRIPTION%</p>'), 'Download Listing Template');
+	add_option('download_template_embedded', array('<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a></strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</p>', '<p><img src="'.plugins_url('wp-downloadmanager/images/ext').'/%FILE_ICON%" alt="" title="" style="vertical-align: middle;" />&nbsp;&nbsp;<strong>%FILE_NAME%</strong> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You do not have permission to download this file.', 'wp-downloadmanager').'</i></p>'), 'Download Embedded Template');
+	add_option('download_template_most', array('<li><a href="%FILE_DOWNLOAD_URL%">%FILE_NAME%</a> (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')</li>', '<li>%FILE_NAME% (%FILE_SIZE%'.__(',', 'wp-downloadmanager').' %FILE_HITS% '.__('hits', 'wp-downloadmanager').')<br /><i>'.__('You do not have permission to download this file.', 'wp-downloadmanager').'</i></li>'), 'Most Download Template');
 	// Database Upgrade For WP-DownloadManager 1.30
 	$check_for_130 = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'download_nice_permalink'");
 	if(!$check_for_130) {
@@ -1293,6 +1329,9 @@ function create_download_table() {
 	add_option('download_template_none', '<p style="text-align: center;">'.__('No Files Found.', 'wp-downloadmanager').'</p>', 'Template For No Downloads Found');
 	// Database Upgrade For WP-DownloadManager 1.50
 	add_option('download_options', array('use_filename' => 0, 'rss_sortby' => 'file_date', 'rss_limit' => 20), 'Download Options');
+	$wpdb->query("UPDATE $wpdb->downloads SET file_permission = -2 WHERE file_permission = -1;");
+	$wpdb->query("UPDATE $wpdb->downloads SET file_permission = -1 WHERE file_permission = 0;");
+	$wpdb->query("UPDATE $wpdb->downloads SET file_permission = 0 WHERE file_permission = 1;");
 	// Create Files Folder
 	if (function_exists('is_site_admin')) {
 		if(!is_dir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/')) {

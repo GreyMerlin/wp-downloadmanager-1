@@ -18,13 +18,13 @@
 
 
 ### Get Download Information
-$file_last_download = $wpdb->get_var("SELECT file_updated_date FROM $wpdb->downloads ORDER BY file_updated_date DESC LIMIT 1");
+$file_last_download = $wpdb->get_var("SELECT file_updated_date FROM $wpdb->downloads WHERE file_permission != -2 ORDER BY file_updated_date DESC LIMIT 1");
 $download_categories = get_option('download_categories');
 $download_options = get_option('download_options');
 
 
 ### Get Latest Downloads
-$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads ORDER BY {$download_options['rss_sortby']} DESC LIMIT {$download_options['rss_limit']}");
+$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_permission != -2 ORDER BY {$download_options['rss_sortby']} DESC LIMIT {$download_options['rss_limit']}");
 
 
 ### Set Header

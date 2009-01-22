@@ -171,9 +171,13 @@ if(!empty($_POST['do'])) {
 				<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 				<td>
 					<select name="file_permission" size="1">
-						<option value="-1"><?php _e('Hidden', 'wp-downloadmanager'); ?></option>
-						<option value="0" selected="selected"><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
-						<option value="1"><?php _e('Registered Users Only', 'wp-downloadmanager'); ?></option>
+						<option value="-2"><?php _e('Hidden', 'wp-downloadmanager'); ?></option>
+						<option value="-1" selected="selected"><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
+						<option value="0"><?php _e('Registered Users Only', 'wp-downloadmanager'); ?></option>
+						<option value="1"><?php _e('At Least Contributor Role', 'wp-downloadmanager'); ?></option>
+						<option value="2"><?php _e('At Least Author Role', 'wp-downloadmanager'); ?></option>
+						<option value="7"><?php _e('At Least Editor Role', 'wp-downloadmanager'); ?></option>
+						<option value="10"><?php _e('At Least Administrator Role', 'wp-downloadmanager'); ?></option>
 					</select>
 				</td>
 			</tr>

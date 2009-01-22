@@ -362,9 +362,13 @@ switch($mode) {
 						<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
 						<td>
 							<select name="file_permission" size="1">
-								<option value="-1" <?php selected('0', $file->file_permission); ?>><?php _e('Hidden', 'wp-downloadmanager'); ?></option>
-								<option value="0" <?php selected('0', $file->file_permission); ?>><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
-								<option value="1" <?php selected('1', $file->file_permission); ?>><?php _e('Registered Users Only', 'wp-downloadmanager'); ?></option>
+								<option value="-2" <?php selected('-2', $file->file_permission); ?>><?php _e('Hidden', 'wp-downloadmanager'); ?></option>
+								<option value="-1" <?php selected('-1', $file->file_permission); ?>><?php _e('Everyone', 'wp-downloadmanager'); ?></option>
+								<option value="0" <?php selected('0', $file->file_permission); ?>><?php _e('Registered Users Only', 'wp-downloadmanager'); ?></option>
+								<option value="1" <?php selected('1', $file->file_permission); ?>><?php _e('At Least Contributor Role', 'wp-downloadmanager'); ?></option>
+								<option value="2" <?php selected('2', $file->file_permission); ?>><?php _e('At Least Author Role', 'wp-downloadmanager'); ?></option>
+								<option value="7" <?php selected('7', $file->file_permission); ?>><?php _e('At Least Editor Role', 'wp-downloadmanager'); ?></option>
+								<option value="10" <?php selected('10', $file->file_permission); ?>><?php _e('At Least Administrator Role', 'wp-downloadmanager'); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -429,17 +433,7 @@ switch($mode) {
 					</tr>	
 					<tr class="alternate">
 						<td><strong><?php _e('Allowed To Download:', 'wp-downloadmanager') ?></strong></td>
-						<td>
-							<?php
-								if($file->file_permission == '-1') {
-									_e('Hidden', 'wp-downloadmanager');
-								} else if($file->file_permission == '0') {
-									_e('Everyone', 'wp-downloadmanager');
-								} else {
-									_e('Registered Users Only', 'wp-downloadmanager');
-								}
-							?>
-						</td>
+						<td><?php echo file_permission($file->file_permission); ?></td>
 					</tr>
 					<?php if(!is_remote_file(stripslashes($file->file))): ?>
 					<tr>
@@ -529,13 +523,7 @@ switch($mode) {
 						$file_last_downloaded_date = mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date));
 						$file_last_downloaded_time = mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_last_downloaded_date));
 						$file_hits = intval($file->file_hits);
-						if($file->file_permission == '-1') {
-							$file_permission = __('Hidden', 'wp-downloadmanager');
-						} else if($file->file_permission == 0) {
-							$file_permission = __('Everyone', 'wp-downloadmanager');
-						} else {
-							$file_permission = __('Registered', 'wp-downloadmanager');
-						}
+						$file_permission = file_permission($file->file_permission);
 						$file_name_actual = basename($file_name);
 						if($i%2 == 0) {
 							$style = '';
