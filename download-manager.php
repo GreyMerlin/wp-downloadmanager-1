@@ -40,6 +40,7 @@ $file_sort_url = '';
 $file_search = addslashes($_GET['search']);
 $file_search_query = '';
 
+
 ### Form Sorting URL
 if(!empty($file_sortby)) {
 	$file_sort_url .= '&amp;by='.$file_sortby;

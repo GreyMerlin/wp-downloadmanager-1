@@ -35,6 +35,8 @@ if($_POST['Submit']) {
 	$download_page_url = trim($_POST['download_page_url']);
 	$download_nice_permalink = intval($_POST['download_nice_permalink']);
 	$download_options_use_filename =  intval($_POST['download_options_use_filename']);
+	$download_options_rss_sortby =  strip_tags(trim($_POST['download_options_rss_sortby']));
+	$download_options_rss_limit =  intval($_POST['download_options_rss_limit']);
 	$download_method = intval($_POST['download_method']);
 	$download_categories_post = explode("\n", trim($_POST['download_categories']));
 	$download_sort_by = strip_tags(trim($_POST['download_sort_by']));
@@ -51,7 +53,7 @@ if($_POST['Submit']) {
 			}
 		}
 	}
-	$download_options = array('use_filename' => $download_options_use_filename);
+	$download_options = array('use_filename' => $download_options_use_filename, 'rss_sortby' => $download_options_rss_sortby, 'rss_limit' => $download_options_rss_limit);
 	$update_download_queries = array();
 	$update_download_text = array();
 	$update_download_queries[] = update_option('download_path', $download_path);
@@ -152,7 +154,7 @@ $download_options = get_option('download_options');
 						<option value="1"<?php selected('1', $download_method); ?>><?php _e('Redirect To File', 'wp-downloadmanager'); ?></option>
 					</select>
 					<br /><?php _e('Change it to <strong>Redirect To File</strong> when you have problem with large files.', 'wp-downloadmanager'); ?>
-					</td>
+				</td>
 			</tr>
 			<tr>
 				<td valign="top">
@@ -203,6 +205,27 @@ $download_options = get_option('download_options');
 						<option value="1"<?php selected('1', $download_sort['group']); ?>><?php _e('Categories', 'wp-downloadmanager'); ?></option>
 					</select>
 				</td>
+			</tr>
+		</table>
+		<h3><?php _e('Download RSS Options', 'wp-downloadmanager'); ?></h3>
+		<table class="form-table">
+			 <tr valign="top">
+				<th><?php _e('Sort Downloads In Feed By:', 'wp-downloadmanager'); ?></th>
+				<td>
+					<select name="download_options_rss_sortby" size="1">
+						<option value="file_id"<?php selected('file_id', $download_options['rss_sortby']); ?>><?php _e('File ID', 'wp-downloadmanager'); ?></option>
+						<option value="file_date"<?php selected('file_date', $download_options['rss_sortby']); ?>><?php _e('File Date', 'wp-downloadmanager'); ?></option>
+						<option value="file_updated_date"<?php selected('file_updated_date', $download_options['rss_sortby']); ?>><?php _e('File Last Updated Date', 'wp-downloadmanager'); ?></option>
+						<option value="file_size"<?php selected('file_size', $download_options['rss_sortby']); ?>><?php _e('File Size', 'wp-downloadmanager'); ?></option>
+						<option value="file_hits"<?php selected('file_hits', $download_options['rss_sortby']); ?>><?php _e('File Hits', 'wp-downloadmanager'); ?></option>
+					</select>
+					<br />
+					<?php _e('Sorting are done in descending order.', 'wp-downloadmanager'); ?>
+				</td>
+			</tr>
+			<tr valign="top">
+				<th><?php _e('No. Of Downloads In Feed:', 'wp-downloadmanager'); ?></th>
+				<td><input type="text" name="download_options_rss_limit" value="<?php echo intval($download_options['rss_limit']); ?>" size="5" /></td>
 			</tr>
 		</table>
 		<p class="submit">

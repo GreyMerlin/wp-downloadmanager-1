@@ -156,6 +156,21 @@ function download_rewrite($wp_rewrite) {
 }
 
 
+### Function: Add Download RSS Link To Download Page
+add_action('wp_head', 'download_rss_link'); 
+function download_rss_link() {
+	if(is_page() && strpos(get_option('download_page_url'), $_SERVER['REQUEST_URI'])) {
+		$download_nice_permalink = intval(get_option('download_nice_permalink'));
+		if($download_nice_permalink == 1) {
+			$download_rss_link = get_option('home').'/download/rss/';
+		} else {
+			$download_rss_link = get_option('home').'/?dl_name=rss';
+		}
+		echo '<link rel="alternate" type="application/rss+xml" title="'.get_bloginfo_rss('name').__(' Downloads RSS Feed', 'wp-downloadmanager').'" href="'.$download_rss_link.'" />'."\n";
+	}
+}
+
+
 ### Function: Download File
 add_action('template_redirect', 'download_file', 5);
 function download_file() {
@@ -163,6 +178,10 @@ function download_file() {
 	$dl_id = intval(get_query_var('dl_id'));
 	$dl_name = addslashes(get_query_var('dl_name'));
 	$download_options = get_option('download_options');
+	if($dl_name == 'rss') {
+		load_template(WP_PLUGIN_DIR.'/wp-downloadmanager/download-rss.php');
+		exit;
+	}
 	if($dl_id > 0 || !empty($dl_name)) {
 		if($dl_id > 0 && $download_options['use_filename'] == 0) {
 			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file_id = $dl_id AND file_permission != -1");
@@ -366,7 +385,6 @@ function download_file_url($file_id, $file_name) {
 		}
 	} else {
 		if($download_use_filename == 1) {
-			
 			$download_file_url =  get_option('home').'/?dl_name='.$file_name;
 		} else {
 			$download_file_url =  get_option('home').'/?dl_id='.$file_id;
@@ -1274,7 +1292,7 @@ function create_download_table() {
 	add_option('download_template_download_page_link', '<p><a href="%DOWNLOAD_PAGE_URL%" title="'.__('Downloads Page', 'wp-downloadmanager').'">'.__('Downloads Page', 'wp-downloadmanager').'</a></p>', 'Template For Download Page Link');
 	add_option('download_template_none', '<p style="text-align: center;">'.__('No Files Found.', 'wp-downloadmanager').'</p>', 'Template For No Downloads Found');
 	// Database Upgrade For WP-DownloadManager 1.50
-	add_option('download_options', array('use_filename' => 0), 'Download Options');
+	add_option('download_options', array('use_filename' => 0, 'rss_sortby' => 'file_date', 'rss_limit' => 20), 'Download Options');
 	// Create Files Folder
 	if (function_exists('is_site_admin')) {
 		if(!is_dir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/')) {
