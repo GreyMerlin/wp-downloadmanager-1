@@ -37,7 +37,8 @@ $file_sortorder = trim($_GET['order']);
 $file_sortorder_text = '';
 $file_perpage = intval($_GET['perpage']);
 $file_sort_url = '';
-
+$file_search = addslashes($_GET['search']);
+$file_search_query = '';
 
 ### Form Sorting URL
 if(!empty($file_sortby)) {
@@ -48,6 +49,13 @@ if(!empty($file_sortorder)) {
 }
 if(!empty($file_perpage)) {
 	$file_sort_url .= '&amp;perpage='.$file_perpage;
+}
+
+
+### Searching
+if(!empty($file_search)) {
+	$file_search_query = "AND (file LIKE ('%$file_search%') OR file_name LIKE('%$file_search%') OR file_des LIKE ('%$file_search%'))";
+	$file_sort_url .= '&amp;search='.stripslashes($file_search);
 }
 
 
@@ -246,22 +254,22 @@ switch($mode) {
 			var actual_minute = "<?php echo intval(gmdate('i', $file->file_date)); ?>";
 			var actual_second = "<?php echo intval(gmdate('s', $file->file_date)); ?>";
 			function file_usetodaydate() {
-				if(document.getElementById('edit_usetodaydate').checked) {
-					document.getElementById('edit_filetimestamp').checked = true;
-					document.getElementById('file_timestamp_day').value = "<?php echo gmdate('j', current_time('timestamp')); ?>";
-					document.getElementById('file_timestamp_month').value = "<?php echo gmdate('n', current_time('timestamp')); ?>";
-					document.getElementById('file_timestamp_year').value = "<?php echo gmdate('Y', current_time('timestamp')); ?>";
-					document.getElementById('file_timestamp_hour').value = "<?php echo gmdate('G', current_time('timestamp')); ?>";
-					document.getElementById('file_timestamp_minute').value = "<?php echo intval(gmdate('i', current_time('timestamp'))); ?>";
-					document.getElementById('file_timestamp_second').value = "<?php echo intval(gmdate('s', current_time('timestamp'))); ?>";
+				if(jQuery('#edit_usetodaydate').is(':checked')) {
+					jQuery('#edit_filetimestamp').attr('checked', true);
+					jQuery('#file_timestamp_day').val("<?php echo gmdate('j', current_time('timestamp')); ?>");
+					jQuery('#file_timestamp_month').val("<?php echo gmdate('n', current_time('timestamp')); ?>");
+					jQuery('#file_timestamp_year').val("<?php echo gmdate('Y', current_time('timestamp')); ?>");
+					jQuery('#file_timestamp_hour').val("<?php echo gmdate('G', current_time('timestamp')); ?>");
+					jQuery('#file_timestamp_minute').val("<?php echo intval(gmdate('i', current_time('timestamp'))); ?>");
+					jQuery('#file_timestamp_second').val("<?php echo intval(gmdate('s', current_time('timestamp'))); ?>");
 				} else {
-					document.getElementById('edit_filetimestamp').checked = false;
-					document.getElementById('file_timestamp_day').value = actual_day;
-					document.getElementById('file_timestamp_month').value = actual_month;
-					document.getElementById('file_timestamp_year').value = actual_year;
-					document.getElementById('file_timestamp_hour').value = actual_hour;
-					document.getElementById('file_timestamp_minute').value = actual_minute;
-					document.getElementById('file_timestamp_second').value = actual_second;
+					jQuery('#edit_filetimestamp').attr('checked', false);
+					jQuery('#file_timestamp_day').val(actual_day);
+					jQuery('#file_timestamp_month').val(actual_month);
+					jQuery('#file_timestamp_year').val(actual_year);
+					jQuery('#file_timestamp_hour').val(actual_hour);
+					jQuery('#file_timestamp_minute').val(actual_minute);
+					jQuery('#file_timestamp_second').val(actual_second);
 				}
 			}
 			/* ]]> */
@@ -448,7 +456,8 @@ switch($mode) {
 	// Main Page
 	default:
 		### Get Total Files
-		$total_file = $wpdb->get_var("SELECT COUNT(file_id) FROM $wpdb->downloads");
+		$get_total_files = $wpdb->get_var("SELECT COUNT(file_id) FROM $wpdb->downloads WHERE 1=1 $file_search_query");
+		$total_file = $wpdb->get_var("SELECT COUNT(file_id) FROM $wpdb->downloads WHERE 1=1");
 		$total_bandwidth = $wpdb->get_var("SELECT SUM(file_hits*file_size) AS total_bandwidth FROM $wpdb->downloads WHERE file_size != '".__('unknown', 'wp-downloadmanager')."'");
 		$total_filesize = $wpdb->get_var("SELECT SUM(file_size) AS total_filesize FROM $wpdb->downloads WHERE file_size != '".__('unknown', 'wp-downloadmanager')."'");
 		$total_filehits = $wpdb->get_var("SELECT SUM(file_hits) AS total_filehits FROM $wpdb->downloads");
@@ -462,24 +471,24 @@ switch($mode) {
 		$offset = ($file_page-1) * $file_perpage;
 
 		### Determine Max Number Of Polls To Display On Page
-		if(($offset + $file_perpage) > $total_file) { 
-			$max_on_page = $total_file; 
+		if(($offset + $file_perpage) > $get_total_files) { 
+			$max_on_page = $get_total_files; 
 		} else { 
 			$max_on_page = ($offset + $file_perpage); 
 		}
 
 		### Determine Number Of Polls To Display On Page
-		if (($offset + 1) > ($total_file)) { 
-			$display_on_page = $total_file; 
+		if (($offset + 1) > ($get_total_files)) { 
+			$display_on_page = $get_total_files; 
 		} else { 
 			$display_on_page = ($offset + 1); 
 		}
 
 		### Determing Total Amount Of Pages
-		$total_pages = ceil($total_file / $file_perpage);
+		$total_pages = ceil($get_total_files / $file_perpage);
 
 		### Get Files		
-		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads ORDER BY $file_sortby $file_sortorder LIMIT $offset, $file_perpage");
+		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE 1=1 $file_search_query ORDER BY $file_sortby $file_sortorder LIMIT $offset, $file_perpage");
 ?>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Manage Downloads -->
@@ -487,7 +496,7 @@ switch($mode) {
 			<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
 			<h2><?php _e('Manage Downloads', 'wp-downloadmanager'); ?></h2>
 			<h3><?php _e('Downloads', 'wp-downloadmanager'); ?></h3>
-			<p><?php printf(__('Displaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), number_format_i18n($display_on_page), number_format_i18n($max_on_page), number_format_i18n($total_file)); ?></p>
+			<p><?php printf(__('Displaying <strong>%s</strong> To <strong>%s</strong> Of <strong>%s</strong> Files', 'wp-downloadmanager'), number_format_i18n($display_on_page), number_format_i18n($max_on_page), number_format_i18n($get_total_files)); ?></p>
 			<p><?php printf(__('Sorted By <strong>%s</strong> In <strong>%s</strong> Order', 'wp-downloadmanager'), $file_sortby_text, $file_sortorder_text); ?></p>
 			<table class="widefat">
 				<thead>
@@ -559,7 +568,7 @@ switch($mode) {
 			<tr>
 				<td align="<?php echo ('rtl' == $text_direction) ? 'right' : 'left'; ?>" width="50%">
 					<?php
-						if($file_page > 1 && ((($file_page*$file_perpage)-($file_perpage-1)) <= $total_file)) {
+						if($file_page > 1 && ((($file_page*$file_perpage)-($file_perpage-1)) <= $get_total_files)) {
 							echo '<strong>&laquo;</strong> <a href="'.$base_page.'&amp;filepage='.($file_page-1).$file_sort_url.'" title="&laquo; '.__('Previous Page', 'wp-downloadmanager').'">'.__('Previous Page', 'wp-downloadmanager').'</a>';
 						} else {
 							echo '&nbsp;';
@@ -568,7 +577,7 @@ switch($mode) {
 				</td>
 				<td align="<?php echo ('rtl' == $text_direction) ? 'left' : 'right'; ?>" width="50%">
 					<?php
-						if($file_page >= 1 && ((($file_page*$file_perpage)+1) <=  $total_file)) {
+						if($file_page >= 1 && ((($file_page*$file_perpage)+1) <= $get_total_files)) {
 							echo '<a href="'.$base_page.'&amp;filepage='.($file_page+1).$file_sort_url.'" title="'.__('Next Page', 'wp-downloadmanager').' &raquo;">'.__('Next Page', 'wp-downloadmanager').'</a> <strong>&raquo;</strong>';
 						} else {
 							echo '&nbsp;';
@@ -613,9 +622,13 @@ switch($mode) {
 	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">
 		<table class="widefat">
 			<tr>
+				<th><?php _e('Filter Options: ', 'wp-downloadmanager'); ?></th>
+				<td><?php _e('Keywords:', 'wp-downloadmanager'); ?><input type="text" name="search" size="30" maxlength="200" value="<?php echo stripslashes($file_search); ?>" /></td>
+			</tr>
+			<tr>
+				<th><?php _e('Sort Options:', 'wp-downloadmanager'); ?></th>
 				<td>
 					<input type="hidden" name="page" value="<?php echo $base_name; ?>" />
-					<?php _e('Sort Options:', 'wp-downloadmanager'); ?>&nbsp;&nbsp;&nbsp;
 					<select name="by" size="1">
 						<option value="id"<?php if($file_sortby == 'file_id') { echo ' selected="selected"'; }?>><?php _e('File ID', 'wp-downloadmanager'); ?></option>
 						<option value="file"<?php if($file_sortby == 'file') { echo ' selected="selected"'; }?>><?php _e('File', 'wp-downloadmanager'); ?></option>
@@ -645,8 +658,10 @@ switch($mode) {
 						}
 					?>
 					</select>
-					<input type="submit" value="<?php _e('Sort', 'wp-downloadmanager'); ?>" class="button" />
 				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" value="<?php _e('Go', 'wp-downloadmanager'); ?>" class="button" /></td>
 			</tr>
 		</table>
 	</form>
