@@ -139,7 +139,7 @@ $download_template_most = get_option('download_template_most');
 				default_template = "<li>%FILE_NAME% (%FILE_SIZE%<?php _e(',', 'wp-downloadmanager'); ?> %FILE_HITS% <?php _e('hits', 'wp-downloadmanager'); ?>)<br /><i><?php _e('You do not have permission to download this file.', 'wp-downloadmanager'); ?></i></li>";
 				break;
 		}
-		document.getElementById("download_template_" + template).value = default_template;
+		jQuery("#download_template_" + template).val(default_template);
 	}
 /* ]]> */
 </script>
