@@ -277,7 +277,7 @@ switch($mode) {
 		</script>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Edit A File -->
-		<form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
+		<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>&amp;mode=edit&amp;id=<?php echo intval($file->file_id); ?>" enctype="multipart/form-data">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_max_upload_size(); ?>" />
 			<input type="hidden" name="file_id" value="<?php echo intval($file->file_id); ?>" />
 			<input type="hidden" name="old_file" value="<?php echo stripslashes($file->file); ?>" />
@@ -344,7 +344,7 @@ switch($mode) {
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Hits:', 'wp-downloadmanager') ?></strong></td>
-						<td><?php printf(__ngettext('%s hit', '%s hits', number_format_i18n($file->file_hits),'wp-downloadmanager'), number_format_i18n($file->file_hits)) ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" id="reset_filehits" name="reset_filehits" value="1" />&nbsp;<label for="reset_filehits"><?php _e('Reset File Hits', 'wp-downloadmanager') ?></label></td>
+						<td><?php printf(_n('%s hit', '%s hits', number_format_i18n($file->file_hits),'wp-downloadmanager'), number_format_i18n($file->file_hits)) ?><br /><input type="text" size="6" maxlength="10" name="file_hits" value="<?php echo $file->file_hits; ?>" /><br /><input type="checkbox" id="reset_filehits" name="reset_filehits" value="1" />&nbsp;<label for="reset_filehits"><?php _e('Reset File Hits', 'wp-downloadmanager') ?></label></td>
 					</tr>
 					<tr>
 						<td valign="top"><strong><?php _e('File Date:', 'wp-downloadmanager') ?></strong></td>
@@ -386,7 +386,7 @@ switch($mode) {
 ?>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Delete A File -->
-		<form action="<?php echo $base_page; ?>" method="post">
+		<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
 			<input type="hidden" name="file_id" value="<?php echo intval($file->file_id); ?>" />
 			<input type="hidden" name="file" value="<?php echo stripslashes($file->file); ?>" />
 			<input type="hidden" name="file_name" value="<?php echo htmlspecialchars(stripslashes($file->file_name)); ?>" />

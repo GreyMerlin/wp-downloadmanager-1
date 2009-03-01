@@ -103,7 +103,7 @@ if(!empty($_POST['do'])) {
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 <!-- Add A File -->
-<form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" method="post" enctype="multipart/form-data">
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>" enctype="multipart/form-data">
 	<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_max_upload_size(); ?>" />
 	<div class="wrap">
 		<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
