@@ -1123,11 +1123,15 @@ if(!function_exists('get_recent_downloads')) {
 
 ### Function: Get Downloads By Category ID
 if(!function_exists('get_downloads_category')) {
-	function get_downloads_category($cat_id = 1, $limit = 10, $chars = 0, $display = true) {
+	function get_downloads_category($cat_id = 0, $limit = 10, $chars = 0, $display = true) {
 		global $wpdb, $user_ID;
-		$cat_id = intval($cat_id);
+		if(is_array($cat_id)) {
+			$category_sql = "file_category IN (".join(',', $cat_id).')';
+		} else {
+			$category_sql = "file_category = $cat_id";
+		}
 		$output = '';		
-		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE file_category = $cat_id AND file_permission != -2 ORDER BY file_date DESC LIMIT $limit");
+		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE $category_sql AND file_permission != -2 ORDER BY file_date DESC LIMIT $limit");
 		if($files) {
 			$current_user = wp_get_current_user();
 			$file_extensions_images = file_extension_images();
@@ -1265,6 +1269,121 @@ function downloadmanager_page_most_stats($content) {
 		$content .= '</ul>'."\n";
 	}
 	return $content;
+}
+
+
+### Class: WP-DownloadManager Widget
+ class WP_Widget_DownloadManager extends WP_Widget {
+	// Constructor
+	function WP_Widget_DownloadManager() {
+		$widget_ops = array('description' => __('WP-DownloadManager downloads statistics', 'wp-downloadmanager'));
+		$this->WP_Widget('downloads', __('Downloads', 'wp-downloadmanager'), $widget_ops);
+	}
+
+	// Display Widget
+	function widget($args, $instance) {
+		extract($args);
+		$title = attribute_escape($instance['title']);
+		$type = attribute_escape($instance['type']);
+		$mode = attribute_escape($instance['mode']);
+		$limit = intval($instance['limit']);
+		$chars = intval($instance['chars']);
+		$cat_ids = explode(',', attribute_escape($instance['cat_ids']));
+		$link = intval($instance['link']);
+		echo $before_widget.$before_title.$title.$after_title;
+		echo '<ul>'."\n";
+		switch($type) {
+			case 'downloads_category':
+				get_downloads_category($cat_ids, $limit, $chars);
+				break;
+			case 'recent_downloads':
+				get_recent_downloads($limit, $chars);
+				break;
+			case 'most_downloaded':
+				get_most_downloaded($limit, $chars);
+				break;
+		}
+		echo '</ul>'."\n";
+		if($link) {
+			$download_template_download_page_link = stripslashes(get_option('download_template_download_page_link'));
+			$download_template_download_page_link = str_replace('%DOWNLOAD_PAGE_URL%', get_option('download_page_url'), $download_template_download_page_link);
+			echo $download_template_download_page_link;
+		}
+		echo $after_widget;
+	}
+
+	// When Widget Control Form Is Posted
+	function update($new_instance, $old_instance) {
+		if (!isset($new_instance['submit'])) {
+			return false;
+		}
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['type'] = strip_tags($new_instance['type']);
+		$instance['mode'] = strip_tags($new_instance['mode']);
+		$instance['limit'] = intval($new_instance['limit']);
+		$instance['chars'] = intval($new_instance['chars']);
+		$instance['cat_ids'] = strip_tags($new_instance['cat_ids']);
+		$instance['link'] = intval($new_instance['link']);
+		return $instance;
+	}
+
+	// DIsplay Widget Control Form
+	function form($instance) {
+		global $wpdb;
+		$instance = wp_parse_args((array) $instance, array('title' => __('Downloads', 'wp-downloadmanager'), 'type' => 'most_downloaded', 'limit' => 10, 'chars' => 200, 'cat_ids' => '0', 'link' => 1));
+		$title = attribute_escape($instance['title']);
+		$type = attribute_escape($instance['type']);
+		$mode = attribute_escape($instance['mode']);
+		$limit = intval($instance['limit']);
+		$chars = intval($instance['chars']);
+		$cat_ids = attribute_escape($instance['cat_ids']);
+		$link = intval($instance['link']);
+?>
+		<p>
+			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'wp-downloadmanager'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('type'); ?>"><?php _e('Statistics Type:', 'wp-downloadmanager'); ?>
+				<select name="<?php echo $this->get_field_name('type'); ?>" id="<?php echo $this->get_field_id('type'); ?>" class="widefat">
+					<option value="downloads_category"<?php selected('downloads_category', $type); ?>><?php _e('Display Downloads In Category', 'wp-downloadmanager'); ?></option>
+					<option value="recent_downloads"<?php selected('recent_downloads', $type); ?>><?php _e('Recent Downloads', 'wp-downloadmanager'); ?></option>
+					<option value="most_downloaded"<?php selected('most_downloaded', $type); ?>><?php _e('Most Downloaded', 'wp-downloadmanager'); ?></option>
+				</select>
+			</label>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('limit'); ?>"><?php _e('No. Of Records To Show:', 'wp-downloadmanager'); ?> <input class="widefat" id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="text" value="<?php echo $limit; ?>" /></label>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('chars'); ?>"><?php _e('Maximum Title Length (Characters):', 'wp-downloadmanager'); ?> <input class="widefat" id="<?php echo $this->get_field_id('chars'); ?>" name="<?php echo $this->get_field_name('chars'); ?>" type="text" value="<?php echo $chars; ?>" /></label><br />
+			<small><?php _e('<strong>0</strong> to disable.', 'wp-downloadmanager'); ?></small>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('cat_ids'); ?>"><?php _e('Category IDs:', 'wp-downloadmanager'); ?> <span style="color: red;">*</span> <input class="widefat" id="<?php echo $this->get_field_id('cat_ids'); ?>" name="<?php echo $this->get_field_name('cat_ids'); ?>" type="text" value="<?php echo $cat_ids; ?>" /></label><br />
+			<small><?php _e('Seperate mutiple categories with commas.', 'wp-downloadmanager'); ?></small>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('link'); ?>"><?php _e('Display Link To Download Page?', 'wp-downloadmanager'); ?>
+				<select name="<?php echo $this->get_field_name('link'); ?>" id="<?php echo $this->get_field_id('link'); ?>" class="widefat">
+					<option value="0"<?php selected('0', $type); ?>><?php _e('No', 'wp-downloadmanager'); ?></option>
+					<option value="1"<?php selected('1', $type); ?>><?php _e('Yes', 'wp-downloadmanager'); ?></option>
+				</select>
+			</label>
+		</p>
+		<p style="color: red;">
+			<small><?php _e('* If you are not using any category statistics, you can ignore it.', 'wp-downloadmanager'); ?></small>
+		<p>
+		<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
+<?php
+	}
+}
+
+
+### Function: Init WP-DownloadManager Widget
+add_action('widgets_init', 'widget_downloadmanager_init');
+function widget_downloadmanager_init() {
+	register_widget('WP_Widget_DownloadManager');
 }
 
 
