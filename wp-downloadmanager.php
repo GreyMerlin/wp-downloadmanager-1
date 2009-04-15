@@ -1470,6 +1470,8 @@ function create_download_table() {
 			mkdir(WP_CONTENT_DIR.'/files/', 0777, true);
 		}
 	}
+	delete_option('widget_download_recent_downloads');
+	delete_option('widget_download_most_downloaded');
 	// Set 'manage_downloads' Capabilities To Administrator	
 	$role = get_role('administrator');
 	if(!$role->has_cap('manage_downloads')) {
