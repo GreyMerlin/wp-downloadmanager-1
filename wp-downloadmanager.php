@@ -1283,12 +1283,12 @@ function downloadmanager_page_most_stats($content) {
 	// Display Widget
 	function widget($args, $instance) {
 		extract($args);
-		$title = attribute_escape($instance['title']);
-		$type = attribute_escape($instance['type']);
-		$mode = attribute_escape($instance['mode']);
+		$title = attr($instance['title']);
+		$type = attr($instance['type']);
+		$mode = attr($instance['mode']);
 		$limit = intval($instance['limit']);
 		$chars = intval($instance['chars']);
-		$cat_ids = explode(',', attribute_escape($instance['cat_ids']));
+		$cat_ids = explode(',', attr($instance['cat_ids']));
 		$link = intval($instance['link']);
 		echo $before_widget.$before_title.$title.$after_title;
 		echo '<ul>'."\n";
@@ -1332,12 +1332,12 @@ function downloadmanager_page_most_stats($content) {
 	function form($instance) {
 		global $wpdb;
 		$instance = wp_parse_args((array) $instance, array('title' => __('Downloads', 'wp-downloadmanager'), 'type' => 'most_downloaded', 'limit' => 10, 'chars' => 200, 'cat_ids' => '0', 'link' => 1));
-		$title = attribute_escape($instance['title']);
-		$type = attribute_escape($instance['type']);
-		$mode = attribute_escape($instance['mode']);
+		$title = attr($instance['title']);
+		$type = attr($instance['type']);
+		$mode = attr($instance['mode']);
 		$limit = intval($instance['limit']);
 		$chars = intval($instance['chars']);
-		$cat_ids = attribute_escape($instance['cat_ids']);
+		$cat_ids = attr($instance['cat_ids']);
 		$link = intval($instance['link']);
 ?>
 		<p>
