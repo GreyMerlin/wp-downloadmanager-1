@@ -1283,7 +1283,7 @@ function downloadmanager_page_most_stats($content) {
 	// Display Widget
 	function widget($args, $instance) {
 		extract($args);
-		$title = esc_attr($instance['title']);
+		$title = apply_filters('widget_title', esc_attr($instance['title']));
 		$type = esc_attr($instance['type']);
 		$mode = esc_attr($instance['mode']);
 		$limit = intval($instance['limit']);
