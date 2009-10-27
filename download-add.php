@@ -2,7 +2,7 @@
 /*
 +----------------------------------------------------------------+
 |																							|
-|	WordPress 2.8 Plugin: WP-DownloadManager 1.50						|
+|	WordPress 2.8 Plugin: WP-DownloadManager 1.60						|
 |	Copyright (c) 2009 Lester "GaMerZ" Chan									|
 |																							|
 |	File Written By:																	|
@@ -95,7 +95,8 @@ if(!empty($_POST['do'])) {
 			if(!$addfile) {
 				$text = '<font color="red">'.sprintf(__('Error In Adding File \'%s (%s)\'', 'wp-downloadmanager'), $file_name, $file).'</font>';
 			} else {
-				$text = '<font color="green">'.sprintf(__('File \'%s (%s)\' Added Successfully', 'wp-downloadmanager'), $file_name, $file).'</font>';
+				$file_id = intval($wpdb->insert_id);
+				$text = '<font color="green">'.sprintf(__('File \'%s (%s) (ID: %s)\' Added Successfully', 'wp-downloadmanager'), $file_name, $file, $file_id).'</font>';
 			}
 			break;
 	}
