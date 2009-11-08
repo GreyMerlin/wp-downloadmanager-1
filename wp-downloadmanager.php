@@ -195,7 +195,10 @@ function download_file() {
 		if($dl_id > 0 && $download_options['use_filename'] == 0) {
 			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file_id = $dl_id AND file_permission != -2");
 		} elseif(!empty($dl_name) && $download_options['use_filename'] == 1) {
-			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file = \"/$dl_name\" AND file_permission != -2");
+			if(!is_remote_file($dl_name)) {
+				$dl_name = '/'.$dl_name;
+			}
+			$file = $wpdb->get_row("SELECT file_id, file, file_permission FROM $wpdb->downloads WHERE file = \"$dl_name\" AND file_permission != -2");
 		}
 		if(!$file) {
 			header('HTTP/1.0 404 Not Found');
@@ -383,7 +386,10 @@ if(!function_exists('snippet_text')) {
 ### Function: Download URL
 function download_file_url($file_id, $file_name) {
 	$file_id = intval($file_id);
-	$file_name = substr(stripslashes($file_name), 1);
+	$file_name = stripslashes($file_name);
+	if(!is_remote_file($file_name)) {
+		$file_name = substr($file_name, 1);
+	}
 	$download_options = get_option('download_options');
 	$download_use_filename = intval($download_options['use_filename']);
 	$download_nice_permalink = intval(get_option('download_nice_permalink'));
