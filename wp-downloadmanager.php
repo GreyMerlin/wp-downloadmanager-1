@@ -1456,14 +1456,17 @@ function create_download_table() {
 	add_option('download_template_download_page_link', '<p><a href="%DOWNLOAD_PAGE_URL%" title="'.__('Downloads Page', 'wp-downloadmanager').'">'.__('Downloads Page', 'wp-downloadmanager').'</a></p>', 'Template For Download Page Link');
 	add_option('download_template_none', '<p style="text-align: center;">'.__('No Files Found.', 'wp-downloadmanager').'</p>', 'Template For No Downloads Found');
 	// Database Upgrade For WP-DownloadManager 1.50
-	add_option('download_options', array('use_filename' => 0, 'rss_sortby' => 'file_date', 'rss_limit' => 20), 'Download Options');
-	$update_permission_1 = $wpdb->query("UPDATE $wpdb->downloads SET file_permission = -2 WHERE file_permission = -1;");
-	if($update_permission_1) {
-		$update_permission_2 = $wpdb->query("UPDATE $wpdb->downloads SET file_permission = -1 WHERE file_permission = 0;");
-		if($update_permission_2) {
-			$wpdb->query("UPDATE $wpdb->downloads SET file_permission = 0 WHERE file_permission = 1;");
+	$check_for_150 = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'download_options'");
+	if(!$check_for_150) {		
+		$update_permission_1 = $wpdb->query("UPDATE $wpdb->downloads SET file_permission = -2 WHERE file_permission = -1;");
+		if($update_permission_1) {
+			$update_permission_2 = $wpdb->query("UPDATE $wpdb->downloads SET file_permission = -1 WHERE file_permission = 0;");
+			if($update_permission_2) {
+				$wpdb->query("UPDATE $wpdb->downloads SET file_permission = 0 WHERE file_permission = 1;");
+			}
 		}
 	}
+	add_option('download_options', array('use_filename' => 0, 'rss_sortby' => 'file_date', 'rss_limit' => 20), 'Download Options');
 	// Create Files Folder
 	if (function_exists('is_site_admin')) {
 		if(!is_dir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/')) {
