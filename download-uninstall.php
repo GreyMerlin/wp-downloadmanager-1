@@ -93,7 +93,7 @@ switch($mode) {
 	default:
 ?>
 <!-- Uninstall WP-DownloadManager -->
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
+<form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
 <div class="wrap">
 	<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
 	<h2><?php _e('Uninstall WP-DownloadManager', 'wp-downloadmanager'); ?></h2>

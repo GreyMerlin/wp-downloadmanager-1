@@ -3,7 +3,7 @@ Contributors: GamerZ
 Donate link: http://lesterchan.net/wordpress
 Tags: file, files, download, downloads, manager, downloadmanager, downloadsmanager, filemanager, filesmanager
 Requires at least: 2.8
-Stable tag: 1.50
+Stable tag: trunk
 
 Adds a simple download manager to your WordPress blog.
 

@@ -277,7 +277,7 @@ switch($mode) {
 		</script>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Edit A File -->
-		<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>&amp;mode=edit&amp;id=<?php echo intval($file->file_id); ?>" enctype="multipart/form-data">
+		<form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__).'&amp;mode=edit&amp;id='.intval($file->file_id)); ?>" enctype="multipart/form-data">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_max_upload_size(); ?>" />
 			<input type="hidden" name="file_id" value="<?php echo intval($file->file_id); ?>" />
 			<input type="hidden" name="old_file" value="<?php echo stripslashes($file->file); ?>" />
@@ -386,7 +386,7 @@ switch($mode) {
 ?>
 		<?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.stripslashes($text).'</p></div>'; } ?>
 		<!-- Delete A File -->
-		<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo plugin_basename(__FILE__); ?>">
+		<form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
 			<input type="hidden" name="file_id" value="<?php echo intval($file->file_id); ?>" />
 			<input type="hidden" name="file" value="<?php echo stripslashes($file->file); ?>" />
 			<input type="hidden" name="file_name" value="<?php echo htmlspecialchars(stripslashes($file->file_name)); ?>" />
@@ -608,7 +608,7 @@ switch($mode) {
 			}
 		?>
 	<br />
-	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">
+	<form action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>" method="get">
 		<table class="widefat">
 			<tr>
 				<th><?php _e('Filter Options: ', 'wp-downloadmanager'); ?></th>
