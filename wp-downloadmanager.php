@@ -103,18 +103,10 @@ function downloads_footer_admin() {
 	echo "\t\t".'}'."\n";
 	echo "\t".'}'."\n";
 	echo "\t".'if(document.getElementById("ed_toolbar")){'."\n";
-	echo "\t\t".'qt_toolbar = document.getElementById("ed_toolbar");'."\n";
 	echo "\t\t".'edButtons[edButtons.length] = new edButton("ed_downloadmanager",downloadsEdL10n.download, "", "","");'."\n";
-	echo "\t\t".'var qt_button = qt_toolbar.lastChild;'."\n";
-	echo "\t\t".'while (qt_button.nodeType != 1){'."\n";
-	echo "\t\t\t".'qt_button = qt_button.previousSibling;'."\n";
-	echo "\t\t".'}'."\n";
-	echo "\t\t".'qt_button = qt_button.cloneNode(true);'."\n";
-	echo "\t\t".'qt_button.value = downloadsEdL10n.download;'."\n";
-	echo "\t\t".'qt_button.title = downloadsEdL10n.insert_download;'."\n";
-	echo "\t\t".'qt_button.onclick = function () { insertDownload(\'code\', edCanvas);}'."\n";
-	echo "\t\t".'qt_button.id = "ed_downloadmanager";'."\n";
-	echo "\t\t".'qt_toolbar.appendChild(qt_button);'."\n";
+	echo "\t\t".'jQuery(document).ready(function($){'."\n";
+	echo "\t\t\t".'$(\'#qt_content_ed_downloadmanager\').replaceWith(\'<input type="button" id="qt_content_ed_downloadmanager" accesskey="" class="ed_button" onclick="insertDownload(\\\'code\\\', edCanvas);" value="\' + downloadsEdL10n.download + \'" title="\' + downloadsEdL10n.insert_download + \'" />\');'."\n";
+	echo "\t\t".'});'."\n";
 	echo "\t".'}'."\n";
 	echo '</script>'."\n";
 }
@@ -1443,7 +1435,7 @@ function create_download_table() {
 		add_option('download_path_url', content_url('files'), 'Download Path URL');
 	}
 	add_option('download_page_url', site_url('downloads'), 'Download Page URL');
-	add_option('download_method', 0, 'Download Type');
+	add_option('download_method', 1, 'Download Type');
 	add_option('download_categories', array('General'), 'Download Categories');
 	add_option('download_sort', array('by' => 'file_name', 'order' => 'asc', 'perpage' => 20, 'group' => 1), 'Download Sorting Options');
 	add_option('download_template_header', '<p>'.__('There are <strong>%TOTAL_FILES_COUNT% files</strong>, weighing <strong>%TOTAL_SIZE%</strong> with <strong>%TOTAL_HITS% hits</strong> in <strong>%FILE_CATEGORY_NAME%</strong>.</p><p>Displaying <strong>%RECORD_START%</strong> to <strong>%RECORD_END%</strong> of <strong>%TOTAL_FILES_COUNT%</strong> files.', 'wp-downloadmanager').'</p>', 'Download Page Header Template');
