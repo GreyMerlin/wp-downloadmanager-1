@@ -1,19 +1,19 @@
 <?php
 /*
-+----------------------------------------------------------------+
-|																							|
-|	WordPress 2.8 Plugin: WP-DownloadManager 1.60						|
-|	Copyright (c) 2009 Lester "GaMerZ" Chan									|
-|																							|
-|	File Written By:																	|
-|	- Lester "GaMerZ" Chan															|
-|	- http://lesterchan.net															|
-|																							|
-|	File Information:																	|
-|	- Add File Download																|
++-------------------------------------------------------------------+
+|																	|
+|	WordPress Plugin: WP-DownloadManager							|
+|	Copyright (c) 2013 Lester "GaMerZ" Chan							|
+|																	|
+|	File Written By:												|
+|	- Lester "GaMerZ" Chan											|
+|	- http://lesterchan.net											|
+|																	|
+|	File Information:												|
+|	- Add File Download												|
 |	- wp-content/plugins/wp-downloadmanager/download-add.php		|
-|																							|
-+----------------------------------------------------------------+
+|																	|
++-------------------------------------------------------------------+
 */
 
 
@@ -30,8 +30,9 @@ $file_path = get_option('download_path');
 $file_categories = get_option('download_categories');
 
 
-### Form Processing 
+### Form Processing
 if(!empty($_POST['do'])) {
+	check_admin_referer('wp-downloadmanager_add-file');
 	// Decide What To Do
 	switch($_POST['do']) {
 		// Add File
@@ -39,7 +40,7 @@ if(!empty($_POST['do'])) {
 			$file_type = intval($_POST['file_type']);
 			switch($file_type) {
 				case 0:
-					$file = addslashes(trim($_POST['file']));					
+					$file = addslashes(trim($_POST['file']));
 					$file = download_rename_file($file_path, $file);
 					$file_size = filesize($file_path.$file);
 					break;
@@ -57,7 +58,7 @@ if(!empty($_POST['do'])) {
 							if(move_uploaded_file($_FILES['file_upload']['tmp_name'], $file_path.$file_upload_to.basename($_FILES['file_upload']['name']))) {
 								$file = $file_upload_to.basename($_FILES['file_upload']['name']);
 								$file = download_rename_file($file_path, $file);
-								$file_size = filesize($file_path.$file);	
+								$file_size = filesize($file_path.$file);
 							} else {
 								$text = '<font color="red">'.__('Error In Uploading File', 'wp-downloadmanager').'</font>';
 								break;
@@ -78,7 +79,7 @@ if(!empty($_POST['do'])) {
 				$file_name = basename($file);
 			}
 			$file_des = addslashes(trim($_POST['file_des']));
-			$file_category = intval($_POST['file_cat']); 
+			$file_category = intval($_POST['file_cat']);
 			if(!empty($_POST['file_size'])) {
 				$file_size = intval($_POST['file_size']);
 			}
@@ -106,6 +107,7 @@ if(!empty($_POST['do'])) {
 <!-- Add A File -->
 <form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>" enctype="multipart/form-data">
 	<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_max_upload_size(); ?>" />
+	<?php wp_nonce_field('wp-downloadmanager_add-file'); ?>
 	<div class="wrap">
 		<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
 		<h2><?php _e('Add A File', 'wp-downloadmanager'); ?></h2>

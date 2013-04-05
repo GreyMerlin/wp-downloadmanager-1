@@ -1,18 +1,18 @@
 <?php
 /*
 +-------------------------------------------------------------------+
-|																								|
-|	WordPress 2.8 Plugin: WP-DownloadManager 1.60							|
-|	Copyright (c) 2009 Lester "GaMerZ" Chan										|
-|																								|
-|	File Written By:																		|
-|	- Lester "GaMerZ" Chan																|
-|	- http://lesterchan.net																|
-|																								|
-|	File Information:																		|
-|	- Download RSS Feed																|
-|	- wp-content/plugins/wp-downloadmanager/download-rss.php			|
-|																								|
+|																	|
+|	WordPress Plugin: WP-DownloadManager							|
+|	Copyright (c) 2013 Lester "GaMerZ" Chan							|
+|																	|
+|	File Written By:												|
+|	- Lester "GaMerZ" Chan											|
+|	- http://lesterchan.net											|
+|																	|
+|	File Information:												|
+|	- Download RSS Feed												|
+|	- wp-content/plugins/wp-downloadmanager/download-rss.php		|
+|																	|
 +-------------------------------------------------------------------+
 */
 

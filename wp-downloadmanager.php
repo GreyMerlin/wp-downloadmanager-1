@@ -3,14 +3,14 @@
 Plugin Name: WP-DownloadManager
 Plugin URI: http://lesterchan.net/portfolio/programming/php/
 Description: Adds a simple download manager to your WordPress blog.
-Version: 1.60
+Version: 1.61
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
 */
 
 
-/*  
-	Copyright 2009  Lester Chan  (email : lesterchan@gmail.com)
+/*
+	Copyright 2013  Lester Chan  (email : lesterchan@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -150,7 +150,7 @@ function download_query_vars($public_query_vars) {
 }
 
 
-### Function: Download htaccess ReWrite Rules   
+### Function: Download htaccess ReWrite Rules
 add_filter('generate_rewrite_rules', 'download_rewrite');
 function download_rewrite($wp_rewrite) {
 	$wp_rewrite->rules = array_merge(array('download/([0-9]{1,})/?$' => 'index.php?dl_id=$matches[1]', 'download/(.*)$' => 'index.php?dl_name=$matches[1]'), $wp_rewrite->rules);
@@ -158,7 +158,7 @@ function download_rewrite($wp_rewrite) {
 
 
 ### Function: Add Download RSS Link To Download Page
-add_action('wp_head', 'download_rss_link'); 
+add_action('wp_head', 'download_rss_link');
 function download_rss_link() {
 	if(is_page() && strpos(get_option('download_page_url'), $_SERVER['REQUEST_URI'])) {
 		$download_nice_permalink = intval(get_option('download_nice_permalink'));
@@ -213,7 +213,7 @@ function download_file() {
 				if($download_method == 0) {
 					header("Pragma: public");
 					header("Expires: 0");
-					header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+					header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					header("Content-Type: application/force-download");
 					header("Content-Type: application/octet-stream");
 					header("Content-Type: application/download");
@@ -229,19 +229,19 @@ function download_file() {
 				if(ini_get('allow_url_fopen') && $download_method == 0) {
 					header("Pragma: public");
 					header("Expires: 0");
-					header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+					header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					header("Content-Type: application/force-download");
 					header("Content-Type: application/octet-stream");
 					header("Content-Type: application/download");
 					header("Content-Disposition: attachment; filename=".basename($file_name).";");
 					header("Content-Transfer-Encoding: binary");
-					$file_size = remote_filesize($file_name);					
+					$file_size = remote_filesize($file_name);
 					if($file_size != __('unknown', 'wp-downloadmanager')) {
 						header("Content-Length: ".$file_size);
 					}
 					@readfile($file_name);
 				} else {
-					header('Location: '.$file_name);					
+					header('Location: '.$file_name);
 				}
 				exit();
 			}
@@ -492,7 +492,7 @@ function downloads_page($category_id = 0) {
 	$page = intval($_GET['dl_page']);
 	$search_word = strip_tags(addslashes(trim($_GET['dl_search'])));
 	$search_words_array = array();
-	$search = stripslashes($search_word);	
+	$search = stripslashes($search_word);
 	$download_categories = get_option('download_categories');
 	$download_categories[0] = __('total', 'wp-downloadmanager');
 	$category_stats = array();
@@ -533,7 +533,7 @@ function downloads_page($category_id = 0) {
 	// Calculate Paging
 	$numposts = $total_stats['files'];
 	$perpage = $file_sort['perpage'];
-	$max_page = ceil($numposts/$perpage);	
+	$max_page = ceil($numposts/$perpage);
 	if(empty($page) || $page == 0) {
 		$page = 1;
 	}
@@ -557,15 +557,15 @@ function downloads_page($category_id = 0) {
 	if($start_page <= 0) {
 		$start_page = 1;
 	}
-	if(($offset + $perpage) > $numposts) { 
-		$max_on_page = $numposts; 
-	} else { 
-		$max_on_page = ($offset + $perpage); 
+	if(($offset + $perpage) > $numposts) {
+		$max_on_page = $numposts;
+	} else {
+		$max_on_page = ($offset + $perpage);
 	}
-	if (($offset + 1) > ($numposts)) { 
-		$display_on_page = $numposts; 
-	} else { 
-		$display_on_page = ($offset + 1); 
+	if (($offset + 1) > ($numposts)) {
+		$display_on_page = $numposts;
+	} else {
+		$display_on_page = ($offset + 1);
 	}
 
 	// Get Sorting Group
@@ -671,7 +671,7 @@ function downloads_page($category_id = 0) {
 		$template_download_footer = stripslashes(get_option('download_template_footer'));
 		if(get_option('download_nice_permalink') == '0' && preg_match('/[\?\&]page_id=(\d+)/i', get_option('download_page_url'), $matches)) {
 			$template_download_footer = preg_replace('/(<form[^>]+>)/i', '$1<input type="hidden" name="page_id" value="'.$matches[1].'" />', $template_download_footer);
-		}		
+		}
 		$template_download_footer = str_replace("%TOTAL_FILES_COUNT%", number_format_i18n($total_stats['files']), $template_download_footer);
 		$template_download_footer = str_replace("%TOTAL_HITS%", number_format_i18n($total_stats['hits']), $template_download_footer);
 		$template_download_footer = str_replace("%TOTAL_SIZE%", format_filesize($total_stats['size']), $template_download_footer);
@@ -692,7 +692,7 @@ function downloads_page($category_id = 0) {
 		} else {
 			$output .= '<div class="wp-downloadmanager-paging">'."\n";
 		}
-		$output .= '<span class="pages">&#8201;'.sprintf(__('Page %s of %s', 'wp-downloadmanager'), number_format_i18n($page), number_format_i18n($max_page)).'&#8201;</span>';			
+		$output .= '<span class="pages">&#8201;'.sprintf(__('Page %s of %s', 'wp-downloadmanager'), number_format_i18n($page), number_format_i18n($max_page)).'&#8201;</span>';
 		if ($start_page >= 2 && $pages_to_show < $max_page) {
 			$output .= '<a href="'.download_page_link(1).'" title="'.__('&laquo; First', 'wp-downloadmanager').'">&#8201;'.__('&laquo; First', 'wp-downloadmanager').'&#8201;</a>';
 			$output .= '<span class="extend">...</span>';
@@ -700,7 +700,7 @@ function downloads_page($category_id = 0) {
 		if($page > 1) {
 			$output .= '<a href="'.download_page_link(($page-1)).'" title="'.__('&laquo;', 'wp-downloadmanager').'">&#8201;'.__('&laquo;', 'wp-downloadmanager').'&#8201;</a>';
 		}
-		for($i = $start_page; $i  <= $end_page; $i++) {						
+		for($i = $start_page; $i  <= $end_page; $i++) {
 			if($i == $page) {
 				$output .= '<span class="current">&#8201;'.number_format_i18n($i).'&#8201;</span>';
 			} else {
@@ -728,7 +728,7 @@ function list_downloads_files($dir, $orginal_dir) {
 	   if ($dh = opendir($dir)) {
 		   while (($file = readdir($dh)) !== false) {
 				if($file != '.' && $file != '..' && $file != '.htaccess')	{
-					if(is_dir($dir.'/'.$file)) {						
+					if(is_dir($dir.'/'.$file)) {
 						list_downloads_files($dir.'/'.$file, $orginal_dir);
 					} else {
 						$folder_file =str_replace($orginal_dir, '', $dir.'/'.$file);
@@ -780,18 +780,18 @@ function print_list_files($dir, $orginal_dir, $selected = '') {
 	if($download_files) {
 		foreach($download_files as $download_file) {
 			if($download_file == $selected) {
-				echo '<option value="'.$download_file.'" selected="selected">'.$download_file.'</option>'."\n";	
+				echo '<option value="'.$download_file.'" selected="selected">'.$download_file.'</option>'."\n";
 			} else {
-				echo '<option value="'.$download_file.'">'.$download_file.'</option>'."\n";	
+				echo '<option value="'.$download_file.'">'.$download_file.'</option>'."\n";
 			}
 		}
 	}
 	if($download_files_subfolder) {
 		foreach($download_files_subfolder as $download_file_subfolder) {
 			if($download_file_subfolder == $selected) {
-				echo '<option value="'.$download_file_subfolder.'" selected="selected">'.$download_file_subfolder.'</option>'."\n";	
+				echo '<option value="'.$download_file_subfolder.'" selected="selected">'.$download_file_subfolder.'</option>'."\n";
 			} else {
-				echo '<option value="'.$download_file_subfolder.'">'.$download_file_subfolder.'</option>'."\n";	
+				echo '<option value="'.$download_file_subfolder.'">'.$download_file_subfolder.'</option>'."\n";
 			}
 		}
 	}
@@ -804,9 +804,9 @@ function print_list_folders($dir, $orginal_dir) {
 	list_downloads_folders($dir, $orginal_dir);
 	if($download_folders) {
 		natcasesort($download_folders);
-		echo '<option value="/">/</option>'."\n";	
+		echo '<option value="/">/</option>'."\n";
 		foreach($download_folders as $download_folder) {
-			echo '<option value="'.$download_folder.'">'.$download_folder.'</option>'."\n";	
+			echo '<option value="'.$download_folder.'">'.$download_folder.'</option>'."\n";
 		}
 	}
 }
@@ -836,9 +836,9 @@ function file_timestamp($file_timestamp) {
 	echo '<select id="file_timestamp_day" name="file_timestamp_day" size="1">'."\n";
 	for($i = 1; $i <=31; $i++) {
 		if($day == $i) {
-			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";
 		} else {
-			echo "<option value=\"$i\">$i</option>\n";	
+			echo "<option value=\"$i\">$i</option>\n";
 		}
 	}
 	echo '</select>&nbsp;&nbsp;'."\n";
@@ -851,9 +851,9 @@ function file_timestamp($file_timestamp) {
 			$ii = $i;
 		}
 		if($month2 == $i) {
-			echo "<option value=\"$i\" selected=\"selected\">$month[$ii]</option>\n";	
+			echo "<option value=\"$i\" selected=\"selected\">$month[$ii]</option>\n";
 		} else {
-			echo "<option value=\"$i\">$month[$ii]</option>\n";	
+			echo "<option value=\"$i\">$month[$ii]</option>\n";
 		}
 	}
 	echo '</select>&nbsp;&nbsp;'."\n";
@@ -861,9 +861,9 @@ function file_timestamp($file_timestamp) {
 	echo '<select id="file_timestamp_year" name="file_timestamp_year" size="1">'."\n";
 	for($i = 2000; $i <= gmdate('Y'); $i++) {
 		if($year == $i) {
-			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";
 		} else {
-			echo "<option value=\"$i\">$i</option>\n";	
+			echo "<option value=\"$i\">$i</option>\n";
 		}
 	}
 	echo '</select>&nbsp;@'."\n";
@@ -872,9 +872,9 @@ function file_timestamp($file_timestamp) {
 	echo '<select id="file_timestamp_hour" name="file_timestamp_hour" size="1">'."\n";
 	for($i = 0; $i < 24; $i++) {
 		if($hour == $i) {
-			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";
 		} else {
-			echo "<option value=\"$i\">$i</option>\n";	
+			echo "<option value=\"$i\">$i</option>\n";
 		}
 	}
 	echo '</select>&nbsp;:'."\n";
@@ -882,20 +882,20 @@ function file_timestamp($file_timestamp) {
 	echo '<select id="file_timestamp_minute" name="file_timestamp_minute" size="1">'."\n";
 	for($i = 0; $i < 60; $i++) {
 		if($minute == $i) {
-			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";
 		} else {
-			echo "<option value=\"$i\">$i</option>\n";	
+			echo "<option value=\"$i\">$i</option>\n";
 		}
 	}
-	
+
 	echo '</select>&nbsp;:'."\n";
 	$second = gmdate('s', $file_timestamp);
 	echo '<select id="file_timestamp_second" name="file_timestamp_second" size="1">'."\n";
 	for($i = 0; $i <= 60; $i++) {
 		if($second == $i) {
-			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";	
+			echo "<option value=\"$i\" selected=\"selected\">$i</option>\n";
 		} else {
-			echo "<option value=\"$i\">$i</option>\n";	
+			echo "<option value=\"$i\">$i</option>\n";
 		}
 	}
 	echo '</select>'."\n";
@@ -1007,8 +1007,8 @@ function download_embedded($condition = '', $display = 'both') {
 			$template_download_embedded = str_replace("%FILE_UPDATED_DATE%",  mysql2date(get_option('date_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_UPDATED_TIME%",  mysql2date(get_option('time_format'), gmdate('Y-m-d H:i:s', $file->file_updated_date)), $template_download_embedded);
 			$template_download_embedded = str_replace("%FILE_HITS%", number_format_i18n($file->file_hits), $template_download_embedded);
-			$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id, $file->file), $template_download_embedded);	
-			$output .= $template_download_embedded; 
+			$template_download_embedded = str_replace("%FILE_DOWNLOAD_URL%", download_file_url($file->file_id, $file->file), $template_download_embedded);
+			$output .= $template_download_embedded;
 		}
 		return apply_filters('download_embedded', $output);
 	}
@@ -1128,7 +1128,7 @@ if(!function_exists('get_downloads_category')) {
 		} else {
 			$category_sql = "file_category = $cat_id";
 		}
-		$output = '';		
+		$output = '';
 		$files = $wpdb->get_results("SELECT * FROM $wpdb->downloads WHERE $category_sql AND file_permission != -2 ORDER BY file_date DESC LIMIT $limit");
 		if($files) {
 			$current_user = wp_get_current_user();
@@ -1460,7 +1460,7 @@ function create_download_table() {
 	add_option('download_template_none', '<p style="text-align: center;">'.__('No Files Found.', 'wp-downloadmanager').'</p>', 'Template For No Downloads Found');
 	// Database Upgrade For WP-DownloadManager 1.50
 	$check_for_150 = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'download_options'");
-	if(!$check_for_150) {		
+	if(!$check_for_150) {
 		$update_permission_1 = $wpdb->query("UPDATE $wpdb->downloads SET file_permission = -2 WHERE file_permission = -1;");
 		if($update_permission_1) {
 			$update_permission_2 = $wpdb->query("UPDATE $wpdb->downloads SET file_permission = -1 WHERE file_permission = 0;");
@@ -1472,17 +1472,17 @@ function create_download_table() {
 	add_option('download_options', array('use_filename' => 0, 'rss_sortby' => 'file_date', 'rss_limit' => 20), 'Download Options');
 	// Create Files Folder
 	if (function_exists('is_site_admin')) {
-		if(!is_dir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/')) {
+		if(!is_dir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/') && is_writable(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/')) {
 			mkdir(WP_CONTENT_DIR.'/blogs.dir/'.$blog_id.'/files/', 0777, true);
 		}
 	} else {
-		if(!is_dir(WP_CONTENT_DIR.'/files/')) {
+		if(!is_dir(WP_CONTENT_DIR.'/files/') && is_writable(WP_CONTENT_DIR.'/files/')) {
 			mkdir(WP_CONTENT_DIR.'/files/', 0777, true);
 		}
 	}
 	delete_option('widget_download_recent_downloads');
 	delete_option('widget_download_most_downloaded');
-	// Set 'manage_downloads' Capabilities To Administrator	
+	// Set 'manage_downloads' Capabilities To Administrator
 	$role = get_role('administrator');
 	if(!$role->has_cap('manage_downloads')) {
 		$role->add_cap('manage_downloads');

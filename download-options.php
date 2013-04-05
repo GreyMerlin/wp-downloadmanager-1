@@ -1,18 +1,18 @@
 <?php
 /*
 +-------------------------------------------------------------------+
-|																								|
-|	WordPress 2.8 Plugin: WP-DownloadManager 1.60							|
-|	Copyright (c) 2009 Lester "GaMerZ" Chan										|
-|																								|
-|	File Written By:																		|
-|	- Lester "GaMerZ" Chan																|
-|	- http://lesterchan.net																|
-|																								|
-|	File Information:																		|
-|	- Download Options																	|
+|																	|
+|	WordPress Plugin: WP-DownloadManager							|
+|	Copyright (c) 2013 Lester "GaMerZ" Chan							|
+|																	|
+|	File Written By:												|
+|	- Lester "GaMerZ" Chan											|
+|	- http://lesterchan.net											|
+|																	|
+|	File Information:												|
+|	- Download Options												|
 |	- wp-content/plugins/wp-downloadmanager/download-options.php	|
-|																								|
+|																	|
 +-------------------------------------------------------------------+
 */
 
@@ -30,6 +30,7 @@ $base_page = 'admin.php?page='.$base_name;
 
 ### If Form Is Submitted
 if($_POST['Submit']) {
+	check_admin_referer('wp-downloadmanager_options');
 	$download_path = trim($_POST['download_path']);
 	$download_path_url = trim($_POST['download_path_url']);
 	$download_page_url = trim($_POST['download_page_url']);
@@ -109,9 +110,10 @@ $download_options = get_option('download_options');
 ?>
 <?php if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 <form method="post" action="<?php echo admin_url('admin.php?page='.plugin_basename(__FILE__)); ?>">
-	<div class="wrap"> 
+	<?php wp_nonce_field('wp-downloadmanager_options'); ?>
+	<div class="wrap">
 		<div id="icon-wp-downloadmanager" class="icon32"><br /></div>
-		<h2><?php _e('Download Options', 'wp-downloadmanager'); ?></h2> 	
+		<h2><?php _e('Download Options', 'wp-downloadmanager'); ?></h2>
 		<h3><?php _e('Download Options', 'wp-downloadmanager'); ?></h3>
 		<table class="form-table">
 			 <tr valign="top">
@@ -232,4 +234,4 @@ $download_options = get_option('download_options');
 			<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'wp-downloadmanager'); ?>" />
 		</p>
 	</div>
-</form> 
+</form>

@@ -1,18 +1,18 @@
 <?php
 /*
 +-------------------------------------------------------------------+
-|																								|
-|	WordPress 2.8 Plugin: WP-DownloadManager 1.60							|
-|	Copyright (c) 2009 Lester "GaMerZ" Chan										|
-|																								|
-|	File Written By:																		|
-|	- Lester "GaMerZ" Chan																|
-|	- http://lesterchan.net																|
-|																								|
-|	File Information:																		|
-|	- Uninstall WP-DownloadManager													|
+|																	|
+|	WordPress Plugin: WP-DownloadManager							|
+|	Copyright (c) 2013 Lester "GaMerZ" Chan							|
+|																	|
+|	File Written By:												|
+|	- Lester "GaMerZ" Chan											|
+|	- http://lesterchan.net											|
+|																	|
+|	File Information:												|
+|	- Uninstall WP-DownloadManager									|
 |	- wp-content/plugins/wp-downloadmanager/download-uninstall.php	|
-|																								|
+|																	|
 +-------------------------------------------------------------------+
 */
 
@@ -32,7 +32,7 @@ $downloads_settings = array('download_path', 'download_path_url', 'download_page
 $download_path = get_option('download_path');
 
 
-### Form Processing 
+### Form Processing
 if(!empty($_POST['do'])) {
 	// Decide What To Do
 	switch($_POST['do']) {
@@ -67,7 +67,7 @@ if(!empty($_POST['do'])) {
 				echo '<br />';
 				printf(__('The path to the downloads folder is <strong>\'%s\'</strong>.', 'wp-downloadmanager'), $download_path);
 				echo '</p>';
-				echo '</div>'; 
+				echo '</div>';
 				$mode = 'end-UNINSTALL';
 			}
 			break;
@@ -80,7 +80,7 @@ switch($mode) {
 		//  Deactivating WP-DownloadManager
 		case 'end-UNINSTALL':
 			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin=wp-downloadmanager/wp-downloadmanager.php';
-			if(function_exists('wp_nonce_url')) { 
+			if(function_exists('wp_nonce_url')) {
 				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_wp-downloadmanager/wp-downloadmanager.php');
 			}
 			echo '<div class="wrap">';
