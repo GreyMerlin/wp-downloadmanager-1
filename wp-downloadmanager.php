@@ -6,6 +6,7 @@ Description: Adds a simple download manager to your WordPress blog.
 Version: 1.61
 Author: Lester 'GaMerZ' Chan
 Author URI: http://lesterchan.net
+Text Domain: wp-downloadmanager
 */
 
 
