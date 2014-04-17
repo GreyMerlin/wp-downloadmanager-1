@@ -1,30 +1,22 @@
-=== WP-DownloadManager ===
-Contributors: GamerZ
-Donate link: http://lesterchan.net/site/donation/
-Tags: file, files, download, downloads, manager, downloadmanager, downloadsmanager, filemanager, filesmanager
-Requires at least: 2.8
-Tested up to: 3.5.1
-Stable tag: trunk
-License: GPLv2
+=== WP-DownloadManager  ===
+Contributors: GamerZ  
+Donate link: http://lesterchan.net/site/donation/  
+Tags: file, files, download, downloads, manager, downloadmanager, downloadsmanager, filemanager, filesmanager  
+Requires at least: 3.9  
+Tested up to: 3.9  
+Stable tag: 1.62  
+License: GPLv2  
 
 Adds a simple download manager to your WordPress blog.
 
 == Description ==
 Adds a simple download manager to your WordPress blog.
 
-= Previous Versions =
-* [WP-DownloadManager 1.40 For WordPress 2.7.x](http://downloads.wordpress.org/plugin/wp-downloadmanager.1.40.zip "WP-DownloadManager 1.40 For WordPress 2.7.x")
-* [WP-DownloadManager 1.31 For WordPress 2.5.x And 2.6.x](http://downloads.wordpress.org/plugin/wp-downloadmanager.1.31.zip "WP-DownloadManager 1.31 For WordPress 2.5.x And 2.6.x")
-* [WP-DownloadManager 1.00 For WordPress 2.2.x And 2.3.x](http://downloads.wordpress.org/plugin/wp-downloadmanager.1.00.zip "WP-DownloadManager 1.00 For WordPress 2.2.x And 2.3.x")
-
 = Development =
-* [http://dev.wp-plugins.org/browser/wp-downloadmanager/](http://dev.wp-plugins.org/browser/wp-downloadmanager/ "http://dev.wp-plugins.org/browser/wp-downloadmanager/")
+* [https://github.com/lesterchan/wp-downloadmanager](https://github.com/lesterchan/wp-downloadmanager "https://github.com/lesterchan/wp-downloadmanager")
 
 = Translations =
 * [http://dev.wp-plugins.org/browser/wp-downloadmanager/i18n/](http://dev.wp-plugins.org/browser/wp-downloadmanager/i18n/ "http://dev.wp-plugins.org/browser/wp-downloadmanager/i18n/")
-
-= Support Forums =
-* [http://forums.lesterchan.net/index.php?board=12.0](http://forums.lesterchan.net/index.php?board=12.0 "http://forums.lesterchan.net/index.php?board=12.0")
 
 = Credits =
 * Icons courtesy of [FamFamFam](http://www.famfamfam.com/ "FamFamFam")
@@ -38,6 +30,12 @@ Adds a simple download manager to your WordPress blog.
 * I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appericiate it. If not feel free to use it without any obligations.
 
 == Changelog ==
+
+= Version 1.62 =
+* NEW: Uses Dash Icons
+* NEW: Supports TinyMCE 4.0 For WordPress 3.9
+* NEW: Added sorting to embedded downloads. Props ksze.
+* NEW: You can now choose to display file sizes in either binary base or decimal base (i.e. KiB vs KB), using either `%FILE_SIZE` or `%FILE_SIZE_DEC`; `%CATEGORY_SIZE` and `%TOTAL_SIZE` also have their `_DEC` counterparts.. Props ksze.
 
 = Version 1.61 =
 * FIXED: Added nonce to Options. Credits to Charlie Eriksen via Secunia SVCRP.
@@ -90,7 +88,7 @@ Adds a simple download manager to your WordPress blog.
 * NEW: Additional %CATEGORY_ID% Variable In Category Header And Footer Template
 * NEW: Updated WP-DownloadManager TinyMCE Plugin To Work With TinyMCE 3.0
 * NEW: Uses Shortcode API
-* NEW: Changed [page_downloads] to = [page_download] = For Consistency
+* NEW: Changed [page_downloads] to ### [page_download] ### For Consistency
 * NEW: You Can Now Embed Multiple File Download IDs By Doing This: [download id="1,2,3"], Where 1,2,3 Are Your File Download IDs
 * NEW: When Inserting File Download Into Post, It is Now [download id="1"], Where 1 Is Your File Download ID
 * NEW: Ability To Input File Size Manually Because Remote File Size Does Not Always Work
@@ -128,6 +126,13 @@ Adds a simple download manager to your WordPress blog.
 = General Usage =
 1. To embed a specific file to be downloaded into a post/page, use `[download id="2"]` where 2 is your file id.
 1. To embed multiple files to be downloaded into a post/page, use `[download id="1,2,3"]` where 1,2,3 are your file ids.
+1. To limit the number of embedded downloads shown for each post in a post stream, use the `stream_limit` option.
+ 1. Example: `[download id="2" stream_limit="4"]`
+ 1. This will only display the first 4 downloads for the post when rendered in a post stream, and display the full list of downloads when viewing the single post.
+1. To sort embedded downloads, use the `sort_by` and `sort_order` options.
+ 1. Example: `[download id="2" sort_by="file_id" sort_order="asc"]`
+ 1. This will sort the embedded downloads by file ID in ascending order.
+ 1. Valid values for `sort_by` are: `file_id`, `file`, `file_name`, `file_size`, `file_date`, and `file_hits`
 1. To choose what to display within the embedded file, use `[download id="1" display="both"]` where 1 is your file id and both will display both the file name and file desccription, whereas name will only display the filename. Note that this will overwrite the "Download Embedded File" template you have in your Download Templates.
 1. To embed files as well as categories, use `[download id="1,2,3" category="4,5,6"]` where 1,2,3 are your file id and 4,5,6 are your category ids.
 1. If you are using Default Permalinks, the file direct download link will be `http://yoursite.com/index.php?dl_id=2`. If you are using Nice Permalinks, the file direct download link will be `http://yoursite.com/download/2/`, where yoursite.com is your WordPress URL and 2 is your file id.
@@ -188,7 +193,7 @@ N/A
 <?php endif; ?>
 </code>
 * The first value you pass in is the maximum number of files you want to get.
-* Default: get_most_downloaded(10);
+* Default: `get_most_downloaded(10);`
 
 = To Display Recent Downloads =
 * Use:
@@ -198,7 +203,7 @@ N/A
 <?php endif; ?>
 </code>
 * The first value you pass in is the maximum number of files you want to get.
-* Default: get_recent_downloads(10);
+* Default: `get_recent_downloads(10);`
 
 = To Display Downloads By Category =
 * Use:
@@ -210,4 +215,4 @@ N/A
 * The first value you pass in is the category id.
 * The second value you pass in is the maximum number of files you want to get.
 
-Default: get_downloads_category(1, 10);
+Default: `get_downloads_category(1, 10);`
