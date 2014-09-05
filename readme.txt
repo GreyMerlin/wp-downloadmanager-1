@@ -3,14 +3,16 @@ Contributors: GamerZ
 Donate link: http://lesterchan.net/site/donation/  
 Tags: file, files, download, downloads, manager, downloadmanager, downloadsmanager, filemanager, filesmanager  
 Requires at least: 3.9  
-Tested up to: 3.9  
-Stable tag: 1.62  
+Tested up to: 4.0  
+Stable tag: 1.63  
 License: GPLv2  
 
 Adds a simple download manager to your WordPress blog.
 
 == Description ==
-Adds a simple download manager to your WordPress blog.
+
+= Build Status =
+[![Build Status](https://travis-ci.org/lesterchan/wp-downloadmanager.svg?branch=master)](https://travis-ci.org/lesterchan/wp-downloadmanager)
 
 = Development =
 * [https://github.com/lesterchan/wp-downloadmanager](https://github.com/lesterchan/wp-downloadmanager "https://github.com/lesterchan/wp-downloadmanager")
@@ -19,17 +21,20 @@ Adds a simple download manager to your WordPress blog.
 * [http://dev.wp-plugins.org/browser/wp-downloadmanager/i18n/](http://dev.wp-plugins.org/browser/wp-downloadmanager/i18n/ "http://dev.wp-plugins.org/browser/wp-downloadmanager/i18n/")
 
 = Credits =
+* Plugin icon by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com)
 * Icons courtesy of [FamFamFam](http://www.famfamfam.com/ "FamFamFam")
 * Download Icon by [Ryan Zimmerman](http://www.imvain.com/" "Ryan Zimmerman")
-* Page Download Category by [Ryan Mueller](http://www.creativenotice.com/ "Ryan Mueller")
-* File Last Downloaded by [Sevca](http://sevca.cz/ "Sevca")
-* __ngetext() by [Anna Ozeritskaya](http://hweia.ru/ "Anna Ozeritskaya")
-* Right To Left Language Support by [Kambiz R. Khojasteh](http://persian-programming.com/ "Kambiz R. Khojasteh")
 
 = Donations =
 * I spent most of my free time creating, updating, maintaining and supporting these plugins, if you really love my plugins and could spare me a couple of bucks, I will really appericiate it. If not feel free to use it without any obligations.
 
 == Changelog ==
+
+= Version 1.63 =
+* NEW: Added %FILE_EXT% template variable that  output the file extension
+* FIXED: Editor button was outputting the wrong shortcode.
+* FIXED: ReferenceError: downloadssEdL10n is not defined if TinyMCE 4.0 is loaded outside the Add/Edit Posts/Pages.
+* FIXED: Added backward compatibility with [download=1] in order not to break older downloads.
 
 = Version 1.62 =
 * NEW: Uses Dash Icons
@@ -180,8 +185,6 @@ N/A
 7. Admin - Download Templates
 8. Download Embedded
 9. Downloads Page
-10. Downloads Page
-
 
 == Frequently Asked Questions ==
 
